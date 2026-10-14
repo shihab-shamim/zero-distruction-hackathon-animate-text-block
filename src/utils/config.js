@@ -315,8 +315,6 @@ export const themeSwitch = (theme = "default", attributes) => produce(attributes
 			break;
 		case 'type11':
 			draft['content'] = "stand out";
-			if (!draft['prefixText']) draft['prefixText'] = "Make your words";
-			if (!draft['suffixText']) draft['suffixText'] = "instantly";
 			draft['background']['color'] = '#0000';
 			draft['color'] = '#1E1E1E';
 			draft['padding'] = { "vertical": "30px", "horizontal": "15px" };
