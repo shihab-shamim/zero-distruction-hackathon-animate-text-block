@@ -14,6 +14,7 @@ import TypeSeven from '../Common/Themes/TypeSeven';
 import TypeEight from '../Common/Themes/TypeEight';
 import TypeNine from '../Common/Themes/TypeNine';
 import TypeTen from '../Common/Themes/TypeTen';
+import TypeEleven from '../Common/Themes/TypeEleven';
 import usePremiumInEditorV2 from '../../utils/usePremiumEditorV2';
 
 
@@ -72,6 +73,8 @@ const SwitchTheme = ({ attributes, id }) => {
 			return <TypeNine attributes={attributes} />;
 		case 'type10':
 			return <TypeTen attributes={attributes} />;
+		case 'type11':
+			return <TypeEleven attributes={attributes} />;
 		default:
 			return null;
 	}

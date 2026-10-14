@@ -316,6 +316,9 @@ const Style = ({
   const typeTenSl = `${animatedTextSl}.type10`;
   const typeTenPrefixSl = `${typeTenSl} .typeTen .prefix-text`;
   const typeTenSuffixSl = `${typeTenSl} .typeTen .suffix-text`;
+  const typeElevenSl = `${animatedTextSl}.type11`;
+  const typeElevenPrefixSl = `${typeElevenSl} .typeEleven .prefix-text`;
+  const typeElevenSuffixSl = `${typeElevenSl} .typeEleven .suffix-text`;
   return (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("style", {
     dangerouslySetInnerHTML: {
       __html: `
@@ -341,6 +344,8 @@ const Style = ({
 		${(0,_bpl_tools_utils_getCSS__WEBPACK_IMPORTED_MODULE_2__.getTypoCSS)(`${typeNineSuffixSl}`, suffixTypo)?.styles}
 		${(0,_bpl_tools_utils_getCSS__WEBPACK_IMPORTED_MODULE_2__.getTypoCSS)(`${typeTenPrefixSl}`, prefixTypo)?.styles}
 		${(0,_bpl_tools_utils_getCSS__WEBPACK_IMPORTED_MODULE_2__.getTypoCSS)(`${typeTenSuffixSl}`, suffixTypo)?.styles}
+		${(0,_bpl_tools_utils_getCSS__WEBPACK_IMPORTED_MODULE_2__.getTypoCSS)(`${typeElevenPrefixSl}`, prefixTypo)?.styles}
+		${(0,_bpl_tools_utils_getCSS__WEBPACK_IMPORTED_MODULE_2__.getTypoCSS)(`${typeElevenSuffixSl}`, suffixTypo)?.styles}
 
 		${mainSl}{
 			display: flex;
@@ -440,6 +445,28 @@ const Style = ({
 		}
 		${typeTenSuffixSl}{
 			color: ${suffixColor}
+		}
+		${typeElevenPrefixSl}{
+			color: ${prefixColor}
+		}
+		${typeElevenSuffixSl}{
+			color: ${suffixColor}
+		}
+		${typeElevenSl} .typeEleven{
+			justify-content: ${textAlignment};
+		}
+		${typeElevenSl}{
+			${(0,_bpl_tools_utils_getCSS__WEBPACK_IMPORTED_MODULE_2__.isValidCSS)('width', animatedSize?.width['desktop'])}
+		}
+		${_bpl_tools_utils_data__WEBPACK_IMPORTED_MODULE_1__.tabBreakpoint}{
+			${typeElevenSl}{
+				${(0,_bpl_tools_utils_getCSS__WEBPACK_IMPORTED_MODULE_2__.isValidCSS)('width', animatedSize?.width['tablet'])}
+			}
+		}
+		${_bpl_tools_utils_data__WEBPACK_IMPORTED_MODULE_1__.mobileBreakpoint}{
+			${typeElevenSl}{
+				${(0,_bpl_tools_utils_getCSS__WEBPACK_IMPORTED_MODULE_2__.isValidCSS)('width', animatedSize?.width['mobile'])}
+			}
 		}
 		${typeSixSl},
 		${typeSevenSl},
@@ -687,6 +714,250 @@ const TypeEight = ({
   }, ' ', suffixText))));
 };
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (TypeEight);
+
+/***/ }),
+
+/***/ "./src/Components/Common/Themes/TypeEleven.js":
+/*!****************************************************!*\
+  !*** ./src/Components/Common/Themes/TypeEleven.js ***!
+  \****************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "react");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _utils_options__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../../utils/options */ "./src/utils/options.js");
+
+
+
+const FADE_TIME = 400; // ms, must match the fade transition in style.scss
+
+// Shape paths are authored on a 0-100 grid using absolute x/y pairs only; scale them to the real pixel box
+// so the stroke keeps an even width and `pathLength` based drawing stays accurate.
+const scalePath = (d, w, h) => {
+  let i = 0;
+  return d.replace(/-?\d*\.?\d+/g, n => (i++ % 2 ? parseFloat(n) * h / 100 : parseFloat(n) * w / 100).toFixed(2));
+};
+
+// Mirrors bpl-tools getGradientCSS (the CSS the Gradient control is built for) in SVG, using the shape's pixel box
+const HighlightGradient = ({
+  id,
+  gradient = {},
+  w,
+  h
+}) => {
+  const {
+    type = 'linear',
+    radialType = 'ellipse',
+    colors = [],
+    centerPositions = {},
+    angel = 90
+  } = gradient;
+  const stops = colors.map((c, i) => (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("stop", {
+    key: i,
+    offset: `${parseFloat(c?.position) || 0}%`,
+    stopColor: c?.color
+  }));
+  if ('radial' === type) {
+    // radial-gradient(<radialType> at X% Y%) with the CSS default size, farthest-corner
+    const cx = w * (parseFloat(centerPositions?.x) || 0) / 100;
+    const cy = h * (parseFloat(centerPositions?.y) || 0) / 100;
+    const dx = Math.max(cx, w - cx);
+    const dy = Math.max(cy, h - cy);
+    if ('circle' === radialType) {
+      return (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("radialGradient", {
+        id: id,
+        gradientUnits: "userSpaceOnUse",
+        cx: cx,
+        cy: cy,
+        r: Math.hypot(dx, dy)
+      }, stops);
+    }
+
+    // A farthest-corner ellipse keeps the farthest-side aspect ratio, so its radii are √2 × the side distances
+    const rx = Math.max(dx * Math.SQRT2, 0.01);
+    const ry = Math.max(dy * Math.SQRT2, 0.01);
+    return (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("radialGradient", {
+      id: id,
+      gradientUnits: "userSpaceOnUse",
+      cx: cx,
+      cy: cy,
+      r: rx,
+      gradientTransform: `translate(${cx} ${cy}) scale(1 ${ry / rx}) translate(${-cx} ${-cy})`
+    }, stops);
+  }
+
+  // linear-gradient(<angle>deg): 0deg = to top, 90deg = to right; the line is long enough to reach the corners
+  const rad = (parseFloat(angel) || 0) * Math.PI / 180;
+  const half = (Math.abs(w * Math.sin(rad)) + Math.abs(h * Math.cos(rad))) / 2;
+  const dx = half * Math.sin(rad);
+  const dy = half * Math.cos(rad);
+  return (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("linearGradient", {
+    id: id,
+    gradientUnits: "userSpaceOnUse",
+    x1: w / 2 - dx,
+    y1: h / 2 + dy,
+    x2: w / 2 + dx,
+    y2: h / 2 - dy
+  }, stops);
+};
+const TypeEleven = ({
+  attributes
+}) => {
+  const {
+    content,
+    prefixText = "",
+    suffixText = "",
+    highlight = {}
+  } = attributes;
+  const beforeText = prefixText?.trim() ? prefixText : 'Make your words';
+  const afterText = suffixText?.trim() ? suffixText : 'instantly';
+  const {
+    shape,
+    colorType,
+    color,
+    gradient,
+    strokeWidth,
+    markerHeight,
+    roundedEnds,
+    position,
+    duration,
+    delay,
+    loop,
+    loopDelay
+  } = {
+    ..._utils_options__WEBPACK_IMPORTED_MODULE_1__.highlightDefaults,
+    ...highlight
+  };
+  const wrapperRef = (0,react__WEBPACK_IMPORTED_MODULE_0__.useRef)(null);
+  const [size, setSize] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)({
+    width: 0,
+    height: 0
+  });
+  const [inView, setInView] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(false);
+  const [cycle, setCycle] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(0);
+  const [fading, setFading] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(false);
+  const gradientId = `atbHlGrad${(0,react__WEBPACK_IMPORTED_MODULE_0__.useId)().replace(/[^a-zA-Z0-9_-]/g, '')}`;
+  const {
+    box,
+    paths
+  } = _utils_options__WEBPACK_IMPORTED_MODULE_1__.highlightShapes[shape] || _utils_options__WEBPACK_IMPORTED_MODULE_1__.highlightShapes[_utils_options__WEBPACK_IMPORTED_MODULE_1__.highlightDefaults.shape];
+  const isMarker = 'marker' === shape;
+  const durationSec = Math.max(0.1, parseFloat(duration) || 0);
+  const delaySec = Math.max(0, parseFloat(delay) || 0);
+  const loopDelaySec = Math.max(0, parseFloat(loopDelay) || 0);
+
+  // Track the highlighted text size (font, content and viewport changes)
+  (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(() => {
+    const el = wrapperRef.current;
+    if (!el) return;
+    const measure = () => setSize(prev => prev.width === el.offsetWidth && prev.height === el.offsetHeight ? prev : {
+      width: el.offsetWidth,
+      height: el.offsetHeight
+    });
+    measure();
+    const view = el.ownerDocument?.defaultView || window;
+    if (!view.ResizeObserver) {
+      view.addEventListener('resize', measure);
+      return () => view.removeEventListener('resize', measure);
+    }
+    const observer = new view.ResizeObserver(measure);
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, []);
+
+  // Start drawing once the text scrolls into view
+  (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(() => {
+    const el = wrapperRef.current;
+    if (!el) return;
+    const view = el.ownerDocument?.defaultView || window;
+    if (!view.IntersectionObserver) {
+      setInView(true);
+      return;
+    }
+    const observer = new view.IntersectionObserver(entries => {
+      if (entries.some(entry => entry.isIntersecting)) {
+        setInView(true);
+        observer.disconnect();
+      }
+    }, {
+      threshold: 0.2
+    });
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, []);
+
+  // Loop: draw -> hold -> fade out -> redraw
+  (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(() => {
+    if (!inView || !loop) return;
+    const fadeAt = (delaySec + durationSec + loopDelaySec) * 1000;
+    const fadeTimer = setTimeout(() => setFading(true), fadeAt);
+    const restartTimer = setTimeout(() => {
+      setFading(false);
+      setCycle(c => c + 1);
+    }, fadeAt + FADE_TIME);
+    return () => {
+      clearTimeout(fadeTimer);
+      clearTimeout(restartTimer);
+    };
+  }, [inView, loop, cycle, delaySec, durationSec, loopDelaySec]);
+  const svgW = size.width * box.width / 100;
+  const svgH = size.height * box.height / 100;
+
+  // Re-mount the SVG to replay the drawing when a cycle restarts or an animation setting changes
+  const svgKey = `${cycle}-${shape}-${durationSec}-${delaySec}-${loop}`;
+  const stroke = 'gradient' === colorType ? `url(#${gradientId})` : color;
+  const pathDuration = durationSec / paths.length;
+  return (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
+    className: "typeEleven"
+  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("span", {
+    className: "prefix-text"
+  }, beforeText), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("span", {
+    className: "content"
+  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("span", {
+    ref: wrapperRef,
+    className: `atbHighlight ${'front' === position ? 'isFront' : 'isBehind'}`
+  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("span", {
+    className: "atbHighlightText"
+  }, content), 0 < svgW && 0 < svgH && (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("svg", {
+    key: svgKey,
+    className: `atbHighlightSvg ${inView ? 'isDrawing' : ''} ${fading ? 'isFading' : ''}`,
+    viewBox: `0 0 ${svgW.toFixed(2)} ${svgH.toFixed(2)}`,
+    "aria-hidden": "true",
+    focusable: "false",
+    style: {
+      top: `${box.top}%`,
+      left: `${box.left}%`,
+      width: `${box.width}%`,
+      height: `${box.height}%`
+    }
+  }, 'gradient' === colorType && (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("defs", null, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(HighlightGradient, {
+    id: gradientId,
+    gradient: gradient,
+    w: svgW,
+    h: svgH
+  })), paths.map((d, i) => (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("path", {
+    key: i,
+    d: scalePath(d, svgW, svgH),
+    pathLength: "1",
+    fill: "none",
+    stroke: stroke,
+    strokeWidth: isMarker ? `${(parseFloat(markerHeight) || 0) / 100}em` : parseFloat(strokeWidth) || 1,
+    strokeLinecap: roundedEnds ? 'round' : 'butt',
+    strokeLinejoin: roundedEnds ? 'round' : 'miter',
+    className: isMarker ? 'isMarker' : '',
+    style: {
+      animationDuration: `${pathDuration}s`,
+      animationDelay: `${delaySec + i * pathDuration}s`
+    }
+  }))))), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("span", {
+    className: "suffix-text"
+  }, afterText));
+};
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (TypeEleven);
 
 /***/ }),
 
@@ -2097,6 +2368,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _Common_Themes_TypeEight__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ../../Common/Themes/TypeEight */ "./src/Components/Common/Themes/TypeEight.js");
 /* harmony import */ var _Common_Themes_TypeNine__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ../../Common/Themes/TypeNine */ "./src/Components/Common/Themes/TypeNine.js");
 /* harmony import */ var _Common_Themes_TypeTen__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ../../Common/Themes/TypeTen */ "./src/Components/Common/Themes/TypeTen.js");
+/* harmony import */ var _Common_Themes_TypeEleven__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ../../Common/Themes/TypeEleven */ "./src/Components/Common/Themes/TypeEleven.js");
+
 
 
 
@@ -2165,6 +2438,10 @@ const ThemeSwitch = props => {
       });
     case 'type10':
       return (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_Common_Themes_TypeTen__WEBPACK_IMPORTED_MODULE_11__["default"], {
+        attributes: attributes
+      });
+    case 'type11':
+      return (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_Common_Themes_TypeEleven__WEBPACK_IMPORTED_MODULE_12__["default"], {
         attributes: attributes
       });
     default:
@@ -2846,6 +3123,48 @@ const themeSwitch = (theme = "default", attributes) => (0,immer__WEBPACK_IMPORTE
       draft['suffixTypo']['textTransform'] = 'none';
       draft['suffixColor'] = "#fff";
       break;
+    case 'type11':
+      draft['content'] = "stand out";
+      if (!draft['prefixText']) draft['prefixText'] = "Make your words";
+      if (!draft['suffixText']) draft['suffixText'] = "instantly";
+      draft['background']['color'] = '#0000';
+      draft['color'] = '#1E1E1E';
+      draft['padding'] = {
+        "vertical": "30px",
+        "horizontal": "15px"
+      };
+      draft['typography']['fontSize'] = {
+        'desktop': 48,
+        'tablet': 38,
+        'mobile': 28
+      };
+      draft['typography']['textTransform'] = 'none';
+      draft['typography']['lineHeight'] = "135%";
+      draft['typography']['letterSpace'] = "0px";
+      draft['typography']['fontWeight'] = 700;
+      draft['animatedSize']['width'] = {
+        'desktop': '100%',
+        'tablet': '',
+        'mobile': ''
+      };
+      draft['gsapAnimation']['isTextShadow'] = false;
+      draft['prefixTypo']['fontSize'] = {
+        'desktop': 48,
+        'tablet': 38,
+        'mobile': 28
+      };
+      draft['prefixTypo']['textTransform'] = 'none';
+      draft['prefixTypo']['fontWeight'] = 700;
+      draft['prefixColor'] = "#1E1E1E";
+      draft['suffixTypo']['fontSize'] = {
+        'desktop': 48,
+        'tablet': 38,
+        'mobile': 28
+      };
+      draft['suffixTypo']['textTransform'] = 'none';
+      draft['suffixTypo']['fontWeight'] = 700;
+      draft['suffixColor'] = "#1E1E1E";
+      break;
   }
 });
 
@@ -2876,6 +3195,459 @@ const animatedTextDocs = `${docsURL}animated-text-block/`;
 const dashPrefix = 'bplDashboard';
 const animatedIcon = 'https://ps.w.org/animated-text-block/assets/icon-128x128.png?rev=2647126';
 const pricingPage = `${location.origin}/wp-admin/edit.php?post_type=animated-text-block&page=atb_demo_page#/pricing`;
+
+/***/ }),
+
+/***/ "./src/utils/options.js":
+/*!******************************!*\
+  !*** ./src/utils/options.js ***!
+  \******************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   FeaturesPro: () => (/* binding */ FeaturesPro),
+/* harmony export */   animateInOpt: () => (/* binding */ animateInOpt),
+/* harmony export */   animateTypeOptions: () => (/* binding */ animateTypeOptions),
+/* harmony export */   effects: () => (/* binding */ effects),
+/* harmony export */   generalStyleTabs: () => (/* binding */ generalStyleTabs),
+/* harmony export */   helpfulLinks: () => (/* binding */ helpfulLinks),
+/* harmony export */   highlightDefaults: () => (/* binding */ highlightDefaults),
+/* harmony export */   highlightShapeOptions: () => (/* binding */ highlightShapeOptions),
+/* harmony export */   highlightShapes: () => (/* binding */ highlightShapes),
+/* harmony export */   inEffects: () => (/* binding */ inEffects),
+/* harmony export */   outEffects: () => (/* binding */ outEffects),
+/* harmony export */   proFeatures: () => (/* binding */ proFeatures),
+/* harmony export */   sequences: () => (/* binding */ sequences),
+/* harmony export */   splitText: () => (/* binding */ splitText)
+/* harmony export */ });
+/* harmony import */ var _wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @wordpress/i18n */ "@wordpress/i18n");
+/* harmony import */ var _wordpress_i18n__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__);
+
+const generalStyleTabs = [{
+  name: 'general',
+  title: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('General', 'animated-text-block')
+}, {
+  name: 'style',
+  title: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Style', 'animated-text-block')
+}];
+const FeaturesPro = ["Character & Word Based Animations", "In-View & Out-View Effects", "Loop & Auto Repeat Control", "Advanced Animation Effects", "Custom Styles & Typography", "Shortcode & Layout Support"];
+const animateInOpt = [{
+  label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Char', 'animated-text-block'),
+  value: 'char'
+}, {
+  label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Word', 'animated-text-block'),
+  value: 'word'
+}];
+const effects = [{
+  label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Flash', 'animated-text-block'),
+  value: 'flash'
+}, {
+  label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Bounce', 'animated-text-block'),
+  value: 'bounce'
+}, {
+  label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Shake', 'animated-text-block'),
+  value: 'shake'
+}, {
+  label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Tada', 'animated-text-block'),
+  value: 'tada'
+}, {
+  label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Swing', 'animated-text-block'),
+  value: 'swing'
+}, {
+  label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Wobble', 'animated-text-block'),
+  value: 'wobble'
+}, {
+  label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Pulse', 'animated-text-block'),
+  value: 'pulse'
+}, {
+  label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Flip', 'animated-text-block'),
+  value: 'flip'
+}];
+const inEffects = [{
+  label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Fade In', 'animated-text-block'),
+  value: 'fadeIn'
+}, {
+  label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Flip In X', 'animated-text-block'),
+  value: 'flipInX'
+}, {
+  label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Flip In Y', 'animated-text-block'),
+  value: 'flipInY'
+}, {
+  label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Fade In Up', 'animated-text-block'),
+  value: 'fadeInUp'
+}, {
+  label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Fade In Down', 'animated-text-block'),
+  value: 'fadeInDown'
+}, {
+  label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Fade In Left', 'animated-text-block'),
+  value: 'fadeInLeft'
+}, {
+  label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Fade In Right', 'animated-text-block'),
+  value: 'fadeInRight'
+}, {
+  label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Fade In Up Big', 'animated-text-block'),
+  value: 'fadeInUpBig'
+}, {
+  label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Fade In Down Big', 'animated-text-block'),
+  value: 'fadeInDownBig'
+}, {
+  label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Fade In Left Big', 'animated-text-block'),
+  value: 'fadeInLeftBig'
+}, {
+  label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Fade In Right Big', 'animated-text-block'),
+  value: 'fadeInRightBig'
+}, {
+  label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Bounce In', 'animated-text-block'),
+  value: 'bounceIn'
+}, {
+  label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Bounce In Up', 'animated-text-block'),
+  value: 'bounceInUp'
+}, {
+  label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Bounce In Down', 'animated-text-block'),
+  value: 'bounceInDown'
+}, {
+  label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Bounce In Left', 'animated-text-block'),
+  value: 'bounceInLeft'
+}, {
+  label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Bounce In Right', 'animated-text-block'),
+  value: 'bounceInRight'
+}, {
+  label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Rotate In', 'animated-text-block'),
+  value: 'rotateIn'
+}, {
+  label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Rotate In Up Left', 'animated-text-block'),
+  value: 'rotateInUpLeft'
+}, {
+  label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Rotate In Up Right', 'animated-text-block'),
+  value: 'rotateInUpRight'
+}, {
+  label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Rotate In Down Left', 'animated-text-block'),
+  value: 'rotateInDownLeft'
+}, {
+  label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Rotate In Down Right', 'animated-text-block'),
+  value: 'rotateInDownRight'
+}, {
+  label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Roll In', 'animated-text-block'),
+  value: 'rollIn'
+}];
+const outEffects = [{
+  label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Fade Out', 'animated-text-block'),
+  value: 'fadeOut'
+}, {
+  label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Flip Out X', 'animated-text-block'),
+  value: 'flipOutX'
+}, {
+  label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Flip Out Y', 'animated-text-block'),
+  value: 'flipOutY'
+}, {
+  label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Fade Out Up', 'animated-text-block'),
+  value: 'fadeOutUp'
+}, {
+  label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Fade Out Down', 'animated-text-block'),
+  value: 'fadeOutDown'
+}, {
+  label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Fade Out Left', 'animated-text-block'),
+  value: 'fadeOutLeft'
+}, {
+  label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Fade Out Right', 'animated-text-block'),
+  value: 'fadeOutRight'
+}, {
+  label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Fade Out Up Big', 'animated-text-block'),
+  value: 'fadeOutUpBig'
+}, {
+  label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Fade Out Down Big', 'animated-text-block'),
+  value: 'fadeOutDownBig'
+}, {
+  label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Fade Out Left Big', 'animated-text-block'),
+  value: 'fadeOutLeftBig'
+}, {
+  label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Fade Out Right Big', 'animated-text-block'),
+  value: 'fadeOutRightBig'
+}, {
+  label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Bounce Out', 'animated-text-block'),
+  value: 'bounceOut'
+}, {
+  label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Bounce Out Up', 'animated-text-block'),
+  value: 'bounceOutUp'
+}, {
+  label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Bounce Out Down', 'animated-text-block'),
+  value: 'bounceOutDown'
+}, {
+  label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Bounce Out Left', 'animated-text-block'),
+  value: 'bounceOutLeft'
+}, {
+  label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Bounce Out Right', 'animated-text-block'),
+  value: 'bounceOutRight'
+}, {
+  label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Rotate Out', 'animated-text-block'),
+  value: 'rotateOut'
+}, {
+  label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Rotate Out Up Left', 'animated-text-block'),
+  value: 'rotateOutUpLeft'
+}, {
+  label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Rotate Out Up Right', 'animated-text-block'),
+  value: 'rotateOutUpRight'
+}, {
+  label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Rotate Out Down Left', 'animated-text-block'),
+  value: 'rotateOutDownLeft'
+}, {
+  label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Rotate Out Down Right', 'animated-text-block'),
+  value: 'rotateOutDownRight'
+}, {
+  label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Hinge', 'animated-text-block'),
+  value: 'hinge'
+}, {
+  label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Roll Out', 'animated-text-block'),
+  value: 'rollOut'
+}];
+const sequences = [{
+  label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Default', 'animated-text-block'),
+  value: 'default'
+}, {
+  label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Sync', 'animated-text-block'),
+  value: 'sync'
+}, {
+  label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Shuffle', 'animated-text-block'),
+  value: 'shuffle'
+}, {
+  label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Reverse', 'animated-text-block'),
+  value: 'reverse'
+}];
+const splitText = element => {
+  const text = element.textContent;
+  element.innerHTML = '';
+  text.split('').forEach(char => {
+    const span = document.createElement('span');
+    span.textContent = char === ' ' ? '\u00A0' : char; // Preserve spaces
+    element.appendChild(span);
+  });
+};
+const animateTypeOptions = [{
+  label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Wave', 'animated-text-block'),
+  value: 'wave'
+}, {
+  label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Bounce', 'animated-text-block'),
+  value: 'bounce'
+}, {
+  label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Glitch', 'animated-text-block'),
+  value: 'glitch'
+}];
+const proFeatures = [{
+  name: "Choose Your Preferred Theme",
+  description: "Select the theme of your choice to personalize your experience and give your website the look and feel that suits your style."
+}, {
+  name: "Understanding Text Alignment",
+  description: "Text alignment controls the positioning of text, improving readability and design balance."
+}, {
+  name: "Max-Width animation layouts",
+  description: "Max-width sets the maximum width of an element, ensuring responsive and flexible layouts."
+}, {
+  name: "Enhancing Design with Text-Shadow",
+  description: "Text-shadow adds depth and contrast to text by applying shadow effects, improving readability and aesthetics."
+}, {
+  name: "Optimizing Animation Speed",
+  description: "Animation speed controls the duration of transitions, affecting user experience and visual smoothness."
+}, {
+  name: "Mastering Perspective Depth Control",
+  description: "Perspective depth control adjusts the 3D depth effect, enhancing realism in visual designs."
+}, {
+  name: "Understanding Transform Origin",
+  description: "Transform origin defines the pivot point for transformations, affecting scaling, rotation, and skewing."
+}, {
+  name: "Show/Hide Oscillation Effects",
+  description: "Oscillation creates a smooth, back-and-forth movement, often used to add dynamic motion to elements in design."
+}, {
+  name: "Controlling Repeat Behavior in Animations",
+  description: "Repeat behavior controls how animations loop, defining whether they restart, alternate, or stop after completing."
+}, {
+  name: "Adjusting Repeat Delay Speed",
+  description: "Repeat delay speed sets the time interval between animation cycles, creating a pause before the animation restarts."
+}, {
+  name: "Exploring Animation Effects",
+  description: "Animation effects enhance user interaction by adding dynamic movements and transitions to elements on a webpage or interface."
+}, {
+  name: "Applying Random Text Color",
+  description: "Random text color changes the color of text dynamically, creating visual variety and interest in designs."
+}, {
+  name: "Applying Forward Font Stretch",
+  description: "Forward font stretch adjusts the horizontal spacing of characters, making text wider or narrower for enhanced readability or style."
+}, {
+  name: "Adjusting Animation Duration",
+  description: "Animation duration defines the length of time an animation takes to complete, influencing the speed and smoothness of the effect."
+}, {
+  name: "Show/Hide Animation Repeat",
+  description: "Infinite animation repeat ensures an animation loops continuously, creating a never-ending effect without stopping."
+}];
+const helpfulLinks = [{
+  title: 'Need any Assistance?',
+  description: 'Our Expert Support Team is always ready to help you out promptly.',
+  iconClass: 'fa fa-life-ring',
+  link: 'https://bplugins.com/support',
+  linkText: 'Contact Support'
+}, {
+  title: 'Looking for Documentation?',
+  description: 'We have detailed documentation on every aspects of the plugin.',
+  iconClass: 'fa fa-file-text',
+  link: 'http://bplugins.com/docs/animated-text-block',
+  linkText: 'Documentation'
+}, {
+  title: 'Liked This Plugin?',
+  description: 'Glad to know that, you can support us by leaving a 5 &#11088; rating.',
+  iconClass: 'fa fa-thumbs-up',
+  link: 'https://wordpress.org/support/plugin/animated-text-block/reviews/#new-post',
+  linkText: 'Rate the Plugin'
+}];
+// Highlight (type11) shapes. Paths use a 0-100 viewBox; `box` positions the SVG (in %) relative to the highlighted text.
+const curlyPath = () => {
+  let d = 'M0 50';
+  for (let i = 1; i <= 16; i++) {
+    d += ` Q${(i - 0.5) * 6.25} ${i % 2 ? 0 : 100} ${i * 6.25} 50`;
+  }
+  return d;
+};
+const zigzagPath = () => {
+  let d = 'M0 80';
+  for (let i = 1; i <= 16; i++) {
+    d += ` L${i * 6.25} ${i % 2 ? 20 : 80}`;
+  }
+  return d;
+};
+const highlightShapes = {
+  circle: {
+    box: {
+      top: -22,
+      left: -8,
+      width: 116,
+      height: 144
+    },
+    paths: ['M60 6 C30 2 4 16 3 48 C2 80 28 97 54 96 C82 95 98 76 97 47 C96 20 74 4 38 9']
+  },
+  curly: {
+    box: {
+      top: 86,
+      left: 0,
+      width: 100,
+      height: 22
+    },
+    paths: [curlyPath()]
+  },
+  underline: {
+    box: {
+      top: 88,
+      left: -2,
+      width: 104,
+      height: 16
+    },
+    paths: ['M2 62 C30 42 65 38 98 46']
+  },
+  doubleUnderline: {
+    box: {
+      top: 84,
+      left: -2,
+      width: 104,
+      height: 28
+    },
+    paths: ['M2 30 C30 16 66 12 98 22', 'M8 78 C36 64 70 62 94 70']
+  },
+  zigzag: {
+    box: {
+      top: 88,
+      left: 0,
+      width: 100,
+      height: 18
+    },
+    paths: [zigzagPath()]
+  },
+  diagonal: {
+    box: {
+      top: 5,
+      left: -4,
+      width: 108,
+      height: 90
+    },
+    paths: ['M3 94 C30 70 66 34 97 6']
+  },
+  strikethrough: {
+    box: {
+      top: 42,
+      left: -4,
+      width: 108,
+      height: 20
+    },
+    paths: ['M2 58 C30 44 66 40 98 48']
+  },
+  x: {
+    box: {
+      top: 0,
+      left: -4,
+      width: 108,
+      height: 100
+    },
+    paths: ['M4 6 C34 34 66 66 96 94', 'M96 8 C64 36 34 64 4 92']
+  },
+  marker: {
+    box: {
+      top: 0,
+      left: -3,
+      width: 106,
+      height: 100
+    },
+    paths: ['M1 64 C30 60 70 58 99 56']
+  }
+};
+const highlightShapeOptions = [{
+  label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Circle', 'animated-text-block'),
+  value: 'circle'
+}, {
+  label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Curly', 'animated-text-block'),
+  value: 'curly'
+}, {
+  label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Underline', 'animated-text-block'),
+  value: 'underline'
+}, {
+  label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Double Underline', 'animated-text-block'),
+  value: 'doubleUnderline'
+}, {
+  label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Zigzag', 'animated-text-block'),
+  value: 'zigzag'
+}, {
+  label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Diagonal', 'animated-text-block'),
+  value: 'diagonal'
+}, {
+  label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Strikethrough', 'animated-text-block'),
+  value: 'strikethrough'
+}, {
+  label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('X', 'animated-text-block'),
+  value: 'x'
+}, {
+  label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Marker', 'animated-text-block'),
+  value: 'marker'
+}];
+const highlightDefaults = {
+  shape: 'circle',
+  colorType: 'solid',
+  color: '#FF6B35',
+  gradient: {
+    type: 'linear',
+    angel: 90,
+    colors: [{
+      color: '#FF6B35',
+      position: 0
+    }, {
+      color: '#F7C948',
+      position: 100
+    }]
+  },
+  strokeWidth: 4,
+  markerHeight: 55,
+  roundedEnds: true,
+  position: 'behind',
+  duration: 1.2,
+  delay: 0.3,
+  loop: true,
+  loopDelay: 2
+};
 
 /***/ }),
 
@@ -10048,6 +10820,16 @@ module.exports = window["ReactDOM"];
 
 /***/ }),
 
+/***/ "@wordpress/i18n":
+/*!******************************!*\
+  !*** external ["wp","i18n"] ***!
+  \******************************/
+/***/ ((module) => {
+
+module.exports = window["wp"]["i18n"];
+
+/***/ }),
+
 /***/ "./node_modules/immer/dist/immer.mjs":
 /*!*******************************************!*\
   !*** ./node_modules/immer/dist/immer.mjs ***!
@@ -11395,7 +12177,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const {
       theme
     } = options;
-    const proThemes = ['type1', 'type5', 'type6', 'type7', 'type8', 'type9', 'type10'];
+    const proThemes = ['type1', 'type5', 'type6', 'type7', 'type8', 'type9', 'type10', 'type11'];
     const premiumTheme = !isPremium && proThemes.includes(theme);
     (0,react_dom_client__WEBPACK_IMPORTED_MODULE_1__.createRoot)(animatedTextEl).render((0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(react__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_Components_Common_Style__WEBPACK_IMPORTED_MODULE_3__["default"], {
       ...props

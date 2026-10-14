@@ -190,6 +190,36 @@
         "reStartTime": 1000,
         "animateType": "glitch"
       }
+    },
+    "highlight": {
+      "type": "object",
+      "default": {
+        "shape": "circle",
+        "colorType": "solid",
+        "color": "#FF6B35",
+        "gradient": {
+          "type": "linear",
+          "angel": 90,
+          "colors": [
+            {
+              "color": "#FF6B35",
+              "position": 0
+            },
+            {
+              "color": "#F7C948",
+              "position": 100
+            }
+          ]
+        },
+        "strokeWidth": 4,
+        "markerHeight": 55,
+        "roundedEnds": true,
+        "position": "behind",
+        "duration": 1.2,
+        "delay": 0.3,
+        "loop": true,
+        "loopDelay": 2
+      }
     }
   },
   "supports": {

@@ -200,3 +200,58 @@ export const helpfulLinks = [
 		linkText: 'Rate the Plugin'
 	}
 ];
+// Highlight (type11) shapes. Paths use a 0-100 viewBox; `box` positions the SVG (in %) relative to the highlighted text.
+const curlyPath = () => {
+	let d = 'M0 50';
+	for (let i = 1; i <= 16; i++) {
+		d += ` Q${(i - 0.5) * 6.25} ${i % 2 ? 0 : 100} ${i * 6.25} 50`;
+	}
+	return d;
+};
+
+const zigzagPath = () => {
+	let d = 'M0 80';
+	for (let i = 1; i <= 16; i++) {
+		d += ` L${i * 6.25} ${i % 2 ? 20 : 80}`;
+	}
+	return d;
+};
+
+export const highlightShapes = {
+	circle: { box: { top: -22, left: -8, width: 116, height: 144 }, paths: ['M60 6 C30 2 4 16 3 48 C2 80 28 97 54 96 C82 95 98 76 97 47 C96 20 74 4 38 9'] },
+	curly: { box: { top: 86, left: 0, width: 100, height: 22 }, paths: [curlyPath()] },
+	underline: { box: { top: 88, left: -2, width: 104, height: 16 }, paths: ['M2 62 C30 42 65 38 98 46'] },
+	doubleUnderline: { box: { top: 84, left: -2, width: 104, height: 28 }, paths: ['M2 30 C30 16 66 12 98 22', 'M8 78 C36 64 70 62 94 70'] },
+	zigzag: { box: { top: 88, left: 0, width: 100, height: 18 }, paths: [zigzagPath()] },
+	diagonal: { box: { top: 5, left: -4, width: 108, height: 90 }, paths: ['M3 94 C30 70 66 34 97 6'] },
+	strikethrough: { box: { top: 42, left: -4, width: 108, height: 20 }, paths: ['M2 58 C30 44 66 40 98 48'] },
+	x: { box: { top: 0, left: -4, width: 108, height: 100 }, paths: ['M4 6 C34 34 66 66 96 94', 'M96 8 C64 36 34 64 4 92'] },
+	marker: { box: { top: 0, left: -3, width: 106, height: 100 }, paths: ['M1 64 C30 60 70 58 99 56'] }
+};
+
+export const highlightShapeOptions = [
+	{ label: __('Circle', 'animated-text-block'), value: 'circle' },
+	{ label: __('Curly', 'animated-text-block'), value: 'curly' },
+	{ label: __('Underline', 'animated-text-block'), value: 'underline' },
+	{ label: __('Double Underline', 'animated-text-block'), value: 'doubleUnderline' },
+	{ label: __('Zigzag', 'animated-text-block'), value: 'zigzag' },
+	{ label: __('Diagonal', 'animated-text-block'), value: 'diagonal' },
+	{ label: __('Strikethrough', 'animated-text-block'), value: 'strikethrough' },
+	{ label: __('X', 'animated-text-block'), value: 'x' },
+	{ label: __('Marker', 'animated-text-block'), value: 'marker' }
+];
+
+export const highlightDefaults = {
+	shape: 'circle',
+	colorType: 'solid',
+	color: '#FF6B35',
+	gradient: { type: 'linear', angel: 90, colors: [{ color: '#FF6B35', position: 0 }, { color: '#F7C948', position: 100 }] },
+	strokeWidth: 4,
+	markerHeight: 55,
+	roundedEnds: true,
+	position: 'behind',
+	duration: 1.2,
+	delay: 0.3,
+	loop: true,
+	loopDelay: 2
+};

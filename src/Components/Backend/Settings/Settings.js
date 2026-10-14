@@ -2,7 +2,7 @@ import { __ } from '@wordpress/i18n';
 import { InspectorControls, BlockControls } from '@wordpress/block-editor';
 import { PanelBody, PanelRow, TabPanel, TextareaControl, ToggleControl, SelectControl, RangeControl, __experimentalUnitControl as UnitControl } from '@wordpress/components';
 
-import { Label, Background, ColorControl, BtnGroup, Typography, HelpPanel, Device, ShadowControl } from '../../../../../bpl-tools/Components';
+import { Label, Background, ColorControl, BtnGroup, Typography, HelpPanel, Device, ShadowControl, Gradient } from '../../../../../bpl-tools/Components';
 import { BorderControl, SpaceControl } from '../../../../../bpl-tools/Components/Deprecated';
 import { tabController, updateData } from '../../../../../bpl-tools/utils/functions';
 import { SelectControlPro, BControlPro, ProModal } from '../../../../../bpl-tools/ProControls';
@@ -10,6 +10,7 @@ import { SelectControlPro, BControlPro, ProModal } from '../../../../../bpl-tool
 import { pluginSlug, animatedTextDocs, pricingPage } from '../../../utils/data';
 import { animateTypeOptions, FeaturesPro, generalStyleTabs } from '../../../utils/options';
 import { animateInOpt, effects, inEffects, outEffects, sequences } from '../../../utils/options';
+import { highlightDefaults, highlightShapeOptions } from '../../../utils/options';
 import { withSelect } from '@wordpress/data';
 import { produce } from 'immer';
 import { useState } from 'react';
@@ -20,7 +21,7 @@ import { TextControl } from '@wordpress/components';
 import ThemeSwitcher from '../../../utils/panel/ThemeSwitcher';
 
 const Settings = ({ attributes, setAttributes, isPremium, device }) => {
-	const { loop, animateIn, inEffect, inSequence, outEffect, outSequence, background, content, typography, color, padding, border, options, gsapAnimation = {}, animatedSize = {}, textAlignment = "center", repeat = true, alignment, prefixText = "", suffixText = "", prefixColor = "", prefixTypo = {}, suffixColor = "", suffixTypo = {} } = attributes;
+	const { loop, animateIn, inEffect, inSequence, outEffect, outSequence, background, content, typography, color, padding, border, options, gsapAnimation = {}, animatedSize = {}, textAlignment = "center", repeat = true, alignment, prefixText = "", suffixText = "", prefixColor = "", prefixTypo = {}, suffixColor = "", suffixTypo = {}, highlight = {} } = attributes;
 
 
 	const [alertAnimationSpeed, setAlertAnimationSpeed] = useState(null);
@@ -50,10 +51,19 @@ const Settings = ({ attributes, setAttributes, isPremium, device }) => {
 		{ label: "Typewriter", value: "type8", isPro: true },
 		{ label: "Flourish", value: "type9", isPro: true },
 		{ label: "Shaky TV", value: "type10", isPro: true },
+		{ label: "Highlight", value: "type11", isPro: true },
 	]
 
 	const { theme = {} } = options;
 	const { animationSpeed = 30, perspectiveDepth = 800, enableOscillation = true, repeatBehavior, repeatDelay = 2, animationEffect = "default", autoRepeat = true, transformOrigin = 400, randomColor = false, isTextShadow = false, textShadow = [], fontStretch = "200%", animationDuration = 1, waveEffect = 25, easeType = "elastic(0.3, 0.2)", scaleX = 1.5, scaleY = 0.5, typingSpeed, reStartTime = 1000, animateType = 'wave' } = gsapAnimation;
+
+	const { shape: hlShape, colorType: hlColorType, color: hlColor, gradient: hlGradient, strokeWidth: hlStrokeWidth, markerHeight: hlMarkerHeight, roundedEnds: hlRoundedEnds, position: hlPosition, duration: hlDuration, delay: hlDelay, loop: hlLoop, loopDelay: hlLoopDelay } = { ...highlightDefaults, ...highlight };
+	const updateHighlight = (property, val) => {
+		const newHighlight = produce({ ...highlightDefaults, ...highlight }, draft => {
+			draft[property] = val;
+		});
+		setAttributes({ highlight: newHighlight });
+	};
 
 	return <>
 		<InspectorControls>
@@ -69,7 +79,7 @@ const Settings = ({ attributes, setAttributes, isPremium, device }) => {
 							labelPosition="left"
 							onChange={(val) => setAttributes(themeSwitch(val, attributes))}
 							{...premiumProps}
-							proValues={['type1', 'type5', 'type6', 'type7', 'type8', 'type9', 'type10']}
+							proValues={['type1', 'type5', 'type6', 'type7', 'type8', 'type9', 'type10', 'type11']}
 						/>
 
 
@@ -131,13 +141,13 @@ const Settings = ({ attributes, setAttributes, isPremium, device }) => {
 
 						{/* Prefix Text section */}
 						{
-							("default" === theme || "type2" === theme || "type3" === theme || "type4" === theme || "type5" === theme || "type6" === theme || "type7" === theme || "type8" === theme || "type9" === theme || "type10" === theme) && <>
-								<Label className='mt10'>{__('Prefix Text:', 'animated-text-block')}</Label>
+							("default" === theme || "type2" === theme || "type3" === theme || "type4" === theme || "type5" === theme || "type6" === theme || "type7" === theme || "type8" === theme || "type9" === theme || "type10" === theme || "type11" === theme) && <>
+								<Label className='mt10'>{"type11" === theme ? __('Before Text:', 'animated-text-block') : __('Prefix Text:', 'animated-text-block')}</Label>
 								<TextControl value={prefixText} placeholder={__("Type your prefix content", "animated-text-block")} onChange={val => setAttributes({ prefixText: val })} />
 							</>
 						}
 
-						<Label className='mb5'>{__('Animate text:', 'animated-text-block')}</Label>
+						<Label className='mb5'>{"type11" === theme ? __('Highlighted Text:', 'animated-text-block') : __('Animate text:', 'animated-text-block')}</Label>
 
 						{
 							("default" === theme || "type1" === theme || "type4" === theme || "type7" === theme || "type10" === theme) && <TextareaControl
@@ -153,6 +163,15 @@ const Settings = ({ attributes, setAttributes, isPremium, device }) => {
 								onChange={val => setAttributes({ content: val })}
 								placeholder='Please type here'
 								help="Add multiple sentence, Separate texts using ( | ) to animate them one by one."
+							/>
+						}
+
+						{
+							"type11" === theme && <TextControl
+								value={content}
+								onChange={val => setAttributes({ content: val })}
+								placeholder={__('Type the word(s) to highlight', 'animated-text-block')}
+								help={__('Keep it short (one to a few words). The highlighted text stays on one line.', 'animated-text-block')}
 							/>
 						}
 
@@ -720,9 +739,87 @@ const Settings = ({ attributes, setAttributes, isPremium, device }) => {
 						{/* Suffix Contents section */}
 
 						{
-							("default" === theme || "type2" === theme || "type3" === theme || "type4" === theme || "type5" === theme || "type6" === theme || "type7" === theme || "type8" === theme || "type9" === theme || "type10" === theme) && <>
-								<Label>{__('Suffix Text:', 'animated-text-block')}</Label>
+							("default" === theme || "type2" === theme || "type3" === theme || "type4" === theme || "type5" === theme || "type6" === theme || "type7" === theme || "type8" === theme || "type9" === theme || "type10" === theme || "type11" === theme) && <>
+								<Label>{"type11" === theme ? __('After Text:', 'animated-text-block') : __('Suffix Text:', 'animated-text-block')}</Label>
 								<TextControl value={suffixText} placeholder={__("Type your suffix content", "animated-text-block")} onChange={val => setAttributes({ suffixText: val })} />
+							</>
+						}
+
+						{
+							"type11" === theme && <>
+								<PanelBody className='bPlPanelBody' title={__('Highlight Animation', 'animated-text-block')}>
+									<SelectControlPro
+										label={__('Shape', 'animated-text-block')}
+										labelPosition="left"
+										value={hlShape}
+										options={highlightShapeOptions}
+										onChange={val => updateHighlight('shape', val)}
+										{...premiumProps}
+										proValues={highlightShapeOptions.map(o => o.value)}
+									/>
+
+									<SelectControlPro
+										label={__('Position', 'animated-text-block')}
+										labelPosition="left"
+										className='mt10'
+										value={hlPosition}
+										options={[
+											{ label: __('Behind Text', 'animated-text-block'), value: 'behind' },
+											{ label: __('In Front of Text', 'animated-text-block'), value: 'front' }
+										]}
+										onChange={val => updateHighlight('position', val)}
+										{...premiumProps}
+										proValues={['behind', 'front']}
+									/>
+
+									<BControlPro
+										className='mt10'
+										label={__('Draw Duration (seconds)', 'animated-text-block')}
+										value={hlDuration}
+										onChange={val => updateHighlight('duration', val)}
+										min={0.2}
+										max={5}
+										step={0.1}
+										help={__('How long the shape takes to draw itself.', 'animated-text-block')}
+										{...premiumProps}
+										Component={RangeControl}
+									/>
+
+									<BControlPro
+										label={__('Start Delay (seconds)', 'animated-text-block')}
+										value={hlDelay}
+										onChange={val => updateHighlight('delay', val)}
+										min={0}
+										max={5}
+										step={0.1}
+										help={__('Wait time before drawing starts, once the text is in view.', 'animated-text-block')}
+										{...premiumProps}
+										Component={RangeControl}
+									/>
+
+									<BControlPro
+										label={__('Loop Animation', 'animated-text-block')}
+										checked={hlLoop}
+										onChange={val => updateHighlight('loop', val)}
+										help={hlLoop ? __('The shape redraws continuously.', 'animated-text-block') : __('The shape draws once and stays.', 'animated-text-block')}
+										{...premiumProps}
+										Component={ToggleControl}
+									/>
+
+									{
+										hlLoop && <BControlPro
+											label={__('Loop Pause (seconds)', 'animated-text-block')}
+											value={hlLoopDelay}
+											onChange={val => updateHighlight('loopDelay', val)}
+											min={0}
+											max={10}
+											step={0.1}
+											help={__('How long the finished shape stays before redrawing.', 'animated-text-block')}
+											{...premiumProps}
+											Component={RangeControl}
+										/>
+									}
+								</PanelBody>
 							</>
 						}
 
@@ -804,7 +901,7 @@ const Settings = ({ attributes, setAttributes, isPremium, device }) => {
 
 						{/* Prefix styles Here */}
 						{
-							prefixText && ("default" === theme || "type2" === theme || "type3" === theme || "type4" === theme || "type5" === theme || "type6" === theme || "type7" === theme || "type8" === theme || "type9" === theme || "type10" === theme) && <>
+							prefixText && ("default" === theme || "type2" === theme || "type3" === theme || "type4" === theme || "type5" === theme || "type6" === theme || "type7" === theme || "type8" === theme || "type9" === theme || "type10" === theme || "type11" === theme) && <>
 								{/* Prefix Color */}
 								<ColorControl label={__('Prefix Color:', 'animated-text-block')} value={prefixColor} onChange={val => setAttributes({ prefixColor: val })} />
 								{/* Prefix Typography */}
@@ -818,7 +915,7 @@ const Settings = ({ attributes, setAttributes, isPremium, device }) => {
 						}
 
 						{
-							("default" === theme || "type1" === theme || "type2" === theme || "type4" === theme || "type5" === theme || "type6" === theme || "type7" === theme || "type8" === theme || "type10" === theme) && <>
+							("default" === theme || "type1" === theme || "type2" === theme || "type4" === theme || "type5" === theme || "type6" === theme || "type7" === theme || "type8" === theme || "type10" === theme || "type11" === theme) && <>
 								<ColorControl label={__('Animate Text Color:', 'animated-text-block')} value={color} onChange={val => setAttributes({ color: val })} />
 							</>
 						}
@@ -826,7 +923,7 @@ const Settings = ({ attributes, setAttributes, isPremium, device }) => {
 						{/* Suffix Text Styles */}
 
 						{
-							suffixText && ("default" === theme || "type2" === theme || "type3" === theme || "type4" === theme || "type5" === theme || "type6" === theme || "type7" === theme || "type8" === theme || "type9" === theme || "type10" === theme) && <>
+							suffixText && ("default" === theme || "type2" === theme || "type3" === theme || "type4" === theme || "type5" === theme || "type6" === theme || "type7" === theme || "type8" === theme || "type9" === theme || "type10" === theme || "type11" === theme) && <>
 								<Typography className='mt10' label={__('Sufix Typography:', 'animated-text-block')} value={suffixTypo} onChange={val => setAttributes({ suffixTypo: val })} maxFontSize={300} />
 
 								<ColorControl label={__('Suffix Text Color:', 'animated-text-block')} value={suffixColor} onChange={val => setAttributes({ suffixColor: val })} />
@@ -974,6 +1071,73 @@ const Settings = ({ attributes, setAttributes, isPremium, device }) => {
 
 						<BorderControl label={__('Border:', 'animated-text-block')} value={border} onChange={val => setAttributes({ border: val })} defaults={{ radius: '5px' }} />
 					</PanelBody>
+
+					{
+						"type11" === theme && <PanelBody className='bPlPanelBody' title={__('Highlight Shape', 'animated-text-block')} initialOpen={false}>
+							<SelectControlPro
+								label={__('Color Type', 'animated-text-block')}
+								labelPosition="left"
+								value={hlColorType}
+								options={[
+									{ label: __('Solid', 'animated-text-block'), value: 'solid' },
+									{ label: __('Gradient', 'animated-text-block'), value: 'gradient' }
+								]}
+								onChange={val => updateHighlight('colorType', val)}
+								{...premiumProps}
+								proValues={['solid', 'gradient']}
+							/>
+
+							{
+								"gradient" === hlColorType ? <Gradient
+									value={hlGradient}
+									onChange={val => {
+										// Gradient also fires onChange on mount; skip no-op updates so the post isn't marked dirty
+										if (JSON.stringify(val) === JSON.stringify(hlGradient)) return;
+										isPremium ? updateHighlight('gradient', val) : setIsProModalOpen(true);
+									}}
+								/> : <BControlPro
+									className='mt10'
+									label={__('Shape Color:', 'animated-text-block')}
+									value={hlColor}
+									onChange={val => updateHighlight('color', val)}
+									{...premiumProps}
+									Component={ColorControl}
+								/>
+							}
+
+							{
+								"marker" === hlShape ? <BControlPro
+									className='mt10'
+									label={__('Marker Thickness (% of font size)', 'animated-text-block')}
+									value={hlMarkerHeight}
+									onChange={val => updateHighlight('markerHeight', val)}
+									min={20}
+									max={120}
+									step={1}
+									{...premiumProps}
+									Component={RangeControl}
+								/> : <BControlPro
+									className='mt10'
+									label={__('Stroke Width (px)', 'animated-text-block')}
+									value={hlStrokeWidth}
+									onChange={val => updateHighlight('strokeWidth', val)}
+									min={1}
+									max={20}
+									step={0.5}
+									{...premiumProps}
+									Component={RangeControl}
+								/>
+							}
+
+							<BControlPro
+								label={__('Rounded Ends', 'animated-text-block')}
+								checked={hlRoundedEnds}
+								onChange={val => updateHighlight('roundedEnds', val)}
+								{...premiumProps}
+								Component={ToggleControl}
+							/>
+						</PanelBody>
+					}
 				</>}
 			</>}</TabPanel>
 		</InspectorControls >

@@ -218,7 +218,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _Common_Themes_TypeEight__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! ../Common/Themes/TypeEight */ "./src/Components/Common/Themes/TypeEight.js");
 /* harmony import */ var _Common_Themes_TypeNine__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! ../Common/Themes/TypeNine */ "./src/Components/Common/Themes/TypeNine.js");
 /* harmony import */ var _Common_Themes_TypeTen__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! ../Common/Themes/TypeTen */ "./src/Components/Common/Themes/TypeTen.js");
-/* harmony import */ var _utils_usePremiumEditorV2__WEBPACK_IMPORTED_MODULE_16__ = __webpack_require__(/*! ../../utils/usePremiumEditorV2 */ "./src/utils/usePremiumEditorV2.js");
+/* harmony import */ var _Common_Themes_TypeEleven__WEBPACK_IMPORTED_MODULE_16__ = __webpack_require__(/*! ../Common/Themes/TypeEleven */ "./src/Components/Common/Themes/TypeEleven.js");
+/* harmony import */ var _utils_usePremiumEditorV2__WEBPACK_IMPORTED_MODULE_17__ = __webpack_require__(/*! ../../utils/usePremiumEditorV2 */ "./src/utils/usePremiumEditorV2.js");
+
 
 
 
@@ -251,7 +253,7 @@ const Edit = props => {
   const id = `${_utils_data__WEBPACK_IMPORTED_MODULE_4__.prefix}-${clientId}`;
   const {
     isPremium
-  } = (0,_utils_usePremiumEditorV2__WEBPACK_IMPORTED_MODULE_16__["default"])('atbPipeChecker');
+  } = (0,_utils_usePremiumEditorV2__WEBPACK_IMPORTED_MODULE_17__["default"])('atbPipeChecker');
   return (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(react__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_Settings_Settings__WEBPACK_IMPORTED_MODULE_2__["default"], {
     attributes: attributes,
     setAttributes: setAttributes,
@@ -326,6 +328,10 @@ const SwitchTheme = ({
       return (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_Common_Themes_TypeTen__WEBPACK_IMPORTED_MODULE_15__["default"], {
         attributes: attributes
       });
+    case 'type11':
+      return (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_Common_Themes_TypeEleven__WEBPACK_IMPORTED_MODULE_16__["default"], {
+        attributes: attributes
+      });
     default:
       return null;
   }
@@ -382,6 +388,7 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
+
 const Settings = ({
   attributes,
   setAttributes,
@@ -412,7 +419,8 @@ const Settings = ({
     prefixColor = "",
     prefixTypo = {},
     suffixColor = "",
-    suffixTypo = {}
+    suffixTypo = {},
+    highlight = {}
   } = attributes;
   const [alertAnimationSpeed, setAlertAnimationSpeed] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(null);
   const [alertRandomColor, setAlertRandomColor] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(null);
@@ -475,6 +483,10 @@ const Settings = ({
     label: "Shaky TV",
     value: "type10",
     isPro: true
+  }, {
+    label: "Highlight",
+    value: "type11",
+    isPro: true
   }];
   const {
     theme = {}
@@ -501,6 +513,34 @@ const Settings = ({
     reStartTime = 1000,
     animateType = 'wave'
   } = gsapAnimation;
+  const {
+    shape: hlShape,
+    colorType: hlColorType,
+    color: hlColor,
+    gradient: hlGradient,
+    strokeWidth: hlStrokeWidth,
+    markerHeight: hlMarkerHeight,
+    roundedEnds: hlRoundedEnds,
+    position: hlPosition,
+    duration: hlDuration,
+    delay: hlDelay,
+    loop: hlLoop,
+    loopDelay: hlLoopDelay
+  } = {
+    ..._utils_options__WEBPACK_IMPORTED_MODULE_9__.highlightDefaults,
+    ...highlight
+  };
+  const updateHighlight = (property, val) => {
+    const newHighlight = (0,immer__WEBPACK_IMPORTED_MODULE_13__.produce)({
+      ..._utils_options__WEBPACK_IMPORTED_MODULE_9__.highlightDefaults,
+      ...highlight
+    }, draft => {
+      draft[property] = val;
+    });
+    setAttributes({
+      highlight: newHighlight
+    });
+  };
   return (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(react__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_2__.InspectorControls, null, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_3__.TabPanel, {
     className: "bPlTabPanel",
     activeClass: "activeTab",
@@ -519,7 +559,7 @@ const Settings = ({
     labelPosition: "left",
     onChange: val => setAttributes((0,_utils_config__WEBPACK_IMPORTED_MODULE_11__.themeSwitch)(val, attributes)),
     ...premiumProps,
-    proValues: ['type1', 'type5', 'type6', 'type7', 'type8', 'type9', 'type10']
+    proValues: ['type1', 'type5', 'type6', 'type7', 'type8', 'type9', 'type10', 'type11']
   }), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_bpl_tools_ProControls__WEBPACK_IMPORTED_MODULE_7__.SelectControlPro, {
     label: "Text Alignment",
     labelPosition: "left",
@@ -568,9 +608,9 @@ const Settings = ({
   }))), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_3__.PanelBody, {
     className: "bPlPanelBody",
     title: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Animated Text Settings', 'animated-text-block')
-  }, ("default" === theme || "type2" === theme || "type3" === theme || "type4" === theme || "type5" === theme || "type6" === theme || "type7" === theme || "type8" === theme || "type9" === theme || "type10" === theme) && (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(react__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_bpl_tools_Components__WEBPACK_IMPORTED_MODULE_4__.Label, {
+  }, ("default" === theme || "type2" === theme || "type3" === theme || "type4" === theme || "type5" === theme || "type6" === theme || "type7" === theme || "type8" === theme || "type9" === theme || "type10" === theme || "type11" === theme) && (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(react__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_bpl_tools_Components__WEBPACK_IMPORTED_MODULE_4__.Label, {
     className: "mt10"
-  }, (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Prefix Text:', 'animated-text-block')), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_3__.TextControl, {
+  }, "type11" === theme ? (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Before Text:', 'animated-text-block') : (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Prefix Text:', 'animated-text-block')), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_3__.TextControl, {
     value: prefixText,
     placeholder: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)("Type your prefix content", "animated-text-block"),
     onChange: val => setAttributes({
@@ -578,7 +618,7 @@ const Settings = ({
     })
   })), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_bpl_tools_Components__WEBPACK_IMPORTED_MODULE_4__.Label, {
     className: "mb5"
-  }, (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Animate text:', 'animated-text-block')), ("default" === theme || "type1" === theme || "type4" === theme || "type7" === theme || "type10" === theme) && (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_3__.TextareaControl, {
+  }, "type11" === theme ? (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Highlighted Text:', 'animated-text-block') : (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Animate text:', 'animated-text-block')), ("default" === theme || "type1" === theme || "type4" === theme || "type7" === theme || "type10" === theme) && (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_3__.TextareaControl, {
     value: content,
     onChange: val => setAttributes({
       content: val
@@ -591,6 +631,13 @@ const Settings = ({
     }),
     placeholder: "Please type here",
     help: "Add multiple sentence, Separate texts using ( | ) to animate them one by one."
+  }), "type11" === theme && (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_3__.TextControl, {
+    value: content,
+    onChange: val => setAttributes({
+      content: val
+    }),
+    placeholder: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Type the word(s) to highlight', 'animated-text-block'),
+    help: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Keep it short (one to a few words). The highlighted text stays on one line.', 'animated-text-block')
   }), "type7" === theme && (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(react__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("p", {
     style: {
       color: "#DF6D14"
@@ -1143,13 +1190,77 @@ const Settings = ({
     max: 5000,
     ...premiumProps,
     Component: _wordpress_components__WEBPACK_IMPORTED_MODULE_3__.RangeControl
-  })), ("default" === theme || "type2" === theme || "type3" === theme || "type4" === theme || "type5" === theme || "type6" === theme || "type7" === theme || "type8" === theme || "type9" === theme || "type10" === theme) && (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(react__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_bpl_tools_Components__WEBPACK_IMPORTED_MODULE_4__.Label, null, (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Suffix Text:', 'animated-text-block')), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_3__.TextControl, {
+  })), ("default" === theme || "type2" === theme || "type3" === theme || "type4" === theme || "type5" === theme || "type6" === theme || "type7" === theme || "type8" === theme || "type9" === theme || "type10" === theme || "type11" === theme) && (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(react__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_bpl_tools_Components__WEBPACK_IMPORTED_MODULE_4__.Label, null, "type11" === theme ? (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('After Text:', 'animated-text-block') : (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Suffix Text:', 'animated-text-block')), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_3__.TextControl, {
     value: suffixText,
     placeholder: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)("Type your suffix content", "animated-text-block"),
     onChange: val => setAttributes({
       suffixText: val
     })
-  })), "type9" === theme && (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(react__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_bpl_tools_ProControls__WEBPACK_IMPORTED_MODULE_7__.BControlPro, {
+  })), "type11" === theme && (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(react__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_3__.PanelBody, {
+    className: "bPlPanelBody",
+    title: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Highlight Animation', 'animated-text-block')
+  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_bpl_tools_ProControls__WEBPACK_IMPORTED_MODULE_7__.SelectControlPro, {
+    label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Shape', 'animated-text-block'),
+    labelPosition: "left",
+    value: hlShape,
+    options: _utils_options__WEBPACK_IMPORTED_MODULE_9__.highlightShapeOptions,
+    onChange: val => updateHighlight('shape', val),
+    ...premiumProps,
+    proValues: _utils_options__WEBPACK_IMPORTED_MODULE_9__.highlightShapeOptions.map(o => o.value)
+  }), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_bpl_tools_ProControls__WEBPACK_IMPORTED_MODULE_7__.SelectControlPro, {
+    label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Position', 'animated-text-block'),
+    labelPosition: "left",
+    className: "mt10",
+    value: hlPosition,
+    options: [{
+      label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Behind Text', 'animated-text-block'),
+      value: 'behind'
+    }, {
+      label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('In Front of Text', 'animated-text-block'),
+      value: 'front'
+    }],
+    onChange: val => updateHighlight('position', val),
+    ...premiumProps,
+    proValues: ['behind', 'front']
+  }), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_bpl_tools_ProControls__WEBPACK_IMPORTED_MODULE_7__.BControlPro, {
+    className: "mt10",
+    label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Draw Duration (seconds)', 'animated-text-block'),
+    value: hlDuration,
+    onChange: val => updateHighlight('duration', val),
+    min: 0.2,
+    max: 5,
+    step: 0.1,
+    help: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('How long the shape takes to draw itself.', 'animated-text-block'),
+    ...premiumProps,
+    Component: _wordpress_components__WEBPACK_IMPORTED_MODULE_3__.RangeControl
+  }), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_bpl_tools_ProControls__WEBPACK_IMPORTED_MODULE_7__.BControlPro, {
+    label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Start Delay (seconds)', 'animated-text-block'),
+    value: hlDelay,
+    onChange: val => updateHighlight('delay', val),
+    min: 0,
+    max: 5,
+    step: 0.1,
+    help: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Wait time before drawing starts, once the text is in view.', 'animated-text-block'),
+    ...premiumProps,
+    Component: _wordpress_components__WEBPACK_IMPORTED_MODULE_3__.RangeControl
+  }), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_bpl_tools_ProControls__WEBPACK_IMPORTED_MODULE_7__.BControlPro, {
+    label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Loop Animation', 'animated-text-block'),
+    checked: hlLoop,
+    onChange: val => updateHighlight('loop', val),
+    help: hlLoop ? (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('The shape redraws continuously.', 'animated-text-block') : (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('The shape draws once and stays.', 'animated-text-block'),
+    ...premiumProps,
+    Component: _wordpress_components__WEBPACK_IMPORTED_MODULE_3__.ToggleControl
+  }), hlLoop && (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_bpl_tools_ProControls__WEBPACK_IMPORTED_MODULE_7__.BControlPro, {
+    label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Loop Pause (seconds)', 'animated-text-block'),
+    value: hlLoopDelay,
+    onChange: val => updateHighlight('loopDelay', val),
+    min: 0,
+    max: 10,
+    step: 0.1,
+    help: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('How long the finished shape stays before redrawing.', 'animated-text-block'),
+    ...premiumProps,
+    Component: _wordpress_components__WEBPACK_IMPORTED_MODULE_3__.RangeControl
+  }))), "type9" === theme && (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(react__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_bpl_tools_ProControls__WEBPACK_IMPORTED_MODULE_7__.BControlPro, {
     className: "mt10",
     label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Auto Repeat', 'animated-text-block'),
     checked: repeat,
@@ -1219,7 +1330,7 @@ const Settings = ({
     defaults: {
       color: '#0000'
     }
-  }), prefixText && ("default" === theme || "type2" === theme || "type3" === theme || "type4" === theme || "type5" === theme || "type6" === theme || "type7" === theme || "type8" === theme || "type9" === theme || "type10" === theme) && (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(react__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_bpl_tools_Components__WEBPACK_IMPORTED_MODULE_4__.ColorControl, {
+  }), prefixText && ("default" === theme || "type2" === theme || "type3" === theme || "type4" === theme || "type5" === theme || "type6" === theme || "type7" === theme || "type8" === theme || "type9" === theme || "type10" === theme || "type11" === theme) && (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(react__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_bpl_tools_Components__WEBPACK_IMPORTED_MODULE_4__.ColorControl, {
     label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Prefix Color:', 'animated-text-block'),
     value: prefixColor,
     onChange: val => setAttributes({
@@ -1263,13 +1374,13 @@ const Settings = ({
       }
     },
     maxFontSize: 300
-  }), ("default" === theme || "type1" === theme || "type2" === theme || "type4" === theme || "type5" === theme || "type6" === theme || "type7" === theme || "type8" === theme || "type10" === theme) && (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(react__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_bpl_tools_Components__WEBPACK_IMPORTED_MODULE_4__.ColorControl, {
+  }), ("default" === theme || "type1" === theme || "type2" === theme || "type4" === theme || "type5" === theme || "type6" === theme || "type7" === theme || "type8" === theme || "type10" === theme || "type11" === theme) && (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(react__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_bpl_tools_Components__WEBPACK_IMPORTED_MODULE_4__.ColorControl, {
     label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Animate Text Color:', 'animated-text-block'),
     value: color,
     onChange: val => setAttributes({
       color: val
     })
-  })), suffixText && ("default" === theme || "type2" === theme || "type3" === theme || "type4" === theme || "type5" === theme || "type6" === theme || "type7" === theme || "type8" === theme || "type9" === theme || "type10" === theme) && (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(react__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_bpl_tools_Components__WEBPACK_IMPORTED_MODULE_4__.Typography, {
+  })), suffixText && ("default" === theme || "type2" === theme || "type3" === theme || "type4" === theme || "type5" === theme || "type6" === theme || "type7" === theme || "type8" === theme || "type9" === theme || "type10" === theme || "type11" === theme) && (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(react__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_bpl_tools_Components__WEBPACK_IMPORTED_MODULE_4__.Typography, {
     className: "mt10",
     label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Sufix Typography:', 'animated-text-block'),
     value: suffixTypo,
@@ -1431,6 +1542,64 @@ const Settings = ({
     defaults: {
       radius: '5px'
     }
+  })), "type11" === theme && (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_3__.PanelBody, {
+    className: "bPlPanelBody",
+    title: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Highlight Shape', 'animated-text-block'),
+    initialOpen: false
+  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_bpl_tools_ProControls__WEBPACK_IMPORTED_MODULE_7__.SelectControlPro, {
+    label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Color Type', 'animated-text-block'),
+    labelPosition: "left",
+    value: hlColorType,
+    options: [{
+      label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Solid', 'animated-text-block'),
+      value: 'solid'
+    }, {
+      label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Gradient', 'animated-text-block'),
+      value: 'gradient'
+    }],
+    onChange: val => updateHighlight('colorType', val),
+    ...premiumProps,
+    proValues: ['solid', 'gradient']
+  }), "gradient" === hlColorType ? (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_bpl_tools_Components__WEBPACK_IMPORTED_MODULE_4__.Gradient, {
+    value: hlGradient,
+    onChange: val => {
+      // Gradient also fires onChange on mount; skip no-op updates so the post isn't marked dirty
+      if (JSON.stringify(val) === JSON.stringify(hlGradient)) return;
+      isPremium ? updateHighlight('gradient', val) : setIsProModalOpen(true);
+    }
+  }) : (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_bpl_tools_ProControls__WEBPACK_IMPORTED_MODULE_7__.BControlPro, {
+    className: "mt10",
+    label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Shape Color:', 'animated-text-block'),
+    value: hlColor,
+    onChange: val => updateHighlight('color', val),
+    ...premiumProps,
+    Component: _bpl_tools_Components__WEBPACK_IMPORTED_MODULE_4__.ColorControl
+  }), "marker" === hlShape ? (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_bpl_tools_ProControls__WEBPACK_IMPORTED_MODULE_7__.BControlPro, {
+    className: "mt10",
+    label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Marker Thickness (% of font size)', 'animated-text-block'),
+    value: hlMarkerHeight,
+    onChange: val => updateHighlight('markerHeight', val),
+    min: 20,
+    max: 120,
+    step: 1,
+    ...premiumProps,
+    Component: _wordpress_components__WEBPACK_IMPORTED_MODULE_3__.RangeControl
+  }) : (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_bpl_tools_ProControls__WEBPACK_IMPORTED_MODULE_7__.BControlPro, {
+    className: "mt10",
+    label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Stroke Width (px)', 'animated-text-block'),
+    value: hlStrokeWidth,
+    onChange: val => updateHighlight('strokeWidth', val),
+    min: 1,
+    max: 20,
+    step: 0.5,
+    ...premiumProps,
+    Component: _wordpress_components__WEBPACK_IMPORTED_MODULE_3__.RangeControl
+  }), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_bpl_tools_ProControls__WEBPACK_IMPORTED_MODULE_7__.BControlPro, {
+    label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Rounded Ends', 'animated-text-block'),
+    checked: hlRoundedEnds,
+    onChange: val => updateHighlight('roundedEnds', val),
+    ...premiumProps,
+    Component: _wordpress_components__WEBPACK_IMPORTED_MODULE_3__.ToggleControl
   })))))), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_2__.BlockControls, null, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_3__.ToolbarGroup, null, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_3__.DropdownMenu, {
     icon: "editor-alignleft",
     label: "Text Alignment",
@@ -1624,6 +1793,9 @@ const Style = ({
   const typeTenSl = `${animatedTextSl}.type10`;
   const typeTenPrefixSl = `${typeTenSl} .typeTen .prefix-text`;
   const typeTenSuffixSl = `${typeTenSl} .typeTen .suffix-text`;
+  const typeElevenSl = `${animatedTextSl}.type11`;
+  const typeElevenPrefixSl = `${typeElevenSl} .typeEleven .prefix-text`;
+  const typeElevenSuffixSl = `${typeElevenSl} .typeEleven .suffix-text`;
   return (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("style", {
     dangerouslySetInnerHTML: {
       __html: `
@@ -1649,6 +1821,8 @@ const Style = ({
 		${(0,_bpl_tools_utils_getCSS__WEBPACK_IMPORTED_MODULE_2__.getTypoCSS)(`${typeNineSuffixSl}`, suffixTypo)?.styles}
 		${(0,_bpl_tools_utils_getCSS__WEBPACK_IMPORTED_MODULE_2__.getTypoCSS)(`${typeTenPrefixSl}`, prefixTypo)?.styles}
 		${(0,_bpl_tools_utils_getCSS__WEBPACK_IMPORTED_MODULE_2__.getTypoCSS)(`${typeTenSuffixSl}`, suffixTypo)?.styles}
+		${(0,_bpl_tools_utils_getCSS__WEBPACK_IMPORTED_MODULE_2__.getTypoCSS)(`${typeElevenPrefixSl}`, prefixTypo)?.styles}
+		${(0,_bpl_tools_utils_getCSS__WEBPACK_IMPORTED_MODULE_2__.getTypoCSS)(`${typeElevenSuffixSl}`, suffixTypo)?.styles}
 
 		${mainSl}{
 			display: flex;
@@ -1748,6 +1922,28 @@ const Style = ({
 		}
 		${typeTenSuffixSl}{
 			color: ${suffixColor}
+		}
+		${typeElevenPrefixSl}{
+			color: ${prefixColor}
+		}
+		${typeElevenSuffixSl}{
+			color: ${suffixColor}
+		}
+		${typeElevenSl} .typeEleven{
+			justify-content: ${textAlignment};
+		}
+		${typeElevenSl}{
+			${(0,_bpl_tools_utils_getCSS__WEBPACK_IMPORTED_MODULE_2__.isValidCSS)('width', animatedSize?.width['desktop'])}
+		}
+		${_bpl_tools_utils_data__WEBPACK_IMPORTED_MODULE_1__.tabBreakpoint}{
+			${typeElevenSl}{
+				${(0,_bpl_tools_utils_getCSS__WEBPACK_IMPORTED_MODULE_2__.isValidCSS)('width', animatedSize?.width['tablet'])}
+			}
+		}
+		${_bpl_tools_utils_data__WEBPACK_IMPORTED_MODULE_1__.mobileBreakpoint}{
+			${typeElevenSl}{
+				${(0,_bpl_tools_utils_getCSS__WEBPACK_IMPORTED_MODULE_2__.isValidCSS)('width', animatedSize?.width['mobile'])}
+			}
 		}
 		${typeSixSl},
 		${typeSevenSl},
@@ -1996,6 +2192,251 @@ const TypeEight = ({
   }, ' ', suffixText))));
 };
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (TypeEight);
+
+/***/ }),
+
+/***/ "./src/Components/Common/Themes/TypeEleven.js":
+/*!****************************************************!*\
+  !*** ./src/Components/Common/Themes/TypeEleven.js ***!
+  \****************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "react");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _utils_options__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../../utils/options */ "./src/utils/options.js");
+
+
+
+const FADE_TIME = 400; // ms, must match the fade transition in style.scss
+
+// Shape paths are authored on a 0-100 grid using absolute x/y pairs only; scale them to the real pixel box
+// so the stroke keeps an even width and `pathLength` based drawing stays accurate.
+const scalePath = (d, w, h) => {
+  let i = 0;
+  return d.replace(/-?\d*\.?\d+/g, n => (i++ % 2 ? parseFloat(n) * h / 100 : parseFloat(n) * w / 100).toFixed(2));
+};
+
+// Mirrors bpl-tools getGradientCSS (the CSS the Gradient control is built for) in SVG, using the shape's pixel box
+const HighlightGradient = ({
+  id,
+  gradient = {},
+  w,
+  h
+}) => {
+  const {
+    type = 'linear',
+    radialType = 'ellipse',
+    colors = [],
+    centerPositions = {},
+    angel = 90
+  } = gradient;
+  const stops = colors.map((c, i) => (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("stop", {
+    key: i,
+    offset: `${parseFloat(c?.position) || 0}%`,
+    stopColor: c?.color
+  }));
+  if ('radial' === type) {
+    // radial-gradient(<radialType> at X% Y%) with the CSS default size, farthest-corner
+    const cx = w * (parseFloat(centerPositions?.x) || 0) / 100;
+    const cy = h * (parseFloat(centerPositions?.y) || 0) / 100;
+    const dx = Math.max(cx, w - cx);
+    const dy = Math.max(cy, h - cy);
+    if ('circle' === radialType) {
+      return (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("radialGradient", {
+        id: id,
+        gradientUnits: "userSpaceOnUse",
+        cx: cx,
+        cy: cy,
+        r: Math.hypot(dx, dy)
+      }, stops);
+    }
+
+    // A farthest-corner ellipse keeps the farthest-side aspect ratio, so its radii are √2 × the side distances
+    const rx = Math.max(dx * Math.SQRT2, 0.01);
+    const ry = Math.max(dy * Math.SQRT2, 0.01);
+    return (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("radialGradient", {
+      id: id,
+      gradientUnits: "userSpaceOnUse",
+      cx: cx,
+      cy: cy,
+      r: rx,
+      gradientTransform: `translate(${cx} ${cy}) scale(1 ${ry / rx}) translate(${-cx} ${-cy})`
+    }, stops);
+  }
+
+  // linear-gradient(<angle>deg): 0deg = to top, 90deg = to right; the line is long enough to reach the corners
+  const rad = (parseFloat(angel) || 0) * Math.PI / 180;
+  const half = (Math.abs(w * Math.sin(rad)) + Math.abs(h * Math.cos(rad))) / 2;
+  const dx = half * Math.sin(rad);
+  const dy = half * Math.cos(rad);
+  return (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("linearGradient", {
+    id: id,
+    gradientUnits: "userSpaceOnUse",
+    x1: w / 2 - dx,
+    y1: h / 2 + dy,
+    x2: w / 2 + dx,
+    y2: h / 2 - dy
+  }, stops);
+};
+const TypeEleven = ({
+  attributes
+}) => {
+  const {
+    content,
+    prefixText = "",
+    suffixText = "",
+    highlight = {}
+  } = attributes;
+  const beforeText = prefixText?.trim() ? prefixText : 'Make your words';
+  const afterText = suffixText?.trim() ? suffixText : 'instantly';
+  const {
+    shape,
+    colorType,
+    color,
+    gradient,
+    strokeWidth,
+    markerHeight,
+    roundedEnds,
+    position,
+    duration,
+    delay,
+    loop,
+    loopDelay
+  } = {
+    ..._utils_options__WEBPACK_IMPORTED_MODULE_1__.highlightDefaults,
+    ...highlight
+  };
+  const wrapperRef = (0,react__WEBPACK_IMPORTED_MODULE_0__.useRef)(null);
+  const [size, setSize] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)({
+    width: 0,
+    height: 0
+  });
+  const [inView, setInView] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(false);
+  const [cycle, setCycle] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(0);
+  const [fading, setFading] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(false);
+  const gradientId = `atbHlGrad${(0,react__WEBPACK_IMPORTED_MODULE_0__.useId)().replace(/[^a-zA-Z0-9_-]/g, '')}`;
+  const {
+    box,
+    paths
+  } = _utils_options__WEBPACK_IMPORTED_MODULE_1__.highlightShapes[shape] || _utils_options__WEBPACK_IMPORTED_MODULE_1__.highlightShapes[_utils_options__WEBPACK_IMPORTED_MODULE_1__.highlightDefaults.shape];
+  const isMarker = 'marker' === shape;
+  const durationSec = Math.max(0.1, parseFloat(duration) || 0);
+  const delaySec = Math.max(0, parseFloat(delay) || 0);
+  const loopDelaySec = Math.max(0, parseFloat(loopDelay) || 0);
+
+  // Track the highlighted text size (font, content and viewport changes)
+  (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(() => {
+    const el = wrapperRef.current;
+    if (!el) return;
+    const measure = () => setSize(prev => prev.width === el.offsetWidth && prev.height === el.offsetHeight ? prev : {
+      width: el.offsetWidth,
+      height: el.offsetHeight
+    });
+    measure();
+    const view = el.ownerDocument?.defaultView || window;
+    if (!view.ResizeObserver) {
+      view.addEventListener('resize', measure);
+      return () => view.removeEventListener('resize', measure);
+    }
+    const observer = new view.ResizeObserver(measure);
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, []);
+
+  // Start drawing once the text scrolls into view
+  (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(() => {
+    const el = wrapperRef.current;
+    if (!el) return;
+    const view = el.ownerDocument?.defaultView || window;
+    if (!view.IntersectionObserver) {
+      setInView(true);
+      return;
+    }
+    const observer = new view.IntersectionObserver(entries => {
+      if (entries.some(entry => entry.isIntersecting)) {
+        setInView(true);
+        observer.disconnect();
+      }
+    }, {
+      threshold: 0.2
+    });
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, []);
+
+  // Loop: draw -> hold -> fade out -> redraw
+  (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(() => {
+    if (!inView || !loop) return;
+    const fadeAt = (delaySec + durationSec + loopDelaySec) * 1000;
+    const fadeTimer = setTimeout(() => setFading(true), fadeAt);
+    const restartTimer = setTimeout(() => {
+      setFading(false);
+      setCycle(c => c + 1);
+    }, fadeAt + FADE_TIME);
+    return () => {
+      clearTimeout(fadeTimer);
+      clearTimeout(restartTimer);
+    };
+  }, [inView, loop, cycle, delaySec, durationSec, loopDelaySec]);
+  const svgW = size.width * box.width / 100;
+  const svgH = size.height * box.height / 100;
+
+  // Re-mount the SVG to replay the drawing when a cycle restarts or an animation setting changes
+  const svgKey = `${cycle}-${shape}-${durationSec}-${delaySec}-${loop}`;
+  const stroke = 'gradient' === colorType ? `url(#${gradientId})` : color;
+  const pathDuration = durationSec / paths.length;
+  return (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
+    className: "typeEleven"
+  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("span", {
+    className: "prefix-text"
+  }, beforeText), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("span", {
+    className: "content"
+  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("span", {
+    ref: wrapperRef,
+    className: `atbHighlight ${'front' === position ? 'isFront' : 'isBehind'}`
+  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("span", {
+    className: "atbHighlightText"
+  }, content), 0 < svgW && 0 < svgH && (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("svg", {
+    key: svgKey,
+    className: `atbHighlightSvg ${inView ? 'isDrawing' : ''} ${fading ? 'isFading' : ''}`,
+    viewBox: `0 0 ${svgW.toFixed(2)} ${svgH.toFixed(2)}`,
+    "aria-hidden": "true",
+    focusable: "false",
+    style: {
+      top: `${box.top}%`,
+      left: `${box.left}%`,
+      width: `${box.width}%`,
+      height: `${box.height}%`
+    }
+  }, 'gradient' === colorType && (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("defs", null, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(HighlightGradient, {
+    id: gradientId,
+    gradient: gradient,
+    w: svgW,
+    h: svgH
+  })), paths.map((d, i) => (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("path", {
+    key: i,
+    d: scalePath(d, svgW, svgH),
+    pathLength: "1",
+    fill: "none",
+    stroke: stroke,
+    strokeWidth: isMarker ? `${(parseFloat(markerHeight) || 0) / 100}em` : parseFloat(strokeWidth) || 1,
+    strokeLinecap: roundedEnds ? 'round' : 'butt',
+    strokeLinejoin: roundedEnds ? 'round' : 'miter',
+    className: isMarker ? 'isMarker' : '',
+    style: {
+      animationDuration: `${pathDuration}s`,
+      animationDelay: `${delaySec + i * pathDuration}s`
+    }
+  }))))), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("span", {
+    className: "suffix-text"
+  }, afterText));
+};
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (TypeEleven);
 
 /***/ }),
 
@@ -4028,6 +4469,48 @@ const themeSwitch = (theme = "default", attributes) => (0,immer__WEBPACK_IMPORTE
       draft['suffixTypo']['textTransform'] = 'none';
       draft['suffixColor'] = "#fff";
       break;
+    case 'type11':
+      draft['content'] = "stand out";
+      if (!draft['prefixText']) draft['prefixText'] = "Make your words";
+      if (!draft['suffixText']) draft['suffixText'] = "instantly";
+      draft['background']['color'] = '#0000';
+      draft['color'] = '#1E1E1E';
+      draft['padding'] = {
+        "vertical": "30px",
+        "horizontal": "15px"
+      };
+      draft['typography']['fontSize'] = {
+        'desktop': 48,
+        'tablet': 38,
+        'mobile': 28
+      };
+      draft['typography']['textTransform'] = 'none';
+      draft['typography']['lineHeight'] = "135%";
+      draft['typography']['letterSpace'] = "0px";
+      draft['typography']['fontWeight'] = 700;
+      draft['animatedSize']['width'] = {
+        'desktop': '100%',
+        'tablet': '',
+        'mobile': ''
+      };
+      draft['gsapAnimation']['isTextShadow'] = false;
+      draft['prefixTypo']['fontSize'] = {
+        'desktop': 48,
+        'tablet': 38,
+        'mobile': 28
+      };
+      draft['prefixTypo']['textTransform'] = 'none';
+      draft['prefixTypo']['fontWeight'] = 700;
+      draft['prefixColor'] = "#1E1E1E";
+      draft['suffixTypo']['fontSize'] = {
+        'desktop': 48,
+        'tablet': 38,
+        'mobile': 28
+      };
+      draft['suffixTypo']['textTransform'] = 'none';
+      draft['suffixTypo']['fontWeight'] = 700;
+      draft['suffixColor'] = "#1E1E1E";
+      break;
   }
 });
 
@@ -4238,6 +4721,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   effects: () => (/* binding */ effects),
 /* harmony export */   generalStyleTabs: () => (/* binding */ generalStyleTabs),
 /* harmony export */   helpfulLinks: () => (/* binding */ helpfulLinks),
+/* harmony export */   highlightDefaults: () => (/* binding */ highlightDefaults),
+/* harmony export */   highlightShapeOptions: () => (/* binding */ highlightShapeOptions),
+/* harmony export */   highlightShapes: () => (/* binding */ highlightShapes),
 /* harmony export */   inEffects: () => (/* binding */ inEffects),
 /* harmony export */   outEffects: () => (/* binding */ outEffects),
 /* harmony export */   proFeatures: () => (/* binding */ proFeatures),
@@ -4521,6 +5007,156 @@ const helpfulLinks = [{
   link: 'https://wordpress.org/support/plugin/animated-text-block/reviews/#new-post',
   linkText: 'Rate the Plugin'
 }];
+// Highlight (type11) shapes. Paths use a 0-100 viewBox; `box` positions the SVG (in %) relative to the highlighted text.
+const curlyPath = () => {
+  let d = 'M0 50';
+  for (let i = 1; i <= 16; i++) {
+    d += ` Q${(i - 0.5) * 6.25} ${i % 2 ? 0 : 100} ${i * 6.25} 50`;
+  }
+  return d;
+};
+const zigzagPath = () => {
+  let d = 'M0 80';
+  for (let i = 1; i <= 16; i++) {
+    d += ` L${i * 6.25} ${i % 2 ? 20 : 80}`;
+  }
+  return d;
+};
+const highlightShapes = {
+  circle: {
+    box: {
+      top: -22,
+      left: -8,
+      width: 116,
+      height: 144
+    },
+    paths: ['M60 6 C30 2 4 16 3 48 C2 80 28 97 54 96 C82 95 98 76 97 47 C96 20 74 4 38 9']
+  },
+  curly: {
+    box: {
+      top: 86,
+      left: 0,
+      width: 100,
+      height: 22
+    },
+    paths: [curlyPath()]
+  },
+  underline: {
+    box: {
+      top: 88,
+      left: -2,
+      width: 104,
+      height: 16
+    },
+    paths: ['M2 62 C30 42 65 38 98 46']
+  },
+  doubleUnderline: {
+    box: {
+      top: 84,
+      left: -2,
+      width: 104,
+      height: 28
+    },
+    paths: ['M2 30 C30 16 66 12 98 22', 'M8 78 C36 64 70 62 94 70']
+  },
+  zigzag: {
+    box: {
+      top: 88,
+      left: 0,
+      width: 100,
+      height: 18
+    },
+    paths: [zigzagPath()]
+  },
+  diagonal: {
+    box: {
+      top: 5,
+      left: -4,
+      width: 108,
+      height: 90
+    },
+    paths: ['M3 94 C30 70 66 34 97 6']
+  },
+  strikethrough: {
+    box: {
+      top: 42,
+      left: -4,
+      width: 108,
+      height: 20
+    },
+    paths: ['M2 58 C30 44 66 40 98 48']
+  },
+  x: {
+    box: {
+      top: 0,
+      left: -4,
+      width: 108,
+      height: 100
+    },
+    paths: ['M4 6 C34 34 66 66 96 94', 'M96 8 C64 36 34 64 4 92']
+  },
+  marker: {
+    box: {
+      top: 0,
+      left: -3,
+      width: 106,
+      height: 100
+    },
+    paths: ['M1 64 C30 60 70 58 99 56']
+  }
+};
+const highlightShapeOptions = [{
+  label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Circle', 'animated-text-block'),
+  value: 'circle'
+}, {
+  label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Curly', 'animated-text-block'),
+  value: 'curly'
+}, {
+  label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Underline', 'animated-text-block'),
+  value: 'underline'
+}, {
+  label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Double Underline', 'animated-text-block'),
+  value: 'doubleUnderline'
+}, {
+  label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Zigzag', 'animated-text-block'),
+  value: 'zigzag'
+}, {
+  label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Diagonal', 'animated-text-block'),
+  value: 'diagonal'
+}, {
+  label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Strikethrough', 'animated-text-block'),
+  value: 'strikethrough'
+}, {
+  label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('X', 'animated-text-block'),
+  value: 'x'
+}, {
+  label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Marker', 'animated-text-block'),
+  value: 'marker'
+}];
+const highlightDefaults = {
+  shape: 'circle',
+  colorType: 'solid',
+  color: '#FF6B35',
+  gradient: {
+    type: 'linear',
+    angel: 90,
+    colors: [{
+      color: '#FF6B35',
+      position: 0
+    }, {
+      color: '#F7C948',
+      position: 100
+    }]
+  },
+  strokeWidth: 4,
+  markerHeight: 55,
+  roundedEnds: true,
+  position: 'behind',
+  duration: 1.2,
+  delay: 0.3,
+  loop: true,
+  loopDelay: 2
+};
 
 /***/ }),
 
@@ -84076,7 +84712,7 @@ function castImmutable(value) {
 /***/ ((module) => {
 
 "use strict";
-module.exports = /*#__PURE__*/JSON.parse('{"apiVersion":2,"name":"atb/animated-text","title":"Animated Text","description":"Apply animation on any text.","category":"widgets","keywords":["animated text","text animation","text animated"],"textdomain":"animated-text-block","attributes":{"align":{"type":"string","default":""},"options":{"type":"object","default":{"theme":"default"}},"prefixText":{"type":"string","default":""},"suffixText":{"type":"string","default":""},"extraOptions":{"type":"object","defalut":{"isPrefix":false,"isSuffix":false}},"loop":{"type":"boolean","default":true},"animateIn":{"type":"string","default":"char"},"inEffect":{"type":"string","default":"fadeInLeftBig"},"inSequence":{"type":"string","default":"default"},"outEffect":{"type":"string","default":"rollOut"},"outSequence":{"type":"string","default":"shuffle"},"alignment":{"type":"string","default":"center"},"textAlign":{"type":"string","default":"center"},"background":{"type":"object","default":{"color":"#0000"}},"content":{"type":"string","default":"Animated text for animation","selector":".atbAnimatedText .content"},"typography":{"type":"object","default":{"fontSize":{"desktop":22,"tablet":20,"mobile":18}}},"textAlignment":{"type":"string","default":"center"},"color":{"type":"string","default":"#333"},"prefixTypo":{"type":"object","default":{"fontSize":{"desktop":22,"tablet":20,"mobile":18}}},"prefixColor":{"type":"string","default":"#000"},"suffixTypo":{"type":"object","default":{"fontSize":{"desktop":22,"tablet":20,"mobile":18}}},"suffixColor":{"type":"string","defalut":"#000"},"padding":{"type":"object","default":{"vertical":"15px","horizontal":"15px"}},"border":{"type":"object","default":{"radius":"5px"}},"animatedSize":{"type":"object","default":{"width":{"desktop":"100%","tablet":"","mobile":""},"height":{"desktop":"500px","tablet":"","mobile":""}}},"repeat":{"type":"boolean","default":true},"gsapAnimation":{"type":"object","default":{"animationSpeed":30,"perspectiveDepth":500,"enableOscillation":true,"repeatBehavior":-1,"repeatDelay":2,"animationEffect":"default","autoRepeat":true,"transformOrigin":400,"randomColor":false,"isTextShadow":false,"textShadow":[{"blur":"19px","color":"rgba(39, 195, 130, 1)","hOffset":"4px","isInset":false,"spreed":"0px","vOffset":"1px"}],"fontStretch":"200%","animationDuration":1,"waveEffect":25,"easeType":"elastic(0.3, 0.2)","scaleX":1.5,"scaleY":0.2,"typingSpeed":100,"reStartTime":1000,"animateType":"glitch"}}},"supports":{"align":["wide","full"],"html":false},"example":{"attributes":{"preview":true}},"editorScript":["file:./index.js","textillate","wp-api","wp-api-request"],"editorStyle":"file:./index.css","style":["file:./view.css","animate"],"render":"file:./render.php","viewScript":["file:./view.js","textillate"]}');
+module.exports = /*#__PURE__*/JSON.parse('{"apiVersion":2,"name":"atb/animated-text","title":"Animated Text","description":"Apply animation on any text.","category":"widgets","keywords":["animated text","text animation","text animated"],"textdomain":"animated-text-block","attributes":{"align":{"type":"string","default":""},"options":{"type":"object","default":{"theme":"default"}},"prefixText":{"type":"string","default":""},"suffixText":{"type":"string","default":""},"extraOptions":{"type":"object","defalut":{"isPrefix":false,"isSuffix":false}},"loop":{"type":"boolean","default":true},"animateIn":{"type":"string","default":"char"},"inEffect":{"type":"string","default":"fadeInLeftBig"},"inSequence":{"type":"string","default":"default"},"outEffect":{"type":"string","default":"rollOut"},"outSequence":{"type":"string","default":"shuffle"},"alignment":{"type":"string","default":"center"},"textAlign":{"type":"string","default":"center"},"background":{"type":"object","default":{"color":"#0000"}},"content":{"type":"string","default":"Animated text for animation","selector":".atbAnimatedText .content"},"typography":{"type":"object","default":{"fontSize":{"desktop":22,"tablet":20,"mobile":18}}},"textAlignment":{"type":"string","default":"center"},"color":{"type":"string","default":"#333"},"prefixTypo":{"type":"object","default":{"fontSize":{"desktop":22,"tablet":20,"mobile":18}}},"prefixColor":{"type":"string","default":"#000"},"suffixTypo":{"type":"object","default":{"fontSize":{"desktop":22,"tablet":20,"mobile":18}}},"suffixColor":{"type":"string","defalut":"#000"},"padding":{"type":"object","default":{"vertical":"15px","horizontal":"15px"}},"border":{"type":"object","default":{"radius":"5px"}},"animatedSize":{"type":"object","default":{"width":{"desktop":"100%","tablet":"","mobile":""},"height":{"desktop":"500px","tablet":"","mobile":""}}},"repeat":{"type":"boolean","default":true},"gsapAnimation":{"type":"object","default":{"animationSpeed":30,"perspectiveDepth":500,"enableOscillation":true,"repeatBehavior":-1,"repeatDelay":2,"animationEffect":"default","autoRepeat":true,"transformOrigin":400,"randomColor":false,"isTextShadow":false,"textShadow":[{"blur":"19px","color":"rgba(39, 195, 130, 1)","hOffset":"4px","isInset":false,"spreed":"0px","vOffset":"1px"}],"fontStretch":"200%","animationDuration":1,"waveEffect":25,"easeType":"elastic(0.3, 0.2)","scaleX":1.5,"scaleY":0.2,"typingSpeed":100,"reStartTime":1000,"animateType":"glitch"}},"highlight":{"type":"object","default":{"shape":"circle","colorType":"solid","color":"#FF6B35","gradient":{"type":"linear","angel":90,"colors":[{"color":"#FF6B35","position":0},{"color":"#F7C948","position":100}]},"strokeWidth":4,"markerHeight":55,"roundedEnds":true,"position":"behind","duration":1.2,"delay":0.3,"loop":true,"loopDelay":2}}},"supports":{"align":["wide","full"],"html":false},"example":{"attributes":{"preview":true}},"editorScript":["file:./index.js","textillate","wp-api","wp-api-request"],"editorStyle":"file:./index.css","style":["file:./view.css","animate"],"render":"file:./render.php","viewScript":["file:./view.js","textillate"]}');
 
 /***/ })
 

@@ -446,5 +446,87 @@ $primaryColor: #4527a4;
 				}
 			}
 		}
+
+		&.type11 {
+			display: flex;
+			align-items: center;
+
+			.typeEleven {
+				display: flex;
+				flex-wrap: wrap;
+				align-items: baseline;
+				column-gap: 0.3em;
+				row-gap: 0.45em;
+				width: 100%;
+			}
+
+			.content {
+				display: inline-block;
+				padding: 0 0.15em;
+			}
+
+			.atbHighlight {
+				position: relative;
+				display: inline-block;
+				isolation: isolate;
+				white-space: nowrap;
+			}
+
+			.atbHighlightText {
+				position: relative;
+				z-index: 1;
+			}
+
+			.atbHighlightSvg {
+				position: absolute;
+				z-index: 0;
+				overflow: visible;
+				pointer-events: none;
+				transition: opacity 0.4s ease;
+
+				path {
+					stroke-dasharray: 1;
+					stroke-dashoffset: 1;
+				}
+
+				&.isDrawing path {
+					animation-name: atbHighlightDraw;
+					animation-timing-function: ease-in-out;
+					animation-fill-mode: forwards;
+				}
+
+				&.isFading {
+					opacity: 0;
+				}
+
+				.isMarker {
+					opacity: 0.45;
+				}
+			}
+
+			.atbHighlight.isFront .atbHighlightSvg {
+				z-index: 2;
+			}
+
+			@keyframes atbHighlightDraw {
+				to {
+					stroke-dashoffset: 0;
+				}
+			}
+
+			@media (prefers-reduced-motion: reduce) {
+				.atbHighlightSvg path {
+					stroke-dashoffset: 0;
+				}
+
+				.atbHighlightSvg.isDrawing path {
+					animation: none;
+				}
+
+				.atbHighlightSvg.isFading {
+					opacity: 1;
+				}
+			}
+		}
 	}
 }

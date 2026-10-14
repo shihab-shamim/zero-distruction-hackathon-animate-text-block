@@ -46,6 +46,9 @@ const Style = ({ attributes, id }) => {
 	const typeTenSl = `${animatedTextSl}.type10`;
 	const typeTenPrefixSl = `${typeTenSl} .typeTen .prefix-text`;
 	const typeTenSuffixSl = `${typeTenSl} .typeTen .suffix-text`;
+	const typeElevenSl = `${animatedTextSl}.type11`;
+	const typeElevenPrefixSl = `${typeElevenSl} .typeEleven .prefix-text`;
+	const typeElevenSuffixSl = `${typeElevenSl} .typeEleven .suffix-text`;
 
 
 	return <style dangerouslySetInnerHTML={{
@@ -72,6 +75,8 @@ const Style = ({ attributes, id }) => {
 		${getTypoCSS(`${typeNineSuffixSl}`, suffixTypo)?.styles}
 		${getTypoCSS(`${typeTenPrefixSl}`, prefixTypo)?.styles}
 		${getTypoCSS(`${typeTenSuffixSl}`, suffixTypo)?.styles}
+		${getTypoCSS(`${typeElevenPrefixSl}`, prefixTypo)?.styles}
+		${getTypoCSS(`${typeElevenSuffixSl}`, suffixTypo)?.styles}
 
 		${mainSl}{
 			display: flex;
@@ -171,6 +176,28 @@ const Style = ({ attributes, id }) => {
 		}
 		${typeTenSuffixSl}{
 			color: ${suffixColor}
+		}
+		${typeElevenPrefixSl}{
+			color: ${prefixColor}
+		}
+		${typeElevenSuffixSl}{
+			color: ${suffixColor}
+		}
+		${typeElevenSl} .typeEleven{
+			justify-content: ${textAlignment};
+		}
+		${typeElevenSl}{
+			${isValidCSS('width', animatedSize?.width['desktop'])}
+		}
+		${tabBreakpoint}{
+			${typeElevenSl}{
+				${isValidCSS('width', animatedSize?.width['tablet'])}
+			}
+		}
+		${mobileBreakpoint}{
+			${typeElevenSl}{
+				${isValidCSS('width', animatedSize?.width['mobile'])}
+			}
 		}
 		${typeSixSl},
 		${typeSevenSl},
