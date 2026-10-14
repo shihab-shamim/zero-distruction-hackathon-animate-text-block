@@ -49,7 +49,7 @@ const TypeEleven = ({ attributes }) => {
 	const { shape, colorType, color, gradient, strokeWidth, markerHeight, roundedEnds, position, duration, delay, loop, loopDelay } = { ...highlightDefaults, ...highlight };
 
 	const wrapperRef = useRef(null);
-	const [size, setSize] = useState({ width: 0, height: 0 });
+	const [size, setSize] = useState({ width: 0, height: 0, fontSize: 0 });
 	const [inView, setInView] = useState(false);
 	const [cycle, setCycle] = useState(0);
 	const [fading, setFading] = useState(false);
@@ -67,10 +67,13 @@ const TypeEleven = ({ attributes }) => {
 		const el = wrapperRef.current;
 		if (!el) return;
 
-		const measure = () => setSize(prev => (prev.width === el.offsetWidth && prev.height === el.offsetHeight) ? prev : { width: el.offsetWidth, height: el.offsetHeight });
+		const view = el.ownerDocument?.defaultView || window;
+		const measure = () => {
+			const fontSize = parseFloat(view.getComputedStyle(el).fontSize) || 0;
+			setSize(prev => (prev.width === el.offsetWidth && prev.height === el.offsetHeight && prev.fontSize === fontSize) ? prev : { width: el.offsetWidth, height: el.offsetHeight, fontSize });
+		};
 		measure();
 
-		const view = el.ownerDocument?.defaultView || window;
 		if (!view.ResizeObserver) {
 			view.addEventListener('resize', measure);
 			return () => view.removeEventListener('resize', measure);
@@ -120,8 +123,15 @@ const TypeEleven = ({ attributes }) => {
 		};
 	}, [inView, loop, cycle, delaySec, durationSec, loopDelaySec]);
 
-	const svgW = (size.width * box.width) / 100;
 	const svgH = (size.height * box.height) / 100;
+	const fitW = (size.width * box.width) / 100;
+
+	// Shapes with their own proportions (arrow, burst...) may clamp their width in em, staying centred on the same spot
+	const minW = (box.minWidthEm || 0) * size.fontSize;
+	const maxW = box.maxWidthEm ? box.maxWidthEm * size.fontSize : Infinity;
+	const svgW = Math.min(Math.max(fitW, minW), maxW);
+	const isClamped = svgW !== fitW;
+	const leftPx = (size.width * box.left) / 100 + (fitW - svgW) / 2;
 
 	// Re-mount the SVG to replay the drawing when a cycle restarts or an animation setting changes
 	const svgKey = `${cycle}-${shape}-${durationSec}-${delaySec}-${loop}`;
@@ -142,7 +152,7 @@ const TypeEleven = ({ attributes }) => {
 						viewBox={`0 0 ${svgW.toFixed(2)} ${svgH.toFixed(2)}`}
 						aria-hidden='true'
 						focusable='false'
-						style={{ top: `${box.top}%`, left: `${box.left}%`, width: `${box.width}%`, height: `${box.height}%` }}
+						style={{ top: `${box.top}%`, left: isClamped ? `${leftPx}px` : `${box.left}%`, width: isClamped ? `${svgW}px` : `${box.width}%`, height: `${box.height}%` }}
 					>
 						{'gradient' === colorType && <defs><HighlightGradient id={gradientId} gradient={gradient} w={svgW} h={svgH} /></defs>}
 

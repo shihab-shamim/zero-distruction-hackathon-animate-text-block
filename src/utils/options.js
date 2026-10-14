@@ -200,7 +200,8 @@ export const helpfulLinks = [
 		linkText: 'Rate the Plugin'
 	}
 ];
-// Highlight (type11) shapes. Paths use a 0-100 viewBox; `box` positions the SVG (in %) relative to the highlighted text.
+// Highlight (type11) shapes. Paths use a 0-100 viewBox; `box` positions the SVG (in %) relative to the highlighted text,
+// optionally clamping its width with minWidthEm / maxWidthEm (in em of the highlighted text).
 const curlyPath = () => {
 	let d = 'M0 50';
 	for (let i = 1; i <= 16; i++) {
@@ -217,6 +218,17 @@ const zigzagPath = () => {
 	return d;
 };
 
+// Cursive loops: each segment climbs, curls back over itself and drops to the baseline
+const loopPath = (count = 6) => {
+	const w = 100 / count;
+	let d = 'M0 70';
+	for (let i = 0; i < count; i++) {
+		const x = i * w;
+		d += ` C${x + 0.6 * w} 70 ${x + 0.95 * w} 4 ${x + 0.55 * w} 4 C${x + 0.15 * w} 4 ${x + 0.4 * w} 70 ${x + w} 70`;
+	}
+	return d;
+};
+
 export const highlightShapes = {
 	circle: { box: { top: -22, left: -8, width: 116, height: 144 }, paths: ['M60 6 C30 2 4 16 3 48 C2 80 28 97 54 96 C82 95 98 76 97 47 C96 20 74 4 38 9'] },
 	curly: { box: { top: 86, left: 0, width: 100, height: 22 }, paths: [curlyPath()] },
@@ -226,7 +238,18 @@ export const highlightShapes = {
 	diagonal: { box: { top: 5, left: -4, width: 108, height: 90 }, paths: ['M3 94 C30 70 66 34 97 6'] },
 	strikethrough: { box: { top: 42, left: -4, width: 108, height: 20 }, paths: ['M2 58 C30 44 66 40 98 48'] },
 	x: { box: { top: 0, left: -4, width: 108, height: 100 }, paths: ['M4 6 C34 34 66 66 96 94', 'M96 8 C64 36 34 64 4 92'] },
-	marker: { box: { top: 0, left: -3, width: 106, height: 100 }, paths: ['M1 64 C30 60 70 58 99 56'] }
+	marker: { box: { top: 0, left: -3, width: 106, height: 100 }, paths: ['M1 64 C30 60 70 58 99 56'] },
+	box: { box: { top: -14, left: -5, width: 110, height: 128 }, paths: ['M4 9 L96 4 L97 93 L3 96 L2 3 L22 5'] },
+	brackets: { box: { top: -12, left: -6, width: 112, height: 124 }, paths: ['M11 3 L3 4 L2 96 L11 97', 'M89 3 L97 4 L98 96 L89 97'] },
+	arrow: { box: { top: 88, left: 14, width: 42, height: 34, minWidthEm: 1.8, maxWidthEm: 3.2 }, paths: ['M4 94 C26 98 58 84 74 14', 'M58 28 L75 8 L86 32'] },
+	scribble: { box: { top: 14, left: -3, width: 106, height: 72 }, paths: ['M2 42 L12 74 L20 18 L32 82 L40 16 L52 84 L60 20 L72 80 L80 22 L90 74 L98 36'] },
+	doubleCircle: { box: { top: -22, left: -8, width: 116, height: 144 }, paths: ['M60 6 C30 2 4 16 3 48 C2 80 28 97 54 96 C82 95 98 76 97 47 C96 20 74 4 38 9', 'M44 12 C16 13 4 32 7 56 C10 82 38 94 62 91 C87 88 99 68 94 42 C90 20 68 8 30 15'] },
+	swoosh: { box: { top: 82, left: -6, width: 112, height: 36 }, paths: ['M2 34 C26 88 70 92 99 8'] },
+	loopUnderline: { box: { top: 84, left: -2, width: 104, height: 32 }, paths: [loopPath()] },
+	checkMark: { box: { top: -12, left: 12, width: 76, height: 118, minWidthEm: 1 }, paths: ['M4 56 L36 94 L96 4'] },
+	burst: { box: { top: -28, left: -8, width: 116, height: 32, minWidthEm: 3.4 }, paths: ['M5 96 L1 45', 'M11 92 L11 6', 'M17 96 L21 45', 'M95 96 L99 45', 'M89 92 L89 6', 'M83 96 L79 45'] },
+	overline: { box: { top: -14, left: -2, width: 104, height: 16 }, paths: ['M2 62 C30 42 65 38 98 46'] },
+	doubleStrikethrough: { box: { top: 34, left: -4, width: 108, height: 32 }, paths: ['M2 30 C30 18 66 14 98 24', 'M2 78 C30 66 66 62 98 72'] }
 };
 
 export const highlightShapeOptions = [
@@ -238,7 +261,18 @@ export const highlightShapeOptions = [
 	{ label: __('Diagonal', 'animated-text-block'), value: 'diagonal' },
 	{ label: __('Strikethrough', 'animated-text-block'), value: 'strikethrough' },
 	{ label: __('X', 'animated-text-block'), value: 'x' },
-	{ label: __('Marker', 'animated-text-block'), value: 'marker' }
+	{ label: __('Marker', 'animated-text-block'), value: 'marker' },
+	{ label: __('Box', 'animated-text-block'), value: 'box' },
+	{ label: __('Brackets', 'animated-text-block'), value: 'brackets' },
+	{ label: __('Arrow', 'animated-text-block'), value: 'arrow' },
+	{ label: __('Scribble', 'animated-text-block'), value: 'scribble' },
+	{ label: __('Double Circle', 'animated-text-block'), value: 'doubleCircle' },
+	{ label: __('Swoosh', 'animated-text-block'), value: 'swoosh' },
+	{ label: __('Loop Underline', 'animated-text-block'), value: 'loopUnderline' },
+	{ label: __('Check Mark', 'animated-text-block'), value: 'checkMark' },
+	{ label: __('Burst', 'animated-text-block'), value: 'burst' },
+	{ label: __('Overline', 'animated-text-block'), value: 'overline' },
+	{ label: __('Double Strikethrough', 'animated-text-block'), value: 'doubleStrikethrough' }
 ];
 
 export const highlightDefaults = {
