@@ -220,6 +220,21 @@
 				"loop": true,
 				"loopDelay": 2
 			}
+		},
+		"textScroll": {
+			"type": "object",
+			"default": {
+				"effect": "verticalHighlight",
+				"fadedOpacity": 0.15,
+				"fadedColor": "",
+				"start": 80,
+				"end": 40,
+				"smoothness": 1,
+				"reverse": true,
+				"maskColor": "#ffffff",
+				"maskOpacity": 1,
+				"maskDirection": "forward"
+			}
 		}
 	},
 	"supports": {

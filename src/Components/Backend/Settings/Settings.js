@@ -10,7 +10,7 @@ import { SelectControlPro, BControlPro, ProModal } from '../../../../../bpl-tool
 import { pluginSlug, animatedTextDocs, pricingPage } from '../../../utils/data';
 import { animateTypeOptions, FeaturesPro, generalStyleTabs } from '../../../utils/options';
 import { animateInOpt, effects, inEffects, outEffects, sequences } from '../../../utils/options';
-import { highlightDefaults, highlightShapeOptions } from '../../../utils/options';
+import { highlightDefaults, highlightShapeOptions, textScrollDefaults, textScrollEffectOptions } from '../../../utils/options';
 import { withSelect } from '@wordpress/data';
 import { produce } from 'immer';
 import { useState } from 'react';
@@ -21,7 +21,7 @@ import { TextControl } from '@wordpress/components';
 import ThemeSwitcher from '../../../utils/panel/ThemeSwitcher';
 
 const Settings = ({ attributes, setAttributes, isPremium, device }) => {
-	const { loop, animateIn, inEffect, inSequence, outEffect, outSequence, background, content, typography, color, padding, border, options, gsapAnimation = {}, animatedSize = {}, textAlignment = "center", repeat = true, alignment, prefixText = "", suffixText = "", prefixColor = "", prefixTypo = {}, suffixColor = "", suffixTypo = {}, highlight = {} } = attributes;
+	const { loop, animateIn, inEffect, inSequence, outEffect, outSequence, background, content, typography, color, padding, border, options, gsapAnimation = {}, animatedSize = {}, textAlignment = "center", repeat = true, alignment, prefixText = "", suffixText = "", prefixColor = "", prefixTypo = {}, suffixColor = "", suffixTypo = {}, highlight = {}, textScroll = {} } = attributes;
 
 
 	const [alertAnimationSpeed, setAlertAnimationSpeed] = useState(null);
@@ -52,6 +52,7 @@ const Settings = ({ attributes, setAttributes, isPremium, device }) => {
 		{ label: "Flourish", value: "type9", isPro: true },
 		{ label: "Shaky TV", value: "type10", isPro: true },
 		{ label: "Highlight", value: "type11", isPro: true },
+		{ label: "Text Scroll", value: "type12", isPro: true },
 	]
 
 	const { theme = {} } = options;
@@ -63,6 +64,15 @@ const Settings = ({ attributes, setAttributes, isPremium, device }) => {
 			draft[property] = val;
 		});
 		setAttributes({ highlight: newHighlight });
+	};
+
+	const { effect: tsEffect, fadedOpacity: tsFadedOpacity, fadedColor: tsFadedColor, start: tsStart, end: tsEnd, smoothness: tsSmoothness, reverse: tsReverse, maskColor: tsMaskColor, maskOpacity: tsMaskOpacity, maskDirection: tsMaskDirection } = { ...textScrollDefaults, ...textScroll };
+	const tsIsMask = 'verticalMask' === tsEffect || 'horizontalMask' === tsEffect;
+	const updateTextScroll = (property, val) => {
+		const newTextScroll = produce({ ...textScrollDefaults, ...textScroll }, draft => {
+			draft[property] = val;
+		});
+		setAttributes({ textScroll: newTextScroll });
 	};
 
 	return <>
@@ -79,7 +89,7 @@ const Settings = ({ attributes, setAttributes, isPremium, device }) => {
 							labelPosition="left"
 							onChange={(val) => setAttributes(themeSwitch(val, attributes))}
 							{...premiumProps}
-							proValues={['type1', 'type5', 'type6', 'type7', 'type8', 'type9', 'type10', 'type11']}
+							proValues={['type1', 'type5', 'type6', 'type7', 'type8', 'type9', 'type10', 'type11', 'type12']}
 						/>
 
 
@@ -150,7 +160,7 @@ const Settings = ({ attributes, setAttributes, isPremium, device }) => {
 						<Label className='mb5'>{"type11" === theme ? __('Highlighted Text:', 'animated-text-block') : __('Animate text:', 'animated-text-block')}</Label>
 
 						{
-							("default" === theme || "type1" === theme || "type4" === theme || "type7" === theme || "type10" === theme) && <TextareaControl
+							("default" === theme || "type1" === theme || "type4" === theme || "type7" === theme || "type10" === theme || "type12" === theme) && <TextareaControl
 								value={content}
 								onChange={val => setAttributes({ content: val })}
 								placeholder='Please type here'
@@ -824,6 +834,103 @@ const Settings = ({ attributes, setAttributes, isPremium, device }) => {
 						}
 
 						{
+							"type12" === theme && <>
+								<PanelBody className='bPlPanelBody mt15' title={__('Scroll Animation', 'animated-text-block')}>
+									<SelectControlPro
+										label={__('Effect Type', 'animated-text-block')}
+										labelPosition="left"
+										value={tsEffect}
+										options={textScrollEffectOptions}
+										onChange={val => updateTextScroll('effect', val)}
+										{...premiumProps}
+										proValues={textScrollEffectOptions.map(o => o.value)}
+									/>
+
+									{
+										!tsIsMask && <BControlPro
+											label={__('Faded Opacity', 'animated-text-block')}
+											value={tsFadedOpacity}
+											onChange={val => updateTextScroll('fadedOpacity', val)}
+											min={0}
+											max={1}
+											step={0.05}
+											help={__('How visible the text is before it gets highlighted.', 'animated-text-block')}
+											{...premiumProps}
+											Component={RangeControl}
+										/>
+									}
+
+									{
+										tsIsMask && <SelectControlPro
+											label={__('Reveal Direction', 'animated-text-block')}
+											labelPosition="left"
+											value={tsMaskDirection}
+											options={'horizontalMask' === tsEffect ? [
+												{ label: __('Left to Right', 'animated-text-block'), value: 'forward' },
+												{ label: __('Right to Left', 'animated-text-block'), value: 'reverse' }
+											] : [
+												{ label: __('Top to Bottom', 'animated-text-block'), value: 'forward' },
+												{ label: __('Bottom to Top', 'animated-text-block'), value: 'reverse' }
+											]}
+											onChange={val => updateTextScroll('maskDirection', val)}
+											{...premiumProps}
+											proValues={['forward', 'reverse']}
+										/>
+									}
+
+									<BControlPro
+										label={'verticalHighlight' === tsEffect ? __('Trigger Position (%)', 'animated-text-block') : __('Start Position (%)', 'animated-text-block')}
+										value={tsStart}
+										onChange={val => updateTextScroll('start', val)}
+										min={0}
+										max={100}
+										step={1}
+										help={'verticalHighlight' === tsEffect
+											? __('A line lights up when it scrolls past this point of the screen (0 = top, 100 = bottom).', 'animated-text-block')
+											: __('The animation starts when the text reaches this point of the screen (0 = top, 100 = bottom).', 'animated-text-block')}
+										{...premiumProps}
+										Component={RangeControl}
+									/>
+
+									{
+										'verticalHighlight' !== tsEffect && <BControlPro
+											label={__('End Position (%)', 'animated-text-block')}
+											value={tsEnd}
+											onChange={val => updateTextScroll('end', val)}
+											min={0}
+											max={100}
+											step={1}
+											help={__('The animation finishes when the bottom of the text reaches this point of the screen.', 'animated-text-block')}
+											{...premiumProps}
+											Component={RangeControl}
+										/>
+									}
+
+									<BControlPro
+										label={__('Smoothness', 'animated-text-block')}
+										value={tsSmoothness}
+										onChange={val => updateTextScroll('smoothness', val)}
+										min={0}
+										max={3}
+										step={0.1}
+										help={__('0 follows the scroll exactly; higher values ease in more softly.', 'animated-text-block')}
+										{...premiumProps}
+										Component={RangeControl}
+									/>
+
+									<BControlPro
+										label={__('Reverse on Scroll Up', 'animated-text-block')}
+										checked={tsReverse}
+										onChange={val => updateTextScroll('reverse', val)}
+										help={tsReverse ? __('The animation rewinds when scrolling back up.', 'animated-text-block') : __('Once revealed, the text stays revealed.', 'animated-text-block')}
+										{...premiumProps}
+										Component={ToggleControl}
+									/>
+								</PanelBody>
+							</>
+						}
+
+						{
 							"type9" === theme && <>
 
 								<BControlPro
@@ -1136,6 +1243,58 @@ const Settings = ({ attributes, setAttributes, isPremium, device }) => {
 								{...premiumProps}
 								Component={ToggleControl}
 							/>
+						</PanelBody>
+					}
+
+					{
+						"type12" === theme && <PanelBody className='bPlPanelBody' title={__('Text Scroll', 'animated-text-block')} initialOpen={false}>
+							<BControlPro
+								className='mt10'
+								label={__('Active Text Color:', 'animated-text-block')}
+								value={color}
+								onChange={val => setAttributes({ color: val })}
+								{...premiumProps}
+								Component={ColorControl}
+							/>
+
+							{
+								<BControlPro
+									className='mt10'
+									label={__('Faded Text Color:', 'animated-text-block')}
+									value={tsFadedColor || color}
+									defaultColor={tsFadedColor ? color : undefined}
+									onChange={val => updateTextScroll('fadedColor', val === color ? '' : val)}
+									{...premiumProps}
+									Component={ColorControl}
+								/>
+							}
+
+							{
+								tsIsMask && <>
+									<BControlPro
+										className='mt10'
+										label={__('Mask Color:', 'animated-text-block')}
+										value={tsMaskColor}
+										defaultColor='#ffffff'
+										onChange={val => updateTextScroll('maskColor', val)}
+										{...premiumProps}
+										Component={ColorControl}
+									/>
+									<small style={{ display: 'block', marginTop: '4px', color: '#757575' }}>{__('Match this to the background behind the text.', 'animated-text-block')}</small>
+
+									<BControlPro
+										className='mt10'
+										label={__('Mask Opacity', 'animated-text-block')}
+										value={tsMaskOpacity}
+										onChange={val => updateTextScroll('maskOpacity', val)}
+										min={0}
+										max={1}
+										step={0.05}
+										{...premiumProps}
+										Component={RangeControl}
+									/>
+								</>
+							}
 						</PanelBody>
 					}
 				</>}

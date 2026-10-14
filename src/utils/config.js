@@ -334,5 +334,18 @@ export const themeSwitch = (theme = "default", attributes) => produce(attributes
 			draft['suffixTypo']['fontWeight'] = 700;
 			draft['suffixColor'] = "#1E1E1E";
 			break;
+		case 'type12':
+			draft['content'] = "We are a creative digital agency specializing in innovative design and cutting-edge development.";
+			draft['background']['color'] = '#0000';
+			draft['color'] = '#1E1E1E';
+			draft['padding'] = { "vertical": "30px", "horizontal": "15px" };
+			draft['typography']['fontSize'] = { 'desktop': 48, 'tablet': 38, 'mobile': 28 };
+			draft['typography']['textTransform'] = 'none';
+			draft['typography']['lineHeight'] = "135%";
+			draft['typography']['letterSpace'] = "0px";
+			draft['typography']['fontWeight'] = 600;
+			draft['animatedSize']['width'] = { 'desktop': '100%', 'tablet': '', 'mobile': '' };
+			draft['gsapAnimation']['isTextShadow'] = false;
+			break;
 	}
 })

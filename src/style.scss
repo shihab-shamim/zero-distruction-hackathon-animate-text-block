@@ -528,5 +528,96 @@ $primaryColor: #4527a4;
 				}
 			}
 		}
+
+		&.type12 {
+			display: block;
+
+			.typeTwelve {
+				width: 100%;
+			}
+
+			.content {
+				position: relative;
+			}
+
+			.atbTsLine {
+				display: block;
+			}
+
+			.atbTsLineInner {
+				position: relative;
+				display: inline-block;
+				max-width: 100%;
+				white-space: nowrap;
+			}
+
+			.atbTsWord,
+			.atbTsChar {
+				display: inline-block;
+			}
+
+			// Vertical Line Highlight: faded words, a whole line lights up at once
+			.atbTs-verticalHighlight {
+				.atbTsWord {
+					opacity: var(--atb-ts-faded-opacity);
+					color: var(--atb-ts-faded-color, inherit);
+					transition: opacity var(--atb-ts-speed) ease, color var(--atb-ts-speed) ease;
+				}
+
+				.atbTsLine.isActive .atbTsWord {
+					opacity: 1;
+					color: inherit;
+				}
+			}
+
+			// Horizontal Line Highlight: characters start faded; the scroll engine fills them in
+			.atbTs-horizontalHighlight .atbTsChar {
+				opacity: var(--atb-ts-faded-opacity);
+				color: var(--atb-ts-faded-color, inherit);
+			}
+
+			// Line masks: a coloured cover over each line that shrinks away
+			.atbTsMask {
+				position: absolute;
+				z-index: 2;
+				pointer-events: none;
+				background: var(--atb-ts-mask-color);
+				opacity: var(--atb-ts-mask-opacity);
+			}
+
+			.atbTs-horizontalMask .atbTsMask {
+				top: 0;
+				bottom: 0;
+				width: 100%;
+			}
+
+			.atbTs-horizontalMask.isMaskForward .atbTsMask {
+				right: 0;
+			}
+
+			.atbTs-horizontalMask.isMaskReverse .atbTsMask {
+				left: 0;
+			}
+
+			.atbTs-verticalMask .atbTsMask {
+				left: 0;
+				right: 0;
+				height: 100%;
+			}
+
+			.atbTs-verticalMask.isMaskForward .atbTsMask {
+				bottom: 0;
+			}
+
+			.atbTs-verticalMask.isMaskReverse .atbTsMask {
+				top: 0;
+			}
+
+			@media (prefers-reduced-motion: reduce) {
+				.atbTsWord {
+					transition: none;
+				}
+			}
+		}
 	}
 }

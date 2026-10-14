@@ -289,3 +289,24 @@ export const highlightDefaults = {
 	loop: true,
 	loopDelay: 2
 };
+
+// Text Scroll (type12)
+export const textScrollEffectOptions = [
+	{ label: __('Vertical Line Highlight', 'animated-text-block'), value: 'verticalHighlight' },
+	{ label: __('Horizontal Line Highlight', 'animated-text-block'), value: 'horizontalHighlight' },
+	{ label: __('Vertical Line Mask', 'animated-text-block'), value: 'verticalMask' },
+	{ label: __('Horizontal Line Mask', 'animated-text-block'), value: 'horizontalMask' }
+];
+
+export const textScrollDefaults = {
+	effect: 'verticalHighlight',
+	fadedOpacity: 0.15,
+	fadedColor: '',
+	start: 80,
+	end: 40,
+	smoothness: 1,
+	reverse: true,
+	maskColor: '#ffffff',
+	maskOpacity: 1,
+	maskDirection: 'forward'
+};

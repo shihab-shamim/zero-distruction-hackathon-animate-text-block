@@ -11,6 +11,7 @@ import TypeEight from '../../Common/Themes/TypeEight';
 import TypeNine from '../../Common/Themes/TypeNine';
 import TypeTen from '../../Common/Themes/TypeTen';
 import TypeEleven from '../../Common/Themes/TypeEleven';
+import TypeTwelve from '../../Common/Themes/TypeTwelve';
 
 const ThemeSwitch = (props) => {
     const { attributes, id } = props;
@@ -42,6 +43,8 @@ const ThemeSwitch = (props) => {
             return <TypeTen attributes={attributes} />
         case 'type11':
             return <TypeEleven attributes={attributes} />
+        case 'type12':
+            return <TypeTwelve attributes={attributes} />
         default:
             return null
     }

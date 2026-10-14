@@ -49,6 +49,7 @@ const Style = ({ attributes, id }) => {
 	const typeElevenSl = `${animatedTextSl}.type11`;
 	const typeElevenPrefixSl = `${typeElevenSl} .typeEleven .prefix-text`;
 	const typeElevenSuffixSl = `${typeElevenSl} .typeEleven .suffix-text`;
+	const typeTwelveSl = `${animatedTextSl}.type12`;
 
 
 	return <style dangerouslySetInnerHTML={{
@@ -186,16 +187,16 @@ const Style = ({ attributes, id }) => {
 		${typeElevenSl} .typeEleven{
 			justify-content: ${textAlignment};
 		}
-		${typeElevenSl}{
+		${typeElevenSl}, ${typeTwelveSl}{
 			${isValidCSS('width', animatedSize?.width['desktop'])}
 		}
 		${tabBreakpoint}{
-			${typeElevenSl}{
+			${typeElevenSl}, ${typeTwelveSl}{
 				${isValidCSS('width', animatedSize?.width['tablet'])}
 			}
 		}
 		${mobileBreakpoint}{
-			${typeElevenSl}{
+			${typeElevenSl}, ${typeTwelveSl}{
 				${isValidCSS('width', animatedSize?.width['mobile'])}
 			}
 		}
