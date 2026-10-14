@@ -137,7 +137,7 @@ const Settings = ({ attributes, setAttributes, isPremium, device }) => {
 					</PanelBody>
 
 
-					<PanelBody className='bPlPanelBody' title={__('Animated Text Settings', 'animated-text-block')}>
+					<PanelBody className='bPlPanelBody atbTextSettingsPanel' title={__('Animated Text Settings', 'animated-text-block')} initialOpen={false}>
 
 						{/* Prefix Text section */}
 						{
@@ -741,13 +741,13 @@ const Settings = ({ attributes, setAttributes, isPremium, device }) => {
 						{
 							("default" === theme || "type2" === theme || "type3" === theme || "type4" === theme || "type5" === theme || "type6" === theme || "type7" === theme || "type8" === theme || "type9" === theme || "type10" === theme || "type11" === theme) && <>
 								<Label>{"type11" === theme ? __('After Text:', 'animated-text-block') : __('Suffix Text:', 'animated-text-block')}</Label>
-								<TextControl value={suffixText} placeholder={__("Type your suffix content", "animated-text-block")} onChange={val => setAttributes({ suffixText: val })} />
+								<TextControl className='mb10'  value={suffixText} placeholder={__("Type your suffix content", "animated-text-block")} onChange={val => setAttributes({ suffixText: val })} />
 							</>
 						}
 
 						{
 							"type11" === theme && <>
-								<PanelBody className='bPlPanelBody' title={__('Highlight Animation', 'animated-text-block')}>
+								<PanelBody className='bPlPanelBody mt15' title={__('Highlight Animation', 'animated-text-block')}>
 									<SelectControlPro
 										label={__('Shape', 'animated-text-block')}
 										labelPosition="left"

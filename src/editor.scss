@@ -1,1 +1,29 @@
 /* Allow PRO modal to exceed editor width */
+
+// Animated Text Settings: an even 10px gap between fields (also inside its nested panels)
+.bPlPanelBody.atbTextSettingsPanel,
+.bPlPanelBody.atbTextSettingsPanel .components-panel__body {
+	> *:not(.components-panel__body-title) {
+		margin-top: 0 !important;
+		margin-bottom: 10px !important;
+	}
+
+	// A label belongs to the field below it
+	> .bPlLabel {
+		margin-bottom: 5px !important;
+	}
+
+	// Notes under a field stay attached to it
+	> small:not(.components-panel__body-title) {
+		display: block;
+		margin-top: -8px !important;
+	}
+
+	> *:last-child {
+		margin-bottom: 0 !important;
+	}
+
+	.components-base-control__field {
+		margin-bottom: 0;
+	}
+}
