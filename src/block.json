@@ -1,0 +1,223 @@
+{
+	"apiVersion": 2,
+	"name": "atb/animated-text",
+	"title": "Animated Text",
+	"description": "Apply animation on any text.",
+	"category": "widgets",
+	"keywords": [
+		"animated text",
+		"text animation",
+		"text animated"
+	],
+	"textdomain": "animated-text-block",
+	"attributes": {
+		"align": {
+			"type": "string",
+			"default": ""
+		},
+		"options": {
+			"type": "object",
+			"default": {
+				"theme": "default"
+			}
+		},
+		"prefixText": {
+			"type": "string",
+			"default": ""
+		},
+		"suffixText": {
+			"type": "string",
+			"default": ""
+		},
+		"extraOptions": {
+			"type": "object",
+			"defalut": {
+				"isPrefix": false,
+				"isSuffix": false
+			}
+		},
+		"loop": {
+			"type": "boolean",
+			"default": true
+		},
+		"animateIn": {
+			"type": "string",
+			"default": "char"
+		},
+		"inEffect": {
+			"type": "string",
+			"default": "fadeInLeftBig"
+		},
+		"inSequence": {
+			"type": "string",
+			"default": "default"
+		},
+		"outEffect": {
+			"type": "string",
+			"default": "rollOut"
+		},
+		"outSequence": {
+			"type": "string",
+			"default": "shuffle"
+		},
+		"alignment": {
+			"type": "string",
+			"default": "center"
+		},
+		"textAlign": {
+			"type": "string",
+			"default": "center"
+		},
+		"background": {
+			"type": "object",
+			"default": {
+				"color": "#0000"
+			}
+		},
+		"content": {
+			"type": "string",
+			"default": "Animated text for animation",
+			"selector": ".atbAnimatedText .content"
+		},
+		"typography": {
+			"type": "object",
+			"default": {
+				"fontSize": {
+					"desktop": 22,
+					"tablet": 20,
+					"mobile": 18
+				}
+			}
+		},
+		"textAlignment": {
+			"type": "string",
+			"default": "center"
+		},
+		"color": {
+			"type": "string",
+			"default": "#333"
+		},
+		"prefixTypo": {
+			"type": "object",
+			"default": {
+				"fontSize": {
+					"desktop": 22,
+					"tablet": 20,
+					"mobile": 18
+				}
+			}
+		},
+		"prefixColor": {
+			"type": "string",
+			"default": "#000"
+		},
+		"suffixTypo": {
+			"type": "object",
+			"default": {
+				"fontSize": {
+					"desktop": 22,
+					"tablet": 20,
+					"mobile": 18
+				}
+			}
+		},
+		"suffixColor": {
+			"type": "string",
+			"defalut": "#000"
+		},
+		"padding": {
+			"type": "object",
+			"default": {
+				"vertical": "15px",
+				"horizontal": "15px"
+			}
+		},
+		"border": {
+			"type": "object",
+			"default": {
+				"radius": "5px"
+			}
+		},
+		"animatedSize": {
+			"type": "object",
+			"default": {
+				"width": {
+					"desktop": "100%",
+					"tablet": "",
+					"mobile": ""
+				},
+				"height": {
+					"desktop": "500px",
+					"tablet": "",
+					"mobile": ""
+				}
+			}
+		},
+		"repeat": {
+			"type": "boolean",
+			"default": true
+		},
+		"gsapAnimation": {
+			"type": "object",
+			"default": {
+				"animationSpeed": 30,
+				"perspectiveDepth": 500,
+				"enableOscillation": true,
+				"repeatBehavior": -1,
+				"repeatDelay": 2,
+				"animationEffect": "default",
+				"autoRepeat": true,
+				"transformOrigin": 400,
+				"randomColor": false,
+				"isTextShadow": false,
+				"textShadow": [
+					{
+						"blur": "19px",
+						"color": "rgba(39, 195, 130, 1)",
+						"hOffset": "4px",
+						"isInset": false,
+						"spreed": "0px",
+						"vOffset": "1px"
+					}
+				],
+				"fontStretch": "200%",
+				"animationDuration": 1,
+				"waveEffect": 25,
+				"easeType": "elastic(0.3, 0.2)",
+				"scaleX": 1.5,
+				"scaleY": 0.2,
+				"typingSpeed": 100,
+				"reStartTime": 1000,
+				"animateType": "glitch"
+			}
+		}
+	},
+	"supports": {
+		"align": [
+			"wide",
+			"full"
+		],
+		"html": false
+	},
+	"example": {
+		"attributes": {
+			"preview": true
+		}
+	},
+	"editorScript": [
+		"file:./index.js",
+		"textillate",
+		"wp-api",
+		"wp-api-request"
+	],
+	"editorStyle": "file:./index.css",
+	"style": [
+		"file:./view.css",
+		"animate"
+	],
+	"render": "file:./render.php",
+	"viewScript": [
+		"file:./view.js",
+		"textillate"
+	]
+}
