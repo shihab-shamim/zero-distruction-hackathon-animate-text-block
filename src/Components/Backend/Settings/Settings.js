@@ -143,7 +143,7 @@ const Settings = ({ attributes, setAttributes, isPremium, device }) => {
 						{
 							("default" === theme || "type2" === theme || "type3" === theme || "type4" === theme || "type5" === theme || "type6" === theme || "type7" === theme || "type8" === theme || "type9" === theme || "type10" === theme || "type11" === theme) && <>
 								<Label className='mt10'>{"type11" === theme ? __('Before Text:', 'animated-text-block') : __('Prefix Text:', 'animated-text-block')}</Label>
-								<TextControl value={prefixText} placeholder={__("Type your prefix content", "animated-text-block")} onChange={val => setAttributes({ prefixText: val })} />
+								<TextControl value={"type11" === theme ? (prefixText || "Make your words") : prefixText} placeholder={__("Type your prefix content", "animated-text-block")} onChange={val => setAttributes({ prefixText: val })} />
 							</>
 						}
 
@@ -741,7 +741,7 @@ const Settings = ({ attributes, setAttributes, isPremium, device }) => {
 						{
 							("default" === theme || "type2" === theme || "type3" === theme || "type4" === theme || "type5" === theme || "type6" === theme || "type7" === theme || "type8" === theme || "type9" === theme || "type10" === theme || "type11" === theme) && <>
 								<Label>{"type11" === theme ? __('After Text:', 'animated-text-block') : __('Suffix Text:', 'animated-text-block')}</Label>
-								<TextControl className='mb10'  value={suffixText} placeholder={__("Type your suffix content", "animated-text-block")} onChange={val => setAttributes({ suffixText: val })} />
+								<TextControl className='mb10'  value={"type11" === theme ? (suffixText || "instantly") : suffixText} placeholder={__("Type your suffix content", "animated-text-block")} onChange={val => setAttributes({ suffixText: val })} />
 							</>
 						}
 
