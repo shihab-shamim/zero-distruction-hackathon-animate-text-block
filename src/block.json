@@ -235,6 +235,46 @@
 				"maskOpacity": 1,
 				"maskDirection": "forward"
 			}
+		},
+		"modernFx": {
+			"type": "object",
+			"default": {
+				"effect": "blurIn",
+				"trigger": "inView",
+				"delay": 0.2,
+				"replay": false,
+				"loop": false,
+				"loopDelay": 2,
+				"duration": 0.9,
+				"stagger": 0.03,
+				"ease": "smooth",
+				"splitBy": "chars",
+				"blur": 12,
+				"offsetY": 24,
+				"charset": "upperCase",
+				"customChars": "01",
+				"speed": 0.6,
+				"revealDelay": 0.3,
+				"baseColor": "",
+				"shineColor": "#ffffff",
+				"shineWidth": 20,
+				"shineAngle": 110,
+				"sweepPause": 1.5,
+				"maskDirection": "up",
+				"intensity": 6,
+				"glitchColor1": "#ff2bd6",
+				"glitchColor2": "#00e5ff",
+				"glitchEvery": 2.5,
+				"rotateAnimation": "clip",
+				"holdTime": 2,
+				"countStart": 0,
+				"countEnd": 12500,
+				"countDuration": 2,
+				"decimals": 0,
+				"separator": ",",
+				"numPrefix": "",
+				"numSuffix": "+"
+			}
 		}
 	},
 	"supports": {

@@ -10,7 +10,7 @@ import { SelectControlPro, BControlPro, ProModal } from '../../../../../bpl-tool
 import { pluginSlug, animatedTextDocs, pricingPage } from '../../../utils/data';
 import { animateTypeOptions, FeaturesPro, generalStyleTabs } from '../../../utils/options';
 import { animateInOpt, effects, inEffects, outEffects, sequences } from '../../../utils/options';
-import { highlightDefaults, highlightShapeOptions, textScrollDefaults, textScrollEffectOptions } from '../../../utils/options';
+import { highlightDefaults, highlightShapeOptions, textScrollDefaults, textScrollEffectOptions, modernFxDefaults, modernFxEffectOptions, modernFxSideDefaults, modernFxUsesSides } from '../../../utils/options';
 import { withSelect } from '@wordpress/data';
 import { produce } from 'immer';
 import { useState } from 'react';
@@ -21,7 +21,7 @@ import { TextControl } from '@wordpress/components';
 import ThemeSwitcher from '../../../utils/panel/ThemeSwitcher';
 
 const Settings = ({ attributes, setAttributes, isPremium, device }) => {
-	const { loop, animateIn, inEffect, inSequence, outEffect, outSequence, background, content, typography, color, padding, border, options, gsapAnimation = {}, animatedSize = {}, textAlignment = "center", repeat = true, alignment, prefixText = "", suffixText = "", prefixColor = "", prefixTypo = {}, suffixColor = "", suffixTypo = {}, highlight = {}, textScroll = {} } = attributes;
+	const { loop, animateIn, inEffect, inSequence, outEffect, outSequence, background, content, typography, color, padding, border, options, gsapAnimation = {}, animatedSize = {}, textAlignment = "center", repeat = true, alignment, prefixText = "", suffixText = "", prefixColor = "", prefixTypo = {}, suffixColor = "", suffixTypo = {}, highlight = {}, textScroll = {}, modernFx = {} } = attributes;
 
 
 	const [alertAnimationSpeed, setAlertAnimationSpeed] = useState(null);
@@ -53,6 +53,7 @@ const Settings = ({ attributes, setAttributes, isPremium, device }) => {
 		{ label: "Shaky TV", value: "type10", isPro: true },
 		{ label: "Highlight", value: "type11", isPro: true },
 		{ label: "Text Scroll", value: "type12", isPro: true },
+		{ label: "Modern Effects", value: "type13", isPro: true },
 	]
 
 	const { theme = {} } = options;
@@ -75,6 +76,76 @@ const Settings = ({ attributes, setAttributes, isPremium, device }) => {
 		setAttributes({ textScroll: newTextScroll });
 	};
 
+	const fx = { ...modernFxDefaults, ...modernFx };
+	const fxEffect = fx.effect;
+	const fxSides = 'type13' === theme && modernFxUsesSides.includes(fxEffect);
+	const updateFx = (property, val) => {
+		const newFx = produce(fx, draft => {
+			draft[property] = val;
+		});
+		const extra = {};
+		// Give a ready-to-see word list when switching to Rotating Words (Before/After use display defaults)
+		if ('effect' === property) {
+			const isWordList = /\||\n/.test(content || '');
+			if ('rotating' === val && !isWordList) extra.content = 'faster|smarter|bolder';
+			if ('rotating' === fxEffect && 'rotating' !== val && isWordList) extra.content = 'Design that moves people.';
+		}
+		setAttributes({ modernFx: newFx, ...extra });
+	};
+	const fxRange = (label, property, min, max, step, help) => <BControlPro
+		label={label}
+		value={fx[property]}
+		onChange={val => updateFx(property, val)}
+		min={min}
+		max={max}
+		step={step}
+		help={help}
+		{...premiumProps}
+		Component={RangeControl}
+	/>;
+	const fxSelect = (label, property, opts) => <SelectControlPro
+		label={label}
+		labelPosition="left"
+		className='mt10'
+		value={fx[property]}
+		options={opts}
+		onChange={val => updateFx(property, val)}
+		{...premiumProps}
+		proValues={opts.map(o => o.value)}
+	/>;
+	const fxText = (label, property, help) => <BControlPro
+		label={label}
+		value={fx[property]}
+		onChange={val => updateFx(property, val)}
+		help={help}
+		{...premiumProps}
+		Component={TextControl}
+	/>;
+	const fxToggle = (label, property, help) => <BControlPro
+		label={label}
+		checked={!!fx[property]}
+		onChange={val => updateFx(property, val)}
+		help={help}
+		{...premiumProps}
+		Component={ToggleControl}
+	/>;
+	const fxColor = (label, property, defaultColor) => <BControlPro
+		className='mt10'
+		label={label}
+		value={fx[property] || defaultColor}
+		defaultColor={fx[property] && defaultColor ? defaultColor : undefined}
+		onChange={val => updateFx(property, val === defaultColor ? '' : val)}
+		{...premiumProps}
+		Component={ColorControl}
+	/>;
+	const fxEaseOptions = [
+		{ label: __('Smooth', 'animated-text-block'), value: 'smooth' },
+		{ label: __('Snappy', 'animated-text-block'), value: 'snappy' },
+		{ label: __('Bouncy', 'animated-text-block'), value: 'bouncy' },
+		{ label: __('Linear', 'animated-text-block'), value: 'linear' }
+	];
+	const fxOneShot = ['blurIn', 'scramble', 'lineMask', 'countUp'].includes(fxEffect);
+
 	return <>
 		<InspectorControls>
 			<TabPanel className='bPlTabPanel' activeClass='activeTab' tabs={generalStyleTabs} onSelect={tabController}>{tab => <>
@@ -89,7 +160,7 @@ const Settings = ({ attributes, setAttributes, isPremium, device }) => {
 							labelPosition="left"
 							onChange={(val) => setAttributes(themeSwitch(val, attributes))}
 							{...premiumProps}
-							proValues={['type1', 'type5', 'type6', 'type7', 'type8', 'type9', 'type10', 'type11', 'type12']}
+							proValues={['type1', 'type5', 'type6', 'type7', 'type8', 'type9', 'type10', 'type11', 'type12', 'type13']}
 						/>
 
 
@@ -151,13 +222,22 @@ const Settings = ({ attributes, setAttributes, isPremium, device }) => {
 
 						{/* Prefix Text section */}
 						{
-							("default" === theme || "type2" === theme || "type3" === theme || "type4" === theme || "type5" === theme || "type6" === theme || "type7" === theme || "type8" === theme || "type9" === theme || "type10" === theme || "type11" === theme) && <>
-								<Label className='mt10'>{"type11" === theme ? __('Before Text:', 'animated-text-block') : __('Prefix Text:', 'animated-text-block')}</Label>
-								<TextControl value={"type11" === theme ? (prefixText || "Make your words") : prefixText} placeholder={__("Type your prefix content", "animated-text-block")} onChange={val => setAttributes({ prefixText: val })} />
+							("default" === theme || "type2" === theme || "type3" === theme || "type4" === theme || "type5" === theme || "type6" === theme || "type7" === theme || "type8" === theme || "type9" === theme || "type10" === theme || "type11" === theme || fxSides) && <>
+								<Label className='mt10'>{("type11" === theme || fxSides) ? __('Before Text:', 'animated-text-block') : __('Prefix Text:', 'animated-text-block')}</Label>
+								<TextControl value={"type11" === theme ? (prefixText || "Make your words") : fxSides ? (prefixText || modernFxSideDefaults[fxEffect][0]) : prefixText} placeholder={__("Type your prefix content", "animated-text-block")} onChange={val => setAttributes({ prefixText: val })} />
 							</>
 						}
 
-						<Label className='mb5'>{"type11" === theme ? __('Highlighted Text:', 'animated-text-block') : __('Animate text:', 'animated-text-block')}</Label>
+						{!("type13" === theme && "countUp" === fxEffect) && <Label className='mb5'>{"type11" === theme ? __('Highlighted Text:', 'animated-text-block') : ("type13" === theme && "rotating" === fxEffect) ? __('Rotating Words:', 'animated-text-block') : __('Animate text:', 'animated-text-block')}</Label>}
+
+						{
+							"type13" === theme && "countUp" !== fxEffect && <TextareaControl
+								value={content}
+								onChange={val => setAttributes({ content: val })}
+								placeholder='Please type here'
+								help={"rotating" === fxEffect ? __('Separate the words with | or put each on a new line.', 'animated-text-block') : __('Press Enter to start a new paragraph.', 'animated-text-block')}
+							/>
+						}
 
 						{
 							("default" === theme || "type1" === theme || "type4" === theme || "type7" === theme || "type10" === theme || "type12" === theme) && <TextareaControl
@@ -749,9 +829,9 @@ const Settings = ({ attributes, setAttributes, isPremium, device }) => {
 						{/* Suffix Contents section */}
 
 						{
-							("default" === theme || "type2" === theme || "type3" === theme || "type4" === theme || "type5" === theme || "type6" === theme || "type7" === theme || "type8" === theme || "type9" === theme || "type10" === theme || "type11" === theme) && <>
-								<Label>{"type11" === theme ? __('After Text:', 'animated-text-block') : __('Suffix Text:', 'animated-text-block')}</Label>
-								<TextControl className='mb10'  value={"type11" === theme ? (suffixText || "instantly") : suffixText} placeholder={__("Type your suffix content", "animated-text-block")} onChange={val => setAttributes({ suffixText: val })} />
+							("default" === theme || "type2" === theme || "type3" === theme || "type4" === theme || "type5" === theme || "type6" === theme || "type7" === theme || "type8" === theme || "type9" === theme || "type10" === theme || "type11" === theme || fxSides) && <>
+								<Label>{("type11" === theme || fxSides) ? __('After Text:', 'animated-text-block') : __('Suffix Text:', 'animated-text-block')}</Label>
+								<TextControl className='mb10'  value={"type11" === theme ? (suffixText || "instantly") : fxSides ? (suffixText || modernFxSideDefaults[fxEffect][1]) : suffixText} placeholder={__("Type your suffix content", "animated-text-block")} onChange={val => setAttributes({ suffixText: val })} />
 							</>
 						}
 
@@ -931,6 +1011,105 @@ const Settings = ({ attributes, setAttributes, isPremium, device }) => {
 						}
 
 						{
+							"type13" === theme && <>
+								<PanelBody className='bPlPanelBody mt15' title={__('Effect Options', 'animated-text-block')}>
+									<SelectControlPro
+										label={__('Effect Type', 'animated-text-block')}
+										labelPosition="left"
+										value={fxEffect}
+										options={modernFxEffectOptions}
+										onChange={val => updateFx('effect', val)}
+										{...premiumProps}
+										proValues={modernFxEffectOptions.map(o => o.value)}
+									/>
+
+									{"blurIn" === fxEffect && <>
+										{fxSelect(__('Split By', 'animated-text-block'), 'splitBy', [
+											{ label: __('Characters', 'animated-text-block'), value: 'chars' },
+											{ label: __('Words', 'animated-text-block'), value: 'words' },
+											{ label: __('Lines', 'animated-text-block'), value: 'lines' }
+										])}
+										{fxRange(__('Blur Amount (px)', 'animated-text-block'), 'blur', 0, 40, 1)}
+										{fxRange(__('Move Up (px)', 'animated-text-block'), 'offsetY', 0, 80, 1)}
+										{fxRange(__('Duration (seconds)', 'animated-text-block'), 'duration', 0.2, 3, 0.1)}
+										{fxRange(__('Stagger (seconds)', 'animated-text-block'), 'stagger', 0, 0.3, 0.01, __('Delay between each character, word or line.', 'animated-text-block'))}
+									</>}
+
+									{"scramble" === fxEffect && <>
+										{fxSelect(__('Characters', 'animated-text-block'), 'charset', [
+											{ label: __('Uppercase', 'animated-text-block'), value: 'upperCase' },
+											{ label: __('Lowercase', 'animated-text-block'), value: 'lowerCase' },
+											{ label: __('Mixed case', 'animated-text-block'), value: 'upperAndLowerCase' },
+											{ label: __('Numbers', 'animated-text-block'), value: 'numbers' },
+											{ label: __('Symbols', 'animated-text-block'), value: 'symbols' },
+											{ label: __('Custom', 'animated-text-block'), value: 'custom' }
+										])}
+										{"custom" === fx.charset && fxText(__('Custom Characters', 'animated-text-block'), 'customChars', __('For example 01 for a binary look.', 'animated-text-block'))}
+										{fxRange(__('Duration (seconds)', 'animated-text-block'), 'duration', 0.2, 3, 0.1)}
+										{fxRange(__('Scramble Speed', 'animated-text-block'), 'speed', 0.1, 1, 0.05, __('How often the random characters change.', 'animated-text-block'))}
+										{fxRange(__('Reveal Delay (seconds)', 'animated-text-block'), 'revealDelay', 0, 3, 0.1, __('Scramble this long before the real text starts appearing.', 'animated-text-block'))}
+									</>}
+
+									{"shiny" === fxEffect && <>
+										{fxRange(__('Sweep Duration', 'animated-text-block'), 'duration', 0.2, 3, 0.1, __('The sweep takes twice this value, in seconds.', 'animated-text-block'))}
+										{fxRange(__('Pause Between Sweeps (seconds)', 'animated-text-block'), 'sweepPause', 0, 10, 0.1)}
+									</>}
+
+									{"lineMask" === fxEffect && <>
+										{fxSelect(__('Direction', 'animated-text-block'), 'maskDirection', [
+											{ label: __('Up', 'animated-text-block'), value: 'up' },
+											{ label: __('Down', 'animated-text-block'), value: 'down' }
+										])}
+										{fxRange(__('Duration (seconds)', 'animated-text-block'), 'duration', 0.2, 3, 0.1)}
+										{fxRange(__('Stagger', 'animated-text-block'), 'stagger', 0, 0.3, 0.01, __('Delay between lines.', 'animated-text-block'))}
+									</>}
+
+									{"glitch" === fxEffect && <>
+										{fxRange(__('Intensity', 'animated-text-block'), 'intensity', 1, 20, 1)}
+										{fxRange(__('Glitch Every (seconds)', 'animated-text-block'), 'glitchEvery', 0.5, 10, 0.1)}
+										{fxRange(__('Flicker-in Stagger', 'animated-text-block'), 'stagger', 0, 0.3, 0.01)}
+									</>}
+
+									{"rotating" === fxEffect && <>
+										{fxSelect(__('Animation', 'animated-text-block'), 'rotateAnimation', [
+											{ label: __('Clip', 'animated-text-block'), value: 'clip' },
+											{ label: __('Flip', 'animated-text-block'), value: 'flip' },
+											{ label: __('Wave', 'animated-text-block'), value: 'wave' }
+										])}
+										{fxRange(__('Hold Time (seconds)', 'animated-text-block'), 'holdTime', 0.5, 10, 0.1, __('How long each word stays.', 'animated-text-block'))}
+										{fxRange(__('Transition Speed (seconds)', 'animated-text-block'), 'duration', 0.2, 3, 0.1)}
+									</>}
+
+									{"countUp" === fxEffect && <>
+										{fxText(__('Start Number', 'animated-text-block'), 'countStart')}
+										{fxText(__('End Number', 'animated-text-block'), 'countEnd')}
+										{fxRange(__('Decimals', 'animated-text-block'), 'decimals', 0, 4, 1)}
+										{fxSelect(__('Thousands Separator', 'animated-text-block'), 'separator', [
+											{ label: __('Comma (12,500)', 'animated-text-block'), value: ',' },
+											{ label: __('Dot (12.500)', 'animated-text-block'), value: '.' },
+											{ label: __('Space (12 500)', 'animated-text-block'), value: ' ' },
+											{ label: __('None (12500)', 'animated-text-block'), value: 'none' }
+										])}
+										{fxText(__('Number Prefix', 'animated-text-block'), 'numPrefix', __('For example $', 'animated-text-block'))}
+										{fxText(__('Number Suffix', 'animated-text-block'), 'numSuffix', __('For example +, % or k', 'animated-text-block'))}
+										{fxRange(__('Count Duration (seconds)', 'animated-text-block'), 'countDuration', 0.3, 10, 0.1)}
+									</>}
+
+									{["blurIn", "lineMask", "rotating", "countUp"].includes(fxEffect) && fxSelect(__('Easing', 'animated-text-block'), 'ease', fxEaseOptions)}
+
+									{fxSelect(__('Start', 'animated-text-block'), 'trigger', [
+										{ label: __('When scrolled into view', 'animated-text-block'), value: 'inView' },
+										{ label: __('On page load', 'animated-text-block'), value: 'load' }
+									])}
+									{fxRange(__('Start Delay (seconds)', 'animated-text-block'), 'delay', 0, 5, 0.1)}
+									{fxOneShot && "inView" === fx.trigger && fxToggle(__('Replay When Scrolled Into View Again', 'animated-text-block'), 'replay')}
+									{fxOneShot && fxToggle(__('Loop', 'animated-text-block'), 'loop')}
+									{fxOneShot && fx.loop && fxRange(__('Loop Pause (seconds)', 'animated-text-block'), 'loopDelay', 0, 10, 0.1)}
+								</PanelBody>
+							</>
+						}
+
+						{
 							"type9" === theme && <>
 
 								<BControlPro
@@ -1008,7 +1187,7 @@ const Settings = ({ attributes, setAttributes, isPremium, device }) => {
 
 						{/* Prefix styles Here */}
 						{
-							prefixText && ("default" === theme || "type2" === theme || "type3" === theme || "type4" === theme || "type5" === theme || "type6" === theme || "type7" === theme || "type8" === theme || "type9" === theme || "type10" === theme || "type11" === theme) && <>
+							prefixText && ("default" === theme || "type2" === theme || "type3" === theme || "type4" === theme || "type5" === theme || "type6" === theme || "type7" === theme || "type8" === theme || "type9" === theme || "type10" === theme || "type11" === theme || fxSides) && <>
 								{/* Prefix Color */}
 								<ColorControl label={__('Prefix Color:', 'animated-text-block')} value={prefixColor} onChange={val => setAttributes({ prefixColor: val })} />
 								{/* Prefix Typography */}
@@ -1022,7 +1201,7 @@ const Settings = ({ attributes, setAttributes, isPremium, device }) => {
 						}
 
 						{
-							("default" === theme || "type1" === theme || "type2" === theme || "type4" === theme || "type5" === theme || "type6" === theme || "type7" === theme || "type8" === theme || "type10" === theme || "type11" === theme) && <>
+							("default" === theme || "type1" === theme || "type2" === theme || "type4" === theme || "type5" === theme || "type6" === theme || "type7" === theme || "type8" === theme || "type10" === theme || "type11" === theme || "type13" === theme) && <>
 								<ColorControl label={__('Animate Text Color:', 'animated-text-block')} value={color} onChange={val => setAttributes({ color: val })} />
 							</>
 						}
@@ -1030,7 +1209,7 @@ const Settings = ({ attributes, setAttributes, isPremium, device }) => {
 						{/* Suffix Text Styles */}
 
 						{
-							suffixText && ("default" === theme || "type2" === theme || "type3" === theme || "type4" === theme || "type5" === theme || "type6" === theme || "type7" === theme || "type8" === theme || "type9" === theme || "type10" === theme || "type11" === theme) && <>
+							suffixText && ("default" === theme || "type2" === theme || "type3" === theme || "type4" === theme || "type5" === theme || "type6" === theme || "type7" === theme || "type8" === theme || "type9" === theme || "type10" === theme || "type11" === theme || fxSides) && <>
 								<Typography className='mt10' label={__('Sufix Typography:', 'animated-text-block')} value={suffixTypo} onChange={val => setAttributes({ suffixTypo: val })} maxFontSize={300} />
 
 								<ColorControl label={__('Suffix Text Color:', 'animated-text-block')} value={suffixColor} onChange={val => setAttributes({ suffixColor: val })} />
@@ -1295,6 +1474,21 @@ const Settings = ({ attributes, setAttributes, isPremium, device }) => {
 									/>
 								</>
 							}
+						</PanelBody>
+					}
+
+					{
+						"type13" === theme && ("shiny" === fxEffect || "glitch" === fxEffect) && <PanelBody className='bPlPanelBody' title={__('Effect Style', 'animated-text-block')} initialOpen={false}>
+							{"shiny" === fxEffect && <>
+								{fxColor(__('Base Color:', 'animated-text-block'), 'baseColor', color)}
+								{fxColor(__('Shine Color:', 'animated-text-block'), 'shineColor')}
+								{fxRange(__('Shine Width (%)', 'animated-text-block'), 'shineWidth', 4, 60, 1)}
+								{fxRange(__('Shine Angle (deg)', 'animated-text-block'), 'shineAngle', 0, 180, 1)}
+							</>}
+							{"glitch" === fxEffect && <>
+								{fxColor(__('Glitch Color 1:', 'animated-text-block'), 'glitchColor1')}
+								{fxColor(__('Glitch Color 2:', 'animated-text-block'), 'glitchColor2')}
+							</>}
 						</PanelBody>
 					}
 				</>}

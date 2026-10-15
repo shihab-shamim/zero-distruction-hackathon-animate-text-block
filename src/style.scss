@@ -619,5 +619,76 @@ $primaryColor: #4527a4;
 				}
 			}
 		}
+
+		&.type13 {
+			display: block;
+
+			.typeThirteen {
+				width: 100%;
+			}
+
+			// Rotating words & count-up sit inside a sentence
+			.typeThirteen.hasSides {
+				display: flex;
+				flex-wrap: wrap;
+				align-items: baseline;
+				column-gap: 0.3em;
+				row-gap: 0.2em;
+			}
+
+			.atbFxPara {
+				display: block;
+			}
+
+			// Hidden while the effect's script loads; shown anyway after a moment as a safety net
+			.atbFxPending {
+				visibility: hidden;
+				animation: atbFxReveal 0s 2.5s forwards;
+			}
+
+			@keyframes atbFxReveal {
+				to {
+					visibility: visible;
+				}
+			}
+
+			.atbFxShiny {
+				-webkit-background-clip: text;
+				background-clip: text;
+				-webkit-text-fill-color: transparent;
+				color: transparent;
+			}
+
+			.atbFxRotator {
+				position: relative;
+				display: inline-grid;
+				vertical-align: bottom;
+				white-space: nowrap;
+				overflow: hidden;
+				padding-bottom: 0.08em;
+			}
+
+			.atbFxRotator.is-flip {
+				overflow: visible;
+				overflow-x: clip;
+				perspective: 600px;
+			}
+
+			.atbFxWord {
+				grid-area: 1 / 1;
+				justify-self: start;
+				display: inline-block;
+				transform-origin: 50% 50% -0.45em;
+			}
+
+			.atbFxChar {
+				display: inline-block;
+			}
+
+			.atbFxNumber {
+				display: inline-block;
+				font-variant-numeric: tabular-nums;
+			}
+		}
 	}
 }

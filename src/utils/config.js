@@ -347,5 +347,26 @@ export const themeSwitch = (theme = "default", attributes) => produce(attributes
 			draft['animatedSize']['width'] = { 'desktop': '100%', 'tablet': '', 'mobile': '' };
 			draft['gsapAnimation']['isTextShadow'] = false;
 			break;
+		case 'type13':
+			draft['content'] = "Design that moves people.";
+			draft['background']['color'] = '#0000';
+			draft['color'] = '#1E1E1E';
+			draft['padding'] = { "vertical": "30px", "horizontal": "15px" };
+			draft['typography']['fontSize'] = { 'desktop': 56, 'tablet': 42, 'mobile': 32 };
+			draft['typography']['textTransform'] = 'none';
+			draft['typography']['lineHeight'] = "120%";
+			draft['typography']['letterSpace'] = "0px";
+			draft['typography']['fontWeight'] = 800;
+			draft['animatedSize']['width'] = { 'desktop': '100%', 'tablet': '', 'mobile': '' };
+			draft['gsapAnimation']['isTextShadow'] = false;
+			draft['prefixTypo']['fontSize'] = { 'desktop': 56, 'tablet': 42, 'mobile': 32 };
+			draft['prefixTypo']['textTransform'] = 'none';
+			draft['prefixTypo']['fontWeight'] = 800;
+			draft['prefixColor'] = "#1E1E1E";
+			draft['suffixTypo']['fontSize'] = { 'desktop': 56, 'tablet': 42, 'mobile': 32 };
+			draft['suffixTypo']['textTransform'] = 'none';
+			draft['suffixTypo']['fontWeight'] = 800;
+			draft['suffixColor'] = "#1E1E1E";
+			break;
 	}
 })

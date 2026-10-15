@@ -1,312 +1,370 @@
-import { __ } from '@wordpress/i18n';
+	import { __ } from '@wordpress/i18n';
 
-export const generalStyleTabs = [
-	{ name: 'general', title: __('General', 'animated-text-block') },
-	{ name: 'style', title: __('Style', 'animated-text-block') }
-];
+	export const generalStyleTabs = [
+		{ name: 'general', title: __('General', 'animated-text-block') },
+		{ name: 'style', title: __('Style', 'animated-text-block') }
+	];
 
-export const FeaturesPro = [
-  "Character & Word Based Animations",
-  "In-View & Out-View Effects",
-  "Loop & Auto Repeat Control",
-  "Advanced Animation Effects",
-  "Custom Styles & Typography",
-  "Shortcode & Layout Support",
-];
+	export const FeaturesPro = [
+	"Character & Word Based Animations",
+	"In-View & Out-View Effects",
+	"Loop & Auto Repeat Control",
+	"Advanced Animation Effects",
+	"Custom Styles & Typography",
+	"Shortcode & Layout Support",
+	];
 
-export const animateInOpt = [
-	{ label: __('Char', 'animated-text-block'), value: 'char' },
-	{ label: __('Word', 'animated-text-block'), value: 'word' }
-];
+	export const animateInOpt = [
+		{ label: __('Char', 'animated-text-block'), value: 'char' },
+		{ label: __('Word', 'animated-text-block'), value: 'word' }
+	];
 
-export const effects = [
-	{ label: __('Flash', 'animated-text-block'), value: 'flash' },
-	{ label: __('Bounce', 'animated-text-block'), value: 'bounce' },
-	{ label: __('Shake', 'animated-text-block'), value: 'shake' },
-	{ label: __('Tada', 'animated-text-block'), value: 'tada' },
-	{ label: __('Swing', 'animated-text-block'), value: 'swing' },
-	{ label: __('Wobble', 'animated-text-block'), value: 'wobble' },
-	{ label: __('Pulse', 'animated-text-block'), value: 'pulse' },
-	{ label: __('Flip', 'animated-text-block'), value: 'flip' }
-];
+	export const effects = [
+		{ label: __('Flash', 'animated-text-block'), value: 'flash' },
+		{ label: __('Bounce', 'animated-text-block'), value: 'bounce' },
+		{ label: __('Shake', 'animated-text-block'), value: 'shake' },
+		{ label: __('Tada', 'animated-text-block'), value: 'tada' },
+		{ label: __('Swing', 'animated-text-block'), value: 'swing' },
+		{ label: __('Wobble', 'animated-text-block'), value: 'wobble' },
+		{ label: __('Pulse', 'animated-text-block'), value: 'pulse' },
+		{ label: __('Flip', 'animated-text-block'), value: 'flip' }
+	];
 
-export const inEffects = [
-	{ label: __('Fade In', 'animated-text-block'), value: 'fadeIn' },
-	{ label: __('Flip In X', 'animated-text-block'), value: 'flipInX' },
-	{ label: __('Flip In Y', 'animated-text-block'), value: 'flipInY' },
-	{ label: __('Fade In Up', 'animated-text-block'), value: 'fadeInUp' },
-	{ label: __('Fade In Down', 'animated-text-block'), value: 'fadeInDown' },
-	{ label: __('Fade In Left', 'animated-text-block'), value: 'fadeInLeft' },
-	{ label: __('Fade In Right', 'animated-text-block'), value: 'fadeInRight' },
-	{ label: __('Fade In Up Big', 'animated-text-block'), value: 'fadeInUpBig' },
-	{ label: __('Fade In Down Big', 'animated-text-block'), value: 'fadeInDownBig' },
-	{ label: __('Fade In Left Big', 'animated-text-block'), value: 'fadeInLeftBig' },
-	{ label: __('Fade In Right Big', 'animated-text-block'), value: 'fadeInRightBig' },
-	{ label: __('Bounce In', 'animated-text-block'), value: 'bounceIn' },
-	{ label: __('Bounce In Up', 'animated-text-block'), value: 'bounceInUp' },
-	{ label: __('Bounce In Down', 'animated-text-block'), value: 'bounceInDown' },
-	{ label: __('Bounce In Left', 'animated-text-block'), value: 'bounceInLeft' },
-	{ label: __('Bounce In Right', 'animated-text-block'), value: 'bounceInRight' },
-	{ label: __('Rotate In', 'animated-text-block'), value: 'rotateIn' },
-	{ label: __('Rotate In Up Left', 'animated-text-block'), value: 'rotateInUpLeft' },
-	{ label: __('Rotate In Up Right', 'animated-text-block'), value: 'rotateInUpRight' },
-	{ label: __('Rotate In Down Left', 'animated-text-block'), value: 'rotateInDownLeft' },
-	{ label: __('Rotate In Down Right', 'animated-text-block'), value: 'rotateInDownRight' },
-	{ label: __('Roll In', 'animated-text-block'), value: 'rollIn' }
-];
+	export const inEffects = [
+		{ label: __('Fade In', 'animated-text-block'), value: 'fadeIn' },
+		{ label: __('Flip In X', 'animated-text-block'), value: 'flipInX' },
+		{ label: __('Flip In Y', 'animated-text-block'), value: 'flipInY' },
+		{ label: __('Fade In Up', 'animated-text-block'), value: 'fadeInUp' },
+		{ label: __('Fade In Down', 'animated-text-block'), value: 'fadeInDown' },
+		{ label: __('Fade In Left', 'animated-text-block'), value: 'fadeInLeft' },
+		{ label: __('Fade In Right', 'animated-text-block'), value: 'fadeInRight' },
+		{ label: __('Fade In Up Big', 'animated-text-block'), value: 'fadeInUpBig' },
+		{ label: __('Fade In Down Big', 'animated-text-block'), value: 'fadeInDownBig' },
+		{ label: __('Fade In Left Big', 'animated-text-block'), value: 'fadeInLeftBig' },
+		{ label: __('Fade In Right Big', 'animated-text-block'), value: 'fadeInRightBig' },
+		{ label: __('Bounce In', 'animated-text-block'), value: 'bounceIn' },
+		{ label: __('Bounce In Up', 'animated-text-block'), value: 'bounceInUp' },
+		{ label: __('Bounce In Down', 'animated-text-block'), value: 'bounceInDown' },
+		{ label: __('Bounce In Left', 'animated-text-block'), value: 'bounceInLeft' },
+		{ label: __('Bounce In Right', 'animated-text-block'), value: 'bounceInRight' },
+		{ label: __('Rotate In', 'animated-text-block'), value: 'rotateIn' },
+		{ label: __('Rotate In Up Left', 'animated-text-block'), value: 'rotateInUpLeft' },
+		{ label: __('Rotate In Up Right', 'animated-text-block'), value: 'rotateInUpRight' },
+		{ label: __('Rotate In Down Left', 'animated-text-block'), value: 'rotateInDownLeft' },
+		{ label: __('Rotate In Down Right', 'animated-text-block'), value: 'rotateInDownRight' },
+		{ label: __('Roll In', 'animated-text-block'), value: 'rollIn' }
+	];
 
-export const outEffects = [
-	{ label: __('Fade Out', 'animated-text-block'), value: 'fadeOut' },
-	{ label: __('Flip Out X', 'animated-text-block'), value: 'flipOutX' },
-	{ label: __('Flip Out Y', 'animated-text-block'), value: 'flipOutY' },
-	{ label: __('Fade Out Up', 'animated-text-block'), value: 'fadeOutUp' },
-	{ label: __('Fade Out Down', 'animated-text-block'), value: 'fadeOutDown' },
-	{ label: __('Fade Out Left', 'animated-text-block'), value: 'fadeOutLeft' },
-	{ label: __('Fade Out Right', 'animated-text-block'), value: 'fadeOutRight' },
-	{ label: __('Fade Out Up Big', 'animated-text-block'), value: 'fadeOutUpBig' },
-	{ label: __('Fade Out Down Big', 'animated-text-block'), value: 'fadeOutDownBig' },
-	{ label: __('Fade Out Left Big', 'animated-text-block'), value: 'fadeOutLeftBig' },
-	{ label: __('Fade Out Right Big', 'animated-text-block'), value: 'fadeOutRightBig' },
-	{ label: __('Bounce Out', 'animated-text-block'), value: 'bounceOut' },
-	{ label: __('Bounce Out Up', 'animated-text-block'), value: 'bounceOutUp' },
-	{ label: __('Bounce Out Down', 'animated-text-block'), value: 'bounceOutDown' },
-	{ label: __('Bounce Out Left', 'animated-text-block'), value: 'bounceOutLeft' },
-	{ label: __('Bounce Out Right', 'animated-text-block'), value: 'bounceOutRight' },
-	{ label: __('Rotate Out', 'animated-text-block'), value: 'rotateOut' },
-	{ label: __('Rotate Out Up Left', 'animated-text-block'), value: 'rotateOutUpLeft' },
-	{ label: __('Rotate Out Up Right', 'animated-text-block'), value: 'rotateOutUpRight' },
-	{ label: __('Rotate Out Down Left', 'animated-text-block'), value: 'rotateOutDownLeft' },
-	{ label: __('Rotate Out Down Right', 'animated-text-block'), value: 'rotateOutDownRight' },
-	{ label: __('Hinge', 'animated-text-block'), value: 'hinge' },
-	{ label: __('Roll Out', 'animated-text-block'), value: 'rollOut' }
-];
+	export const outEffects = [
+		{ label: __('Fade Out', 'animated-text-block'), value: 'fadeOut' },
+		{ label: __('Flip Out X', 'animated-text-block'), value: 'flipOutX' },
+		{ label: __('Flip Out Y', 'animated-text-block'), value: 'flipOutY' },
+		{ label: __('Fade Out Up', 'animated-text-block'), value: 'fadeOutUp' },
+		{ label: __('Fade Out Down', 'animated-text-block'), value: 'fadeOutDown' },
+		{ label: __('Fade Out Left', 'animated-text-block'), value: 'fadeOutLeft' },
+		{ label: __('Fade Out Right', 'animated-text-block'), value: 'fadeOutRight' },
+		{ label: __('Fade Out Up Big', 'animated-text-block'), value: 'fadeOutUpBig' },
+		{ label: __('Fade Out Down Big', 'animated-text-block'), value: 'fadeOutDownBig' },
+		{ label: __('Fade Out Left Big', 'animated-text-block'), value: 'fadeOutLeftBig' },
+		{ label: __('Fade Out Right Big', 'animated-text-block'), value: 'fadeOutRightBig' },
+		{ label: __('Bounce Out', 'animated-text-block'), value: 'bounceOut' },
+		{ label: __('Bounce Out Up', 'animated-text-block'), value: 'bounceOutUp' },
+		{ label: __('Bounce Out Down', 'animated-text-block'), value: 'bounceOutDown' },
+		{ label: __('Bounce Out Left', 'animated-text-block'), value: 'bounceOutLeft' },
+		{ label: __('Bounce Out Right', 'animated-text-block'), value: 'bounceOutRight' },
+		{ label: __('Rotate Out', 'animated-text-block'), value: 'rotateOut' },
+		{ label: __('Rotate Out Up Left', 'animated-text-block'), value: 'rotateOutUpLeft' },
+		{ label: __('Rotate Out Up Right', 'animated-text-block'), value: 'rotateOutUpRight' },
+		{ label: __('Rotate Out Down Left', 'animated-text-block'), value: 'rotateOutDownLeft' },
+		{ label: __('Rotate Out Down Right', 'animated-text-block'), value: 'rotateOutDownRight' },
+		{ label: __('Hinge', 'animated-text-block'), value: 'hinge' },
+		{ label: __('Roll Out', 'animated-text-block'), value: 'rollOut' }
+	];
 
-export const sequences = [
-	{ label: __('Default', 'animated-text-block'), value: 'default' },
-	{ label: __('Sync', 'animated-text-block'), value: 'sync' },
-	{ label: __('Shuffle', 'animated-text-block'), value: 'shuffle' },
-	{ label: __('Reverse', 'animated-text-block'), value: 'reverse' },
-];
+	export const sequences = [
+		{ label: __('Default', 'animated-text-block'), value: 'default' },
+		{ label: __('Sync', 'animated-text-block'), value: 'sync' },
+		{ label: __('Shuffle', 'animated-text-block'), value: 'shuffle' },
+		{ label: __('Reverse', 'animated-text-block'), value: 'reverse' },
+	];
 
-export const splitText = (element) => {
-	const text = element.textContent;
-	element.innerHTML = '';
-	text.split('').forEach((char) => {
-		const span = document.createElement('span');
-		span.textContent = char === ' ' ? '\u00A0' : char; // Preserve spaces
-		element.appendChild(span);
-	});
-};
+	export const splitText = (element) => {
+		const text = element.textContent;
+		element.innerHTML = '';
+		text.split('').forEach((char) => {
+			const span = document.createElement('span');
+			span.textContent = char === ' ' ? '\u00A0' : char; // Preserve spaces
+			element.appendChild(span);
+		});
+	};
 
 
-export const animateTypeOptions = [
-	{ label: __('Wave', 'animated-text-block'), value: 'wave' },
-	{ label: __('Bounce', 'animated-text-block'), value: 'bounce' },
-	{ label: __('Glitch', 'animated-text-block'), value: 'glitch' }
-]
+	export const animateTypeOptions = [
+		{ label: __('Wave', 'animated-text-block'), value: 'wave' },
+		{ label: __('Bounce', 'animated-text-block'), value: 'bounce' },
+		{ label: __('Glitch', 'animated-text-block'), value: 'glitch' }
+	]
 
-export const proFeatures = [
-	{
-		name: "Choose Your Preferred Theme",
-		description:
-			"Select the theme of your choice to personalize your experience and give your website the look and feel that suits your style."
-	},
-	{
-		name: "Understanding Text Alignment",
-		description:
-			"Text alignment controls the positioning of text, improving readability and design balance."
-	},
-	{
-		name: "Max-Width animation layouts",
-		description:
-			"Max-width sets the maximum width of an element, ensuring responsive and flexible layouts."
-	},
-	{
-		name: "Enhancing Design with Text-Shadow",
-		description:
-			"Text-shadow adds depth and contrast to text by applying shadow effects, improving readability and aesthetics."
-	},
-	{
-		name: "Optimizing Animation Speed",
-		description:
-			"Animation speed controls the duration of transitions, affecting user experience and visual smoothness."
-	},
-	{
-		name: "Mastering Perspective Depth Control",
-		description:
-			"Perspective depth control adjusts the 3D depth effect, enhancing realism in visual designs."
-	},
-	{
-		name: "Understanding Transform Origin",
-		description:
-			"Transform origin defines the pivot point for transformations, affecting scaling, rotation, and skewing."
-	},
-	{
-		name: "Show/Hide Oscillation Effects",
-		description:
-			"Oscillation creates a smooth, back-and-forth movement, often used to add dynamic motion to elements in design."
-	},
-	{
-		name: "Controlling Repeat Behavior in Animations",
-		description:
-			"Repeat behavior controls how animations loop, defining whether they restart, alternate, or stop after completing."
-	},
-	{
-		name: "Adjusting Repeat Delay Speed",
-		description: "Repeat delay speed sets the time interval between animation cycles, creating a pause before the animation restarts."
-	},
-	{
-		name: "Exploring Animation Effects",
-		description: "Animation effects enhance user interaction by adding dynamic movements and transitions to elements on a webpage or interface."
-	},
-	{
-		name: "Applying Random Text Color",
-		description: "Random text color changes the color of text dynamically, creating visual variety and interest in designs."
-	},
-	{
-		name: "Applying Forward Font Stretch",
-		description: "Forward font stretch adjusts the horizontal spacing of characters, making text wider or narrower for enhanced readability or style."
-	},
-	{
-		name: "Adjusting Animation Duration",
-		description: "Animation duration defines the length of time an animation takes to complete, influencing the speed and smoothness of the effect."
-	},
-	{
-		name: "Show/Hide Animation Repeat",
-		description: "Infinite animation repeat ensures an animation loops continuously, creating a never-ending effect without stopping."
-	}
-];
+	export const proFeatures = [
+		{
+			name: "Choose Your Preferred Theme",
+			description:
+				"Select the theme of your choice to personalize your experience and give your website the look and feel that suits your style."
+		},
+		{
+			name: "Understanding Text Alignment",
+			description:
+				"Text alignment controls the positioning of text, improving readability and design balance."
+		},
+		{
+			name: "Max-Width animation layouts",
+			description:
+				"Max-width sets the maximum width of an element, ensuring responsive and flexible layouts."
+		},
+		{
+			name: "Enhancing Design with Text-Shadow",
+			description:
+				"Text-shadow adds depth and contrast to text by applying shadow effects, improving readability and aesthetics."
+		},
+		{
+			name: "Optimizing Animation Speed",
+			description:
+				"Animation speed controls the duration of transitions, affecting user experience and visual smoothness."
+		},
+		{
+			name: "Mastering Perspective Depth Control",
+			description:
+				"Perspective depth control adjusts the 3D depth effect, enhancing realism in visual designs."
+		},
+		{
+			name: "Understanding Transform Origin",
+			description:
+				"Transform origin defines the pivot point for transformations, affecting scaling, rotation, and skewing."
+		},
+		{
+			name: "Show/Hide Oscillation Effects",
+			description:
+				"Oscillation creates a smooth, back-and-forth movement, often used to add dynamic motion to elements in design."
+		},
+		{
+			name: "Controlling Repeat Behavior in Animations",
+			description:
+				"Repeat behavior controls how animations loop, defining whether they restart, alternate, or stop after completing."
+		},
+		{
+			name: "Adjusting Repeat Delay Speed",
+			description: "Repeat delay speed sets the time interval between animation cycles, creating a pause before the animation restarts."
+		},
+		{
+			name: "Exploring Animation Effects",
+			description: "Animation effects enhance user interaction by adding dynamic movements and transitions to elements on a webpage or interface."
+		},
+		{
+			name: "Applying Random Text Color",
+			description: "Random text color changes the color of text dynamically, creating visual variety and interest in designs."
+		},
+		{
+			name: "Applying Forward Font Stretch",
+			description: "Forward font stretch adjusts the horizontal spacing of characters, making text wider or narrower for enhanced readability or style."
+		},
+		{
+			name: "Adjusting Animation Duration",
+			description: "Animation duration defines the length of time an animation takes to complete, influencing the speed and smoothness of the effect."
+		},
+		{
+			name: "Show/Hide Animation Repeat",
+			description: "Infinite animation repeat ensures an animation loops continuously, creating a never-ending effect without stopping."
+		}
+	];
 
-export const helpfulLinks = [
-	{
-		title: 'Need any Assistance?',
-		description: 'Our Expert Support Team is always ready to help you out promptly.',
-		iconClass: 'fa fa-life-ring',
-		link: 'https://bplugins.com/support',
-		linkText: 'Contact Support'
-	},
-	{
-		title: 'Looking for Documentation?',
-		description: 'We have detailed documentation on every aspects of the plugin.',
-		iconClass: 'fa fa-file-text',
-		link: 'http://bplugins.com/docs/animated-text-block',
-		linkText: 'Documentation'
-	},
-	{
-		title: 'Liked This Plugin?',
-		description: 'Glad to know that, you can support us by leaving a 5 &#11088; rating.',
-		iconClass: 'fa fa-thumbs-up',
-		link: 'https://wordpress.org/support/plugin/animated-text-block/reviews/#new-post',
-		linkText: 'Rate the Plugin'
-	}
-];
-// Highlight (type11) shapes. Paths use a 0-100 viewBox; `box` positions the SVG (in %) relative to the highlighted text,
-// optionally clamping its width with minWidthEm / maxWidthEm (in em of the highlighted text).
-const curlyPath = () => {
-	let d = 'M0 50';
-	for (let i = 1; i <= 16; i++) {
-		d += ` Q${(i - 0.5) * 6.25} ${i % 2 ? 0 : 100} ${i * 6.25} 50`;
-	}
-	return d;
-};
+	export const helpfulLinks = [
+		{
+			title: 'Need any Assistance?',
+			description: 'Our Expert Support Team is always ready to help you out promptly.',
+			iconClass: 'fa fa-life-ring',
+			link: 'https://bplugins.com/support',
+			linkText: 'Contact Support'
+		},
+		{
+			title: 'Looking for Documentation?',
+			description: 'We have detailed documentation on every aspects of the plugin.',
+			iconClass: 'fa fa-file-text',
+			link: 'http://bplugins.com/docs/animated-text-block',
+			linkText: 'Documentation'
+		},
+		{
+			title: 'Liked This Plugin?',
+			description: 'Glad to know that, you can support us by leaving a 5 &#11088; rating.',
+			iconClass: 'fa fa-thumbs-up',
+			link: 'https://wordpress.org/support/plugin/animated-text-block/reviews/#new-post',
+			linkText: 'Rate the Plugin'
+		}
+	];
+	// Highlight (type11) shapes. Paths use a 0-100 viewBox; `box` positions the SVG (in %) relative to the highlighted text,
+	// optionally clamping its width with minWidthEm / maxWidthEm (in em of the highlighted text).
+	const curlyPath = () => {
+		let d = 'M0 50';
+		for (let i = 1; i <= 16; i++) {
+			d += ` Q${(i - 0.5) * 6.25} ${i % 2 ? 0 : 100} ${i * 6.25} 50`;
+		}
+		return d;
+	};
 
-const zigzagPath = () => {
-	let d = 'M0 80';
-	for (let i = 1; i <= 16; i++) {
-		d += ` L${i * 6.25} ${i % 2 ? 20 : 80}`;
-	}
-	return d;
-};
+	const zigzagPath = () => {
+		let d = 'M0 80';
+		for (let i = 1; i <= 16; i++) {
+			d += ` L${i * 6.25} ${i % 2 ? 20 : 80}`;
+		}
+		return d;
+	};
 
-// Cursive loops: each segment climbs, curls back over itself and drops to the baseline
-const loopPath = (count = 6) => {
-	const w = 100 / count;
-	let d = 'M0 70';
-	for (let i = 0; i < count; i++) {
-		const x = i * w;
-		d += ` C${x + 0.6 * w} 70 ${x + 0.95 * w} 4 ${x + 0.55 * w} 4 C${x + 0.15 * w} 4 ${x + 0.4 * w} 70 ${x + w} 70`;
-	}
-	return d;
-};
+	// Cursive loops: each segment climbs, curls back over itself and drops to the baseline
+	const loopPath = (count = 6) => {
+		const w = 100 / count;
+		let d = 'M0 70';
+		for (let i = 0; i < count; i++) {
+			const x = i * w;
+			d += ` C${x + 0.6 * w} 70 ${x + 0.95 * w} 4 ${x + 0.55 * w} 4 C${x + 0.15 * w} 4 ${x + 0.4 * w} 70 ${x + w} 70`;
+		}
+		return d;
+	};
 
-export const highlightShapes = {
-	circle: { box: { top: -22, left: -8, width: 116, height: 144 }, paths: ['M60 6 C30 2 4 16 3 48 C2 80 28 97 54 96 C82 95 98 76 97 47 C96 20 74 4 38 9'] },
-	curly: { box: { top: 86, left: 0, width: 100, height: 22 }, paths: [curlyPath()] },
-	underline: { box: { top: 88, left: -2, width: 104, height: 16 }, paths: ['M2 62 C30 42 65 38 98 46'] },
-	doubleUnderline: { box: { top: 84, left: -2, width: 104, height: 28 }, paths: ['M2 30 C30 16 66 12 98 22', 'M8 78 C36 64 70 62 94 70'] },
-	zigzag: { box: { top: 88, left: 0, width: 100, height: 18 }, paths: [zigzagPath()] },
-	diagonal: { box: { top: 5, left: -4, width: 108, height: 90 }, paths: ['M3 94 C30 70 66 34 97 6'] },
-	strikethrough: { box: { top: 42, left: -4, width: 108, height: 20 }, paths: ['M2 58 C30 44 66 40 98 48'] },
-	x: { box: { top: 0, left: -4, width: 108, height: 100 }, paths: ['M4 6 C34 34 66 66 96 94', 'M96 8 C64 36 34 64 4 92'] },
-	marker: { box: { top: 0, left: -3, width: 106, height: 100 }, paths: ['M1 64 C30 60 70 58 99 56'] },
-	box: { box: { top: -14, left: -5, width: 110, height: 128 }, paths: ['M4 9 L96 4 L97 93 L3 96 L2 3 L22 5'] },
-	brackets: { box: { top: -12, left: -6, width: 112, height: 124 }, paths: ['M11 3 L3 4 L2 96 L11 97', 'M89 3 L97 4 L98 96 L89 97'] },
-	arrow: { box: { top: 84, left: 10, width: 50, height: 50, minWidthEm: 2.6, maxWidthEm: 2.6 }, paths: ['M6 88 C30 100 62 80 80 18', 'M70 27 L80 18 L76 55'] },
-	scribble: { box: { top: 14, left: -3, width: 106, height: 72 }, paths: ['M2 42 L12 74 L20 18 L32 82 L40 16 L52 84 L60 20 L72 80 L80 22 L90 74 L98 36'] },
-	doubleCircle: { box: { top: -22, left: -8, width: 116, height: 144 }, paths: ['M60 6 C30 2 4 16 3 48 C2 80 28 97 54 96 C82 95 98 76 97 47 C96 20 74 4 38 9', 'M44 12 C16 13 4 32 7 56 C10 82 38 94 62 91 C87 88 99 68 94 42 C90 20 68 8 30 15'] },
-	swoosh: { box: { top: 82, left: -6, width: 112, height: 36 }, paths: ['M2 34 C26 88 70 92 99 8'] },
-	loopUnderline: { box: { top: 84, left: -2, width: 104, height: 32 }, paths: [loopPath()] },
-	checkMark: { box: { top: -28, left: 89, width: 16, height: 125, minWidthEm: 1.1, maxWidthEm: 1.1 }, paths: ['M6 62 C14 72 22 84 34 96 C50 66 72 34 96 4'] },
-	burst: { box: { top: -28, left: -8, width: 116, height: 32, minWidthEm: 3.4 }, paths: ['M5 96 L1 45', 'M11 92 L11 6', 'M17 96 L21 45', 'M95 96 L99 45', 'M89 92 L89 6', 'M83 96 L79 45'] },
-	overline: { box: { top: -14, left: -2, width: 104, height: 16 }, paths: ['M2 62 C30 42 65 38 98 46'] },
-	doubleStrikethrough: { box: { top: 34, left: -4, width: 108, height: 32 }, paths: ['M2 30 C30 18 66 14 98 24', 'M2 78 C30 66 66 62 98 72'] }
-};
+	export const highlightShapes = {
+		circle: { box: { top: -22, left: -8, width: 116, height: 144 }, paths: ['M60 6 C30 2 4 16 3 48 C2 80 28 97 54 96 C82 95 98 76 97 47 C96 20 74 4 38 9'] },
+		curly: { box: { top: 86, left: 0, width: 100, height: 22 }, paths: [curlyPath()] },
+		underline: { box: { top: 88, left: -2, width: 104, height: 16 }, paths: ['M2 62 C30 42 65 38 98 46'] },
+		doubleUnderline: { box: { top: 84, left: -2, width: 104, height: 28 }, paths: ['M2 30 C30 16 66 12 98 22', 'M8 78 C36 64 70 62 94 70'] },
+		zigzag: { box: { top: 88, left: 0, width: 100, height: 18 }, paths: [zigzagPath()] },
+		diagonal: { box: { top: 5, left: -4, width: 108, height: 90 }, paths: ['M3 94 C30 70 66 34 97 6'] },
+		strikethrough: { box: { top: 42, left: -4, width: 108, height: 20 }, paths: ['M2 58 C30 44 66 40 98 48'] },
+		x: { box: { top: 0, left: -4, width: 108, height: 100 }, paths: ['M4 6 C34 34 66 66 96 94', 'M96 8 C64 36 34 64 4 92'] },
+		marker: { box: { top: 0, left: -3, width: 106, height: 100 }, paths: ['M1 64 C30 60 70 58 99 56'] },
+		box: { box: { top: -14, left: -5, width: 110, height: 128 }, paths: ['M4 9 L96 4 L97 93 L3 96 L2 3 L22 5'] },
+		brackets: { box: { top: -12, left: -6, width: 112, height: 124 }, paths: ['M11 3 L3 4 L2 96 L11 97', 'M89 3 L97 4 L98 96 L89 97'] },
+		arrow: { box: { top: 84, left: 10, width: 50, height: 50, minWidthEm: 2.6, maxWidthEm: 2.6 }, paths: ['M6 88 C30 100 62 80 80 18', 'M70 27 L80 18 L76 55'] },
+		scribble: { box: { top: 14, left: -3, width: 106, height: 72 }, paths: ['M2 42 L12 74 L20 18 L32 82 L40 16 L52 84 L60 20 L72 80 L80 22 L90 74 L98 36'] },
+		doubleCircle: { box: { top: -22, left: -8, width: 116, height: 144 }, paths: ['M60 6 C30 2 4 16 3 48 C2 80 28 97 54 96 C82 95 98 76 97 47 C96 20 74 4 38 9', 'M44 12 C16 13 4 32 7 56 C10 82 38 94 62 91 C87 88 99 68 94 42 C90 20 68 8 30 15'] },
+		swoosh: { box: { top: 82, left: -6, width: 112, height: 36 }, paths: ['M2 34 C26 88 70 92 99 8'] },
+		loopUnderline: { box: { top: 84, left: -2, width: 104, height: 32 }, paths: [loopPath()] },
+		checkMark: { box: { top: -28, left: 89, width: 16, height: 125, minWidthEm: 1.1, maxWidthEm: 1.1 }, paths: ['M6 62 C14 72 22 84 34 96 C50 66 72 34 96 4'] },
+		burst: { box: { top: -28, left: -8, width: 116, height: 32, minWidthEm: 3.4 }, paths: ['M5 96 L1 45', 'M11 92 L11 6', 'M17 96 L21 45', 'M95 96 L99 45', 'M89 92 L89 6', 'M83 96 L79 45'] },
+		overline: { box: { top: -14, left: -2, width: 104, height: 16 }, paths: ['M2 62 C30 42 65 38 98 46'] },
+		doubleStrikethrough: { box: { top: 34, left: -4, width: 108, height: 32 }, paths: ['M2 30 C30 18 66 14 98 24', 'M2 78 C30 66 66 62 98 72'] }
+	};
 
-export const highlightShapeOptions = [
-	{ label: __('Circle', 'animated-text-block'), value: 'circle' },
-	{ label: __('Curly', 'animated-text-block'), value: 'curly' },
-	{ label: __('Underline', 'animated-text-block'), value: 'underline' },
-	{ label: __('Double Underline', 'animated-text-block'), value: 'doubleUnderline' },
-	{ label: __('Zigzag', 'animated-text-block'), value: 'zigzag' },
-	{ label: __('Diagonal', 'animated-text-block'), value: 'diagonal' },
-	{ label: __('Strikethrough', 'animated-text-block'), value: 'strikethrough' },
-	{ label: __('X', 'animated-text-block'), value: 'x' },
-	{ label: __('Marker', 'animated-text-block'), value: 'marker' },
-	{ label: __('Box', 'animated-text-block'), value: 'box' },
-	{ label: __('Brackets', 'animated-text-block'), value: 'brackets' },
-	{ label: __('Arrow', 'animated-text-block'), value: 'arrow' },
-	{ label: __('Scribble', 'animated-text-block'), value: 'scribble' },
-	{ label: __('Double Circle', 'animated-text-block'), value: 'doubleCircle' },
-	{ label: __('Swoosh', 'animated-text-block'), value: 'swoosh' },
-	{ label: __('Loop Underline', 'animated-text-block'), value: 'loopUnderline' },
-	{ label: __('Check Mark', 'animated-text-block'), value: 'checkMark' },
-	{ label: __('Burst', 'animated-text-block'), value: 'burst' },
-	{ label: __('Overline', 'animated-text-block'), value: 'overline' },
-	{ label: __('Double Strikethrough', 'animated-text-block'), value: 'doubleStrikethrough' }
-];
+	export const highlightShapeOptions = [
+		{ label: __('Circle', 'animated-text-block'), value: 'circle' },
+		{ label: __('Curly', 'animated-text-block'), value: 'curly' },
+		{ label: __('Underline', 'animated-text-block'), value: 'underline' },
+		{ label: __('Double Underline', 'animated-text-block'), value: 'doubleUnderline' },
+		{ label: __('Zigzag', 'animated-text-block'), value: 'zigzag' },
+		{ label: __('Diagonal', 'animated-text-block'), value: 'diagonal' },
+		{ label: __('Strikethrough', 'animated-text-block'), value: 'strikethrough' },
+		{ label: __('X', 'animated-text-block'), value: 'x' },
+		{ label: __('Marker', 'animated-text-block'), value: 'marker' },
+		{ label: __('Box', 'animated-text-block'), value: 'box' },
+		{ label: __('Brackets', 'animated-text-block'), value: 'brackets' },
+		{ label: __('Arrow', 'animated-text-block'), value: 'arrow' },
+		{ label: __('Scribble', 'animated-text-block'), value: 'scribble' },
+		{ label: __('Double Circle', 'animated-text-block'), value: 'doubleCircle' },
+		{ label: __('Swoosh', 'animated-text-block'), value: 'swoosh' },
+		{ label: __('Loop Underline', 'animated-text-block'), value: 'loopUnderline' },
+		{ label: __('Check Mark', 'animated-text-block'), value: 'checkMark' },
+		{ label: __('Burst', 'animated-text-block'), value: 'burst' },
+		{ label: __('Overline', 'animated-text-block'), value: 'overline' },
+		{ label: __('Double Strikethrough', 'animated-text-block'), value: 'doubleStrikethrough' }
+	];
 
-export const highlightDefaults = {
-	shape: 'circle',
-	colorType: 'solid',
-	color: '#FF6B35',
-	gradient: { type: 'linear', angel: 90, colors: [{ color: '#FF6B35', position: 0 }, { color: '#F7C948', position: 100 }] },
-	strokeWidth: 4,
-	markerHeight: 55,
-	roundedEnds: true,
-	position: 'behind',
-	duration: 1.2,
-	delay: 0.3,
-	loop: true,
-	loopDelay: 2
-};
+	export const highlightDefaults = {
+		shape: 'circle',
+		colorType: 'solid',
+		color: '#FF6B35',
+		gradient: { type: 'linear', angel: 90, colors: [{ color: '#FF6B35', position: 0 }, { color: '#F7C948', position: 100 }] },
+		strokeWidth: 4,
+		markerHeight: 55,
+		roundedEnds: true,
+		position: 'behind',
+		duration: 1.2,
+		delay: 0.3,
+		loop: true,
+		loopDelay: 2
+	};
 
-// Text Scroll (type12)
-export const textScrollEffectOptions = [
-	{ label: __('Vertical Line Highlight', 'animated-text-block'), value: 'verticalHighlight' },
-	{ label: __('Horizontal Line Highlight', 'animated-text-block'), value: 'horizontalHighlight' },
-	{ label: __('Vertical Line Mask', 'animated-text-block'), value: 'verticalMask' },
-	{ label: __('Horizontal Line Mask', 'animated-text-block'), value: 'horizontalMask' }
-];
+	// Text Scroll (type12)
+	export const textScrollEffectOptions = [
+		{ label: __('Vertical Line Highlight', 'animated-text-block'), value: 'verticalHighlight' },
+		{ label: __('Horizontal Line Highlight', 'animated-text-block'), value: 'horizontalHighlight' },
+		{ label: __('Vertical Line Mask', 'animated-text-block'), value: 'verticalMask' },
+		{ label: __('Horizontal Line Mask', 'animated-text-block'), value: 'horizontalMask' }
+	];
 
-export const textScrollDefaults = {
-	effect: 'verticalHighlight',
-	fadedOpacity: 0.15,
-	fadedColor: '',
-	start: 80,
-	end: 40,
-	smoothness: 1,
-	reverse: true,
-	maskColor: '#ffffff',
-	maskOpacity: 1,
-	maskDirection: 'forward'
-};
+	export const textScrollDefaults = {
+		effect: 'verticalHighlight',
+		fadedOpacity: 0.15,
+		fadedColor: '',
+		start: 80,
+		end: 40,
+		smoothness: 1,
+		reverse: true,
+		maskColor: '#ffffff',
+		maskOpacity: 1,
+		maskDirection: 'forward'
+	};
+
+	// Modern Effects (type13)
+	export const modernFxEffectOptions = [
+		{ label: __('Blur In', 'animated-text-block'), value: 'blurIn' },
+		{ label: __('Scramble / Decrypt', 'animated-text-block'), value: 'scramble' },
+		{ label: __('Shiny Sweep', 'animated-text-block'), value: 'shiny' },
+		{ label: __('Line Mask Reveal', 'animated-text-block'), value: 'lineMask' },
+		{ label: __('Glitch', 'animated-text-block'), value: 'glitch' },
+		{ label: __('Rotating Words', 'animated-text-block'), value: 'rotating' },
+		{ label: __('Number Count-Up', 'animated-text-block'), value: 'countUp' }
+	];
+
+	// Effects that use Before / After text around the animated part
+	export const modernFxUsesSides = ['rotating', 'countUp'];
+	// Before/After text shown when those fields are empty
+	export const modernFxSideDefaults = { rotating: ['Build websites', 'with blocks.'], countUp: ['Trusted by', 'happy customers'] };
+
+	export const modernFxEases = { smooth: 'power3.out', snappy: 'expo.out', bouncy: 'back.out(1.6)', linear: 'none' };
+
+	export const modernFxCharsets = { upperCase: 'upperCase', lowerCase: 'lowerCase', upperAndLowerCase: 'upperAndLowerCase', numbers: '0123456789', symbols: '!<>-_/[]{}=+*^?#%&' };
+
+	export const modernFxDefaults = {
+		effect: 'blurIn',
+		trigger: 'inView',
+		delay: 0.2,
+		replay: false,
+		loop: false,
+		loopDelay: 2,
+		duration: 0.9,
+		stagger: 0.03,
+		ease: 'smooth',
+		splitBy: 'chars',
+		blur: 12,
+		offsetY: 24,
+		charset: 'upperCase',
+		customChars: '01',
+		speed: 0.6,
+		revealDelay: 0.3,
+		baseColor: '',
+		shineColor: '#ffffff',
+		shineWidth: 20,
+		shineAngle: 110,
+		sweepPause: 1.5,
+		maskDirection: 'up',
+		intensity: 6,
+		glitchColor1: '#ff2bd6',
+		glitchColor2: '#00e5ff',
+		glitchEvery: 2.5,
+		rotateAnimation: 'clip',
+		holdTime: 2,
+		countStart: 0,
+		countEnd: 12500,
+		countDuration: 2,
+		decimals: 0,
+		separator: ',',
+		numPrefix: '',
+		numSuffix: '+'
+	};

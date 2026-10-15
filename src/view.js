@@ -15,7 +15,7 @@ document.addEventListener('DOMContentLoaded', () => {
 		const { options } = attributes;
 		const { theme } = options;
 
-		const proThemes=['type1','type5','type6', 'type7', 'type8', 'type9', 'type10', 'type11', 'type12']
+		const proThemes=['type1','type5','type6', 'type7', 'type8', 'type9', 'type10', 'type11', 'type12', 'type13']
 		const premiumTheme = !isPremium && proThemes.includes(theme);
 
 
