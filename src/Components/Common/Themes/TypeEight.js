@@ -72,7 +72,18 @@
 
 // export default TypeEight;
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
+import { usePlayback } from '../../../utils/playback';
+
+// Scroll scrub: progress runs through every sentence in order, returns the sentence being typed so far
+const scrubbedText = (texts, progress) => {
+	let pos = Math.round(Math.min(1, Math.max(0, progress)) * texts.reduce((n, t) => n + t.length, 0));
+	for (let i = 0; i < texts.length; i++) {
+		if (pos <= texts[i].length || i === texts.length - 1) return texts[i].slice(0, pos);
+		pos -= texts[i].length;
+	}
+	return '';
+};
 
 const TypeEight = ({ attributes }) => {
 	const { content, gsapAnimation, prefixText, suffixText } = attributes;
@@ -94,20 +105,34 @@ const TypeEight = ({ attributes }) => {
 
 	const fullText = texts[textIndex] || '';
 
+	const { paused, scrub } = usePlayback();
+	const scrubbing = Number.isFinite(scrub);
+	const pausedRef = useRef(paused);
+	pausedRef.current = paused;
+
 	useEffect(() => {
+		if (scrubbing) return;
 		let index = 0;
 		let typingInterval;
+		let alive = true;
 
 		setDisplayText('');
 
+		// Auto-pause: hold the wait between sentences until playback continues
+		const after = (fn, ms) => setTimeout(function wait() {
+			if (!pausedRef.current) fn();
+			else if (alive) setTimeout(wait, 100);
+		}, ms);
+
 		typingInterval = setInterval(() => {
+			if (pausedRef.current) return;
 			if (index < fullText.length) {
 				setDisplayText(fullText.slice(0, index + 1));
 				index++;
 			} else {
 				clearInterval(typingInterval);
 
-				setTimeout(() => {
+				after(() => {
 					// 🔹 MULTIPLE SENTENCE
 					if (texts.length > 1) {
 						const isLast = textIndex === texts.length - 1;
@@ -133,8 +158,12 @@ const TypeEight = ({ attributes }) => {
 			}
 		}, typingSpeed);
 
-		return () => clearInterval(typingInterval);
+		return () => {
+			alive = false;
+			clearInterval(typingInterval);
+		};
 	}, [
+		scrubbing,
 		textIndex,
 		cycle,
 		fullText,
@@ -155,7 +184,7 @@ const TypeEight = ({ attributes }) => {
 					)}
 
 					<span className="atb-typing-text">
-						{displayText}
+						{scrubbing ? scrubbedText(texts, scrub) : displayText}
 						<span className="cursor"></span>
 					</span>
 

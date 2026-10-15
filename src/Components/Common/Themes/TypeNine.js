@@ -228,6 +228,7 @@
 
 import React, { useEffect, useRef, useState } from "react";
 import { gsap } from "gsap";
+import { usePlayback } from "../../../utils/playback";
 
 const colors = [
     { main: "#FBDB4A", shades: ["#FAE073", "#FCE790", "#FADD65", "#E4C650"] },
@@ -256,6 +257,14 @@ const TypeNine = ({ attributes }) => {
     const textRef = useRef(null);
     const offscreenTextRef = useRef(null);
     const lettersRef = useRef([]);
+    const timeoutsRef = useRef(new Set());
+    const tweensRef = useRef(new Set());
+    const confettiRef = useRef(new Set());
+    const mountedRef = useRef(true);
+    const pendingRef = useRef(new Map());
+    const heldRef = useRef([]);
+    const { paused } = usePlayback();
+    const pausedRef = useRef(paused);
 
     const [sentenceIndex, setSentenceIndex] = useState(0);
     const [isAnimating, setIsAnimating] = useState(false);
@@ -277,9 +286,65 @@ const TypeNine = ({ attributes }) => {
         }
     }, [sentenceIndex, cycle, activeSentence]);
 
+    useEffect(() => {
+        mountedRef.current = true;
+        const timeouts = timeoutsRef.current;
+        const tweens = tweensRef.current;
+        const confettiNodes = confettiRef.current;
+        return () => {
+            mountedRef.current = false;
+            timeouts.forEach(id => clearTimeout(id));
+            timeouts.clear();
+            tweens.forEach(tween => tween.kill());
+            tweens.clear();
+            confettiNodes.forEach(node => node.remove());
+            confettiNodes.clear();
+        };
+    }, []);
+
+    // 🔹 auto-pause: hold the queued character timeouts, re-schedule them with their remaining time
+    useEffect(() => {
+        if (pausedRef.current === paused) return;
+        pausedRef.current = paused;
+        if (paused) {
+            const now = Date.now();
+            pendingRef.current.forEach(({ fn, due }, id) => {
+                clearTimeout(id);
+                timeoutsRef.current.delete(id);
+                heldRef.current.push({ fn, delay: Math.max(0, due - now) });
+            });
+            pendingRef.current.clear();
+        } else {
+            const held = heldRef.current;
+            heldRef.current = [];
+            held.forEach(({ fn, delay }) => schedule(fn, delay));
+        }
+    }, [paused]);
+
+    const schedule = (fn, delay) => {
+        if (pausedRef.current) {
+            heldRef.current.push({ fn, delay });
+            return;
+        }
+        const id = setTimeout(() => {
+            timeoutsRef.current.delete(id);
+            pendingRef.current.delete(id);
+            if (mountedRef.current) fn();
+        }, delay);
+        timeoutsRef.current.add(id);
+        pendingRef.current.set(id, { fn, due: Date.now() + delay });
+    };
+
+    const track = (tween) => {
+        tweensRef.current.add(tween);
+        tween.eventCallback("onComplete", () => tweensRef.current.delete(tween));
+        return tween;
+    };
+
     // 🔹 MAIN animation function (UNCHANGED)
     const animateFullText = (text) => {
         if (!text || isAnimating) return;
+        if (!textRef.current || !offscreenTextRef.current) return;
 
         setIsAnimating(true);
         lettersRef.current = [];
@@ -287,11 +352,16 @@ const TypeNine = ({ attributes }) => {
         offscreenTextRef.current.innerHTML = "";
 
         text.split("").forEach((char, i) => {
-            setTimeout(() => {
+            schedule(() => {
+                const textEl = textRef.current;
+                const offscreenEl = offscreenTextRef.current;
+                if (!textEl || !offscreenEl) return;
+
+                const doc = textEl.ownerDocument;
                 const formattedChar = char === " " ? "\u00A0" : char;
 
-                const letter = document.createElement("span");
-                const oLetter = document.createElement("span");
+                const letter = doc.createElement("span");
+                const oLetter = doc.createElement("span");
 
                 letter.textContent = formattedChar;
                 oLetter.textContent = formattedChar;
@@ -302,15 +372,15 @@ const TypeNine = ({ attributes }) => {
 
                 letter.style.color = colorValue.main;
 
-                textRef.current.appendChild(letter);
-                offscreenTextRef.current.appendChild(oLetter);
+                textEl.appendChild(letter);
+                offscreenEl.appendChild(oLetter);
 
                 lettersRef.current.push({ onScreen: letter, offScreen: oLetter });
 
                 animateLetterIn(letter);
                 // ✅ sentence finished
                 if (i === text.length - 1) {
-                    setTimeout(() => {
+                    schedule(() => {
                         setIsAnimating(false);
 
                         // 🔁 FIXED SENTENCE FLOW
@@ -335,54 +405,64 @@ const TypeNine = ({ attributes }) => {
     const animateLetterIn = (letter) => {
         const yOffset = (0.5 + Math.random() * 0.5) * 50;
 
-        gsap.fromTo(letter,
+        track(gsap.fromTo(letter,
             { scale: 0, opacity: 0 },
             { scale: 1, opacity: 1, duration: 0.4, ease: "back.out" }
-        );
+        ));
 
-        gsap.to(letter, {
+        track(gsap.to(letter, {
             y: -yOffset,
             duration: 0.2,
             ease: "power3.inOut",
             yoyo: true,
             repeat: 1
-        });
+        }));
 
-        gsap.to(letter, {
+        track(gsap.to(letter, {
             rotation: -50 + Math.random() * 100,
             duration: 0.2,
             ease: "power3.inOut",
             yoyo: true,
             repeat: 1
-        });
+        }));
 
         generateConfetti(letter);
     };
 
     const generateConfetti = (letter) => {
+        const doc = letter.ownerDocument;
+        const win = doc.defaultView || window;
+        if (!doc.body) return;
+
         for (let i = 0; i < 10; i++) {
-            const confetti = document.createElement("span");
+            const confetti = doc.createElement("span");
             confetti.textContent = shapes[Math.floor(Math.random() * shapes.length)];
             confetti.style.position = "absolute";
             confetti.style.color = colors[Math.floor(Math.random() * colors.length)].main;
             confetti.style.fontSize = "25px";
             confetti.style.pointerEvents = "none";
 
-            document.body.appendChild(confetti);
+            doc.body.appendChild(confetti);
+            confettiRef.current.add(confetti);
 
             const rect = letter.getBoundingClientRect();
             confetti.style.left = `${rect.left + rect.width / 2}px`;
-            confetti.style.top = `${rect.top + rect.height / 2 + window.scrollY}px`;
+            confetti.style.top = `${rect.top + rect.height / 2 + win.scrollY}px`;
 
-            gsap.to(confetti, {
+            const tween = gsap.to(confetti, {
                 x: (Math.random() - 0.5) * 200,
                 y: (Math.random() - 0.5) * 200,
                 opacity: 0,
                 scale: 0.5,
                 duration: 1,
                 ease: "power2.out",
-                onComplete: () => confetti.remove(),
+                onComplete: () => {
+                    confetti.remove();
+                    confettiRef.current.delete(confetti);
+                    tweensRef.current.delete(tween);
+                },
             });
+            tweensRef.current.add(tween);
         }
     };
 

@@ -1,4 +1,5 @@
 import { useBlockProps } from '@wordpress/block-editor';
+import { useEffect, useState } from 'react';
 
 import Settings from './Settings/Settings';
 import Style from '../Common/Style';
@@ -28,27 +29,44 @@ const Edit = props => {
 
 	const { isPremium } = usePremiumInEditorV2('atbPipeChecker');
 
-
+	// Editor-only replay + live preview: remount the preview, nothing is saved
+	const [replayCount, setReplayCount] = useState(0);
+	// Self-preview styles handle their own settings, but still replay when Trigger & Playback changes
+	const sig = JSON.stringify(selfPreviewThemes.includes(theme) ? [attributes.playback] : livePreviewKeys.map(k => attributes[k]));
+	const [preview, setPreview] = useState({ theme, sig });
+	if (preview.theme !== theme) setPreview({ theme, sig }); // a style switch already remounts, don't replay twice
+	useEffect(() => {
+		if (sig === preview.sig) return;
+		const timer = setTimeout(() => setPreview({ theme, sig }), 300);
+		return () => clearTimeout(timer);
+	}, [sig]);
+	// Text Scroll follows the scroll position, so instead of a remount it gets a replay sweep
+	const previewKey = 'type12' === theme ? 'scroll' : `${replayCount}-${preview.sig}`;
 
 	return <>
-		<Settings attributes={attributes} setAttributes={setAttributes} isPremium={isPremium} />
+		<Settings attributes={attributes} setAttributes={setAttributes} isPremium={isPremium} onReplay={() => setReplayCount(c => c + 1)} />
 
 		<div {...useBlockProps()} id={id}>
 			<Style attributes={attributes} id={id} />
 
 			<div className={`${prefix} ${theme}`}>
 
-				<SwitchTheme {...{ attributes, id }} />
+				<SwitchTheme key={previewKey} {...{ attributes, id }} replay={replayCount} />
 			</div>
 		</div>
 	</>;
 };
 export default Edit;
 
+// These styles already update their preview on their own when their settings change
+const selfPreviewThemes = ['type11', 'type12', 'type13'];
+// Settings that restart the preview when changed (loop, effect, speed …)
+const livePreviewKeys = ['content', 'loop', 'animateIn', 'inEffect', 'inSequence', 'outEffect', 'outSequence', 'repeat', 'gsapAnimation', 'playback'];
 
 
 
-const SwitchTheme = ({ attributes, id }) => {
+
+const SwitchTheme = ({ attributes, id, replay }) => {
 	const { options } = attributes;
 	const { theme } = options;
 
@@ -78,7 +96,7 @@ const SwitchTheme = ({ attributes, id }) => {
 		case 'type11':
 			return <TypeEleven attributes={attributes} />;
 		case 'type12':
-			return <TypeTwelve attributes={attributes} />;
+			return <TypeTwelve attributes={attributes} replay={replay} />;
 		case 'type13':
 			return <TypeThirteen attributes={attributes} />;
 		default:

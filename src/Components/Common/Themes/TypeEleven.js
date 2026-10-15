@@ -1,5 +1,6 @@
 import React, { useEffect, useId, useRef, useState } from 'react';
 import { highlightDefaults, highlightShapes } from '../../../utils/options';
+import { usePlayback } from '../../../utils/playback';
 
 const FADE_TIME = 400; // ms, must match the fade transition in style.scss
 
@@ -53,6 +54,10 @@ const TypeEleven = ({ attributes }) => {
 	const [inView, setInView] = useState(false);
 	const [cycle, setCycle] = useState(0);
 	const [fading, setFading] = useState(false);
+	const { scrub, paused } = usePlayback();
+	const loopClock = useRef({ key: '', elapsed: 0 });
+	// Reduced motion: no scrubbing, the stylesheet shows the shape fully drawn
+	const scrubbing = Number.isFinite(scrub) && !window.matchMedia?.('(prefers-reduced-motion: reduce)').matches;
 
 	const gradientId = `atbHlGrad${useId().replace(/[^a-zA-Z0-9_-]/g, '')}`;
 	const { box, paths } = highlightShapes[shape] || highlightShapes[highlightDefaults.shape];
@@ -108,20 +113,29 @@ const TypeEleven = ({ attributes }) => {
 
 	// Loop: draw -> hold -> fade out -> redraw
 	useEffect(() => {
-		if (!inView || !loop) return;
+		// Auto-pause (Smart Triggers) holds the loop clock; any other change starts the cycle timing fresh as before
+		const clock = loopClock.current;
+		const key = `${inView}-${loop}-${scrubbing}-${cycle}-${delaySec}-${durationSec}-${loopDelaySec}`;
+		if (clock.key !== key) {
+			clock.key = key;
+			clock.elapsed = 0;
+		}
+		if (!inView || !loop || scrubbing || paused) return;
 
+		const since = Date.now();
 		const fadeAt = (delaySec + durationSec + loopDelaySec) * 1000;
-		const fadeTimer = setTimeout(() => setFading(true), fadeAt);
+		const fadeTimer = setTimeout(() => setFading(true), Math.max(0, fadeAt - clock.elapsed));
 		const restartTimer = setTimeout(() => {
 			setFading(false);
 			setCycle(c => c + 1);
-		}, fadeAt + FADE_TIME);
+		}, Math.max(0, fadeAt + FADE_TIME - clock.elapsed));
 
 		return () => {
+			clock.elapsed += Date.now() - since;
 			clearTimeout(fadeTimer);
 			clearTimeout(restartTimer);
 		};
-	}, [inView, loop, cycle, delaySec, durationSec, loopDelaySec]);
+	}, [inView, loop, cycle, delaySec, durationSec, loopDelaySec, scrubbing, paused]);
 
 	const svgH = (size.height * box.height) / 100;
 	const fitW = (size.width * box.width) / 100;
@@ -148,7 +162,7 @@ const TypeEleven = ({ attributes }) => {
 
 					{0 < svgW && 0 < svgH && <svg
 						key={svgKey}
-						className={`atbHighlightSvg ${inView ? 'isDrawing' : ''} ${fading ? 'isFading' : ''}`}
+						className={`atbHighlightSvg ${inView && !scrubbing ? 'isDrawing' : ''} ${fading && !scrubbing ? 'isFading' : ''}`}
 						viewBox={`0 0 ${svgW.toFixed(2)} ${svgH.toFixed(2)}`}
 						aria-hidden='true'
 						focusable='false'
@@ -166,7 +180,10 @@ const TypeEleven = ({ attributes }) => {
 							strokeLinecap={roundedEnds ? 'round' : 'butt'}
 							strokeLinejoin={roundedEnds ? 'round' : 'miter'}
 							className={isMarker ? 'isMarker' : ''}
-							style={{ animationDuration: `${pathDuration}s`, animationDelay: `${delaySec + i * pathDuration}s` }}
+							style={scrubbing
+								// Scroll scrub: paths draw one after another (pathLength 1, so the offset runs 1 -> 0)
+								? { strokeDashoffset: 1 - Math.min(1, Math.max(0, scrub * paths.length - i)) }
+								: { animationDuration: `${pathDuration}s`, animationDelay: `${delaySec + i * pathDuration}s` }}
 						/>)}
 					</svg>}
 				</span>

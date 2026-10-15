@@ -1,5 +1,6 @@
 import React, { useEffect, useRef } from "react";
 import gsap from "gsap";
+import { staggerOf } from "../../../utils/playback";
 
 const TypeSeven = ({ attributes }) => {
     const { gsapAnimation, content, prefixText = "", suffixText = "" } = attributes;
@@ -16,6 +17,9 @@ const TypeSeven = ({ attributes }) => {
         const content = contentRef.current;
 
         if (textElement) {
+            // Keep React's original nodes so cleanup can restore them before the next split
+            const originalNodes = Array.from(textElement.childNodes);
+
             // Custom SplitText Function
             const splitTextIntoChars = (element) => {
                 const text = element.innerText;
@@ -31,30 +35,37 @@ const TypeSeven = ({ attributes }) => {
             // Apply custom SplitText
             splitTextIntoChars(textElement);
 
-            let gtl = gsap.timeline({ yoyo: true, repeat: repeatAnimate, delay: 0 });
+            const ctx = gsap.context(() => {
+                let gtl = gsap.timeline({ yoyo: true, repeat: repeatAnimate, delay: 0 });
 
-            const animateText = () => {
-                return gsap.timeline().to(".char", {
-                    fontStretch: "10%",
-                    ease: "sine.inOut",
-                    duration: animationDuration,
-                    stagger: {
-                        each: 0.4,
-                        yoyo: true,
-                        repeat: repeatAnimate,
-                    },
+                const animateText = () => {
+                    return gsap.timeline().to(".char", {
+                        fontStretch: "10%",
+                        ease: "sine.inOut",
+                        duration: animationDuration,
+                        stagger: {
+                            each: staggerOf(attributes, 0.4),
+                            yoyo: true,
+                            repeat: repeatAnimate,
+                        },
+                    });
+                }
+
+                gsap.to(content, {
+                    autoAlpha: 1,
+                    duration: 4,
+                    ease: "none",
                 });
-            }
 
-            gsap.to(content, {
-                autoAlpha: 1,
-                duration: 4,
-                ease: "none",
-            });
+                gtl.add(animateText()).seek(6).play();
+            }, textElement);
 
-            gtl.add(animateText()).seek(6).play();
+            return () => {
+                ctx.kill();
+                textElement.replaceChildren(...originalNodes);
+            };
         }
-    }, [animationDuration, repeatAnimate, content]);
+    }, [animationDuration, repeatAnimate, content, attributes.playback?.stagger]);
 
     return (
         <div className="content" ref={contentRef}>

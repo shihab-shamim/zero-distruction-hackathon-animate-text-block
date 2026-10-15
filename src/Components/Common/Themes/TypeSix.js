@@ -1,5 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
 import gsap from "gsap";
+import { staggerOf, usePlayback } from "../../../utils/playback";
 
 const TypeSix = ({ attributes }) => {
     const {
@@ -18,6 +19,10 @@ const TypeSix = ({ attributes }) => {
     const stageRef = useRef(null);
     const repeatCountRef = useRef(0);
     const timerRef = useRef(null);
+    const pendingRef = useRef(null);
+    const { paused } = usePlayback();
+    const pausedRef = useRef(paused);
+    const stagger = staggerOf(attributes, 0.1);
 
     const sentences = content
         .split(" | ")
@@ -39,9 +44,9 @@ const TypeSix = ({ attributes }) => {
 
         animateText();
 
-        const totalDuration = 2200 + chars.length * 80;
+        const totalDuration = 2200 + chars.length * Math.round(stagger * 800);
 
-        timerRef.current = setTimeout(() => {
+        pendingRef.current = { remaining: totalDuration, step: () => {
 
             // 🔢 repeatBehavior control
             if (repeatBehavior !== -1) {
@@ -68,10 +73,38 @@ const TypeSix = ({ attributes }) => {
                 setChars(prev => [...prev]);
             }
 
-        }, totalDuration);
+        } };
+        if (!pausedRef.current) schedule();
 
-        return () => clearTimeout(timerRef.current);
-    }, [chars]);
+        return () => {
+            clearTimeout(timerRef.current);
+            pendingRef.current = null;
+        };
+    }, [chars, stagger]);
+
+    /* auto-pause: hold the pending step, continue with the remaining time */
+    useEffect(() => {
+        if (pausedRef.current === paused) return;
+        pausedRef.current = paused;
+        const pending = pendingRef.current;
+        if (!pending) return;
+        if (paused) {
+            clearTimeout(timerRef.current);
+            pending.remaining = Math.max(0, pending.remaining - (Date.now() - pending.start));
+        } else {
+            schedule();
+        }
+    }, [paused]);
+
+    const schedule = () => {
+        const pending = pendingRef.current;
+        if (!pending) return;
+        pending.start = Date.now();
+        timerRef.current = setTimeout(() => {
+            if (pendingRef.current === pending) pendingRef.current = null;
+            pending.step();
+        }, pending.remaining);
+    };
 
     /* GSAP animation */
     const animateText = () => {
@@ -84,7 +117,7 @@ const TypeSix = ({ attributes }) => {
             fontStretch: 80,
             scaleY: 2,
             ease: easeType,
-            stagger: { each: 0.1, from: "random" },
+            stagger: { each: stagger, from: "random" },
         });
     };
 

@@ -1,7 +1,11 @@
 import { produce } from 'immer';
+import { staggerOf } from './playback';
 
 export const textillateConfig = (attributes) => {
 	const { loop, animateIn, inEffect, inSequence, outEffect, outSequence } = attributes;
+	// textillate waits delay * delayScale ms per letter; custom stagger is in seconds
+	const stagger = staggerOf(attributes, null);
+	const delay = null === stagger ? 50 : (stagger * 1000) / 1.5;
 
 	return {
 		loop,
@@ -14,7 +18,7 @@ export const textillateConfig = (attributes) => {
 		in: {
 			effect: inEffect,
 			delayScale: 1.5,
-			delay: 50,
+			delay,
 			sync: 'sync' === inSequence, // sequence of char/word
 			shuffle: 'shuffle' === inSequence, // (doesn't make sense with sync = true)
 			reverse: 'reverse' === inSequence // (doesn't make sense with sync = true)
@@ -23,7 +27,7 @@ export const textillateConfig = (attributes) => {
 		out: {
 			effect: outEffect,
 			delayScale: 1.5,
-			delay: 50,
+			delay,
 			sync: 'sync' === outSequence,
 			shuffle: 'shuffle' === outSequence,
 			reverse: 'reverse' === outSequence

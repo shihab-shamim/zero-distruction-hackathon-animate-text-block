@@ -15,12 +15,13 @@ import { withSelect } from '@wordpress/data';
 import { produce } from 'immer';
 import { useState } from 'react';
 import { themeSwitch } from '../../../utils/config';
-import { ToolbarGroup } from '@wordpress/components';
+import { playbackOf, playbackSupport, canScrub } from '../../../utils/playback';
+import { ToolbarGroup, ToolbarButton, Button } from '@wordpress/components';
 import { DropdownMenu } from '@wordpress/components';
 import { TextControl } from '@wordpress/components';
 import ThemeSwitcher from '../../../utils/panel/ThemeSwitcher';
 
-const Settings = ({ attributes, setAttributes, isPremium, device }) => {
+const Settings = ({ attributes, setAttributes, isPremium, device, onReplay }) => {
 	const { loop, animateIn, inEffect, inSequence, outEffect, outSequence, background, content, typography, color, padding, border, options, gsapAnimation = {}, animatedSize = {}, textAlignment = "center", repeat = true, alignment, prefixText = "", suffixText = "", prefixColor = "", prefixTypo = {}, suffixColor = "", suffixTypo = {}, highlight = {}, textScroll = {}, modernFx = {} } = attributes;
 
 
@@ -146,6 +147,24 @@ const Settings = ({ attributes, setAttributes, isPremium, device }) => {
 	];
 	const fxOneShot = ['blurIn', 'scramble', 'lineMask', 'countUp'].includes(fxEffect);
 
+	const pb = playbackOf(attributes);
+	const pbOwnStart = playbackSupport.ownStart.includes(theme);
+	const updatePlayback = (property, val) => {
+		const newPlayback = produce(playbackOf(attributes), draft => {
+			draft[property] = val;
+		});
+		setAttributes({ playback: newPlayback });
+	};
+	const pbTriggerOptions = [
+		{ label: pbOwnStart ? __('Use Effect Options › Start', 'animated-text-block') : 'type11' === theme ? __('Default (when scrolled into view)', 'animated-text-block') : __('Page load (default)', 'animated-text-block'), value: 'load' },
+		...(pbOwnStart ? [] : [{ label: __('When scrolled into view', 'animated-text-block'), value: 'inView' }]),
+		{ label: __('On hover', 'animated-text-block'), value: 'hover' },
+		{ label: __('On click', 'animated-text-block'), value: 'click' },
+		...(canScrub(theme, fxEffect) ? [{ label: __('Scrubbed with scroll', 'animated-text-block'), value: 'scrub' }] : [])
+	];
+	const pbTrigger = pbTriggerOptions.some(o => o.value === pb.trigger) ? pb.trigger : 'load';
+	const pbRepeatHelp = { inView: __('Plays again each time it scrolls back into view.', 'animated-text-block'), hover: __('Plays again each time the mouse enters.', 'animated-text-block'), click: __('Plays again on each click.', 'animated-text-block') };
+
 	return <>
 		<InspectorControls>
 			<TabPanel className='bPlTabPanel' activeClass='activeTab' tabs={generalStyleTabs} onSelect={tabController}>{tab => <>
@@ -153,6 +172,8 @@ const Settings = ({ attributes, setAttributes, isPremium, device }) => {
 					<HelpPanel slug={pluginSlug} docsLink={animatedTextDocs} />
 
 					<PanelBody title={__("Animation Options:", "animated-text-block")} initialOpen={true}>
+						{onReplay && <Button className='atbReplayBtn' variant='secondary' icon='controls-repeat' onClick={onReplay}>{__('Replay animation', 'animated-text-block')}</Button>}
+
 						<SelectControlPro
 							label={__("Animation Styles:", "animated-text-block")}
 							value={theme}
@@ -216,6 +237,92 @@ const Settings = ({ attributes, setAttributes, isPremium, device }) => {
 						}
 
 					</PanelBody>
+
+					{!playbackSupport.noPanel.includes(theme) && <PanelBody className='bPlPanelBody atbPlaybackPanel' title={__('Trigger & Playback', 'animated-text-block')} initialOpen={false}>
+						<SelectControlPro
+							label={__('Start Animation', 'animated-text-block')}
+							labelPosition="left"
+							value={pbTrigger}
+							options={pbTriggerOptions}
+							onChange={val => updatePlayback('trigger', val)}
+							{...premiumProps}
+							proValues={pbTriggerOptions.map(o => o.value)}
+						/>
+
+						{('inView' === pbTrigger || 'scrub' === pbTrigger) && <BControlPro
+							className='mt10'
+							label={__('Viewport Offset (%)', 'animated-text-block')}
+							value={pb.offset}
+							onChange={val => updatePlayback('offset', val)}
+							min={0}
+							max={50}
+							step={1}
+							help={__('How far the block must be inside the screen before it starts.', 'animated-text-block')}
+							{...premiumProps}
+							Component={RangeControl}
+						/>}
+
+						{!pbOwnStart && 'scrub' !== pbTrigger && <BControlPro
+							className='mt10'
+							label={__('Start Delay (seconds)', 'animated-text-block')}
+							value={pb.delay}
+							onChange={val => updatePlayback('delay', val)}
+							min={0}
+							max={5}
+							step={0.1}
+							{...premiumProps}
+							Component={RangeControl}
+						/>}
+
+						{['inView', 'hover', 'click'].includes(pbTrigger) && <SelectControlPro
+							label={__('Play', 'animated-text-block')}
+							labelPosition="left"
+							className='mt10'
+							value={pb.repeat}
+							options={[
+								{ label: __('Once', 'animated-text-block'), value: 'once' },
+								{ label: __('Replay every time', 'animated-text-block'), value: 'replay' }
+							]}
+							onChange={val => updatePlayback('repeat', val)}
+							help={'replay' === pb.repeat ? pbRepeatHelp[pbTrigger] : undefined}
+							{...premiumProps}
+							proValues={['once', 'replay']}
+						/>}
+
+						{playbackSupport.stagger.includes(theme) && <BControlPro
+							className='mt10'
+							label={__('Letter / Word Stagger (seconds)', 'animated-text-block')}
+							value={'' === pb.stagger ? undefined : pb.stagger}
+							onChange={val => updatePlayback('stagger', undefined === val || null === val || '' === val ? '' : val)}
+							min={0}
+							max={0.5}
+							step={0.01}
+							allowReset
+							help={__("Leave empty to use the style's own stagger.", 'animated-text-block')}
+							{...premiumProps}
+							Component={RangeControl}
+						/>}
+
+						<BControlPro
+							className='mt10'
+							label={__('Pause When Off-Screen', 'animated-text-block')}
+							checked={!!pb.pauseOffscreen}
+							onChange={val => updatePlayback('pauseOffscreen', val)}
+							{...premiumProps}
+							Component={ToggleControl}
+						/>
+
+						<BControlPro
+							className='mt10'
+							label={__('Pause When Tab Is Hidden', 'animated-text-block')}
+							checked={!!pb.pauseHidden}
+							onChange={val => updatePlayback('pauseHidden', val)}
+							{...premiumProps}
+							Component={ToggleControl}
+						/>
+
+						<small className='atbPlaybackNote'>{__('Triggers and auto-pause work on the live page. The editor always plays the animation — use Replay animation to preview it.', 'animated-text-block')}</small>
+					</PanelBody>}
 
 
 					<PanelBody className='bPlPanelBody atbTextSettingsPanel' title={__('Animated Text Settings', 'animated-text-block')} initialOpen={false}>
@@ -1497,6 +1604,10 @@ const Settings = ({ attributes, setAttributes, isPremium, device }) => {
 
 
 		<BlockControls>
+
+			{onReplay && <ToolbarGroup>
+				<ToolbarButton icon='controls-repeat' label={__('Replay animation', 'animated-text-block')} onClick={onReplay} />
+			</ToolbarGroup>}
 
 			<ToolbarGroup>
 				<DropdownMenu

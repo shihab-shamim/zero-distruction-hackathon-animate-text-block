@@ -1,4 +1,5 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
+import { usePlayback } from '../../../../utils/playback';
 
 const viewOf = el => el?.ownerDocument?.defaultView || window;
 
@@ -51,4 +52,21 @@ export const usePlay = (ref, fx) => {
 	}, []);
 
 	return play;
+};
+
+export const isScrub = v => Number.isFinite(v);
+
+// Scroll scrub (Smart Triggers): the timeline is held at the scroll progress instead of being played.
+// Returns a ref with the latest progress (null when not scrubbing), for timelines built or rebuilt later.
+export const useScrub = tl => {
+	const { scrub } = usePlayback();
+	const progress = useRef(null);
+	progress.current = isScrub(scrub) ? scrub : null;
+
+	useEffect(() => {
+		if (!isScrub(scrub) || !tl.current) return;
+		tl.current.pause().progress(scrub);
+	}, [scrub]);
+
+	return progress;
 };

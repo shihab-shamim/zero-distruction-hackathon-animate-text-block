@@ -1,5 +1,6 @@
 import React, { useEffect, useRef } from "react";
 import { gsap } from "gsap";
+import { staggerOf } from "../../../utils/playback";
 
 const TypeFive = ({ attributes }) => {
     const {
@@ -50,7 +51,7 @@ const TypeFive = ({ attributes }) => {
                 textElement.appendChild(span);
             });
 
-            gsap.set(".char", { scaleX: 1, scaleY: 1, opacity: 1 });
+            gsap.set(textElement.querySelectorAll(".char"), { scaleX: 1, scaleY: 1, opacity: 1 });
         };
 
         const playSentence = () => {
@@ -81,14 +82,14 @@ const TypeFive = ({ attributes }) => {
                 }
             });
 
-            tl.to(".char", {
+            tl.to(textElement.querySelectorAll(".char"), {
                 scaleX,
                 scaleY,
                 fontStretch: "10%",
                 ease: "sine.inOut",
                 duration: animationDuration,
                 stagger: {
-                    each: 0.08,
+                    each: staggerOf(attributes, 0.08),
                     yoyo: true,
                     repeat: 1,
                 },
@@ -104,7 +105,7 @@ const TypeFive = ({ attributes }) => {
                 timelineRef.current.kill();
             }
         };
-    }, [content, animationDuration, scaleX, scaleY, repeatBehavior]);
+    }, [content, animationDuration, scaleX, scaleY, repeatBehavior, attributes.playback?.stagger]);
 
     return (
         <div className="content">

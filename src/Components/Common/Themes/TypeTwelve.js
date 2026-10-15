@@ -11,7 +11,7 @@ const scrollProgress = (rect, vh, start, end) => {
 	return clamp((from - rect.top) / span);
 };
 
-const TypeTwelve = ({ attributes }) => {
+const TypeTwelve = ({ attributes, replay = 0 }) => {
 	const { content = '', color = '', typography = {}, textAlignment = 'center', textScroll = {} } = attributes;
 	const { effect, fadedOpacity, fadedColor, start, end, smoothness, reverse, maskColor, maskOpacity, maskDirection } = { ...textScrollDefaults, ...textScroll };
 
@@ -20,6 +20,7 @@ const TypeTwelve = ({ attributes }) => {
 	const needsLines = !byChar;
 
 	const contentRef = useRef(null);
+	const sweptRef = useRef(replay);
 	const [lines, setLines] = useState(null);
 	const [layoutKey, setLayoutKey] = useState(0);
 
@@ -104,6 +105,11 @@ const TypeTwelve = ({ attributes }) => {
 		let raf = 0;
 		let last = 0;
 		let first = true;
+		// Editor Replay button only (the frontend never passes replay): sweep through the whole effect once, then follow the scroll again
+		let sweepStart = replay !== sweptRef.current && !reduce ? view.performance.now() : 0;
+		sweptRef.current = replay;
+		let sweepRaf = 0;
+		const sweep = () => { sweepRaf = 0; update(); };
 
 		const paint = () => {
 			if (byChar) {
@@ -144,6 +150,24 @@ const TypeTwelve = ({ attributes }) => {
 		};
 
 		const update = () => {
+			if (sweepStart) {
+				const T = (view.performance.now() - sweepStart) / 2400;
+				if (1 > T) {
+					targets.forEach((t, i) => {
+						const p = clamp(T * targets.length - i);
+						goal[i] = p;
+						active[i] = 0 < p;
+						if (first) shown[i] = p;
+					});
+					first = false;
+					if (!raf) raf = view.requestAnimationFrame(tick);
+					if (!sweepRaf) sweepRaf = view.requestAnimationFrame(sweep);
+					return;
+				}
+				sweepStart = 0;
+				goal.fill(0);
+				active.fill(false);
+			}
 			const vh = view.innerHeight || doc.documentElement.clientHeight;
 			const se = doc.scrollingElement || doc.documentElement;
 			// At the very bottom of the page nothing can scroll further, so finish every effect
@@ -174,11 +198,12 @@ const TypeTwelve = ({ attributes }) => {
 			view.removeEventListener('scroll', update);
 			view.removeEventListener('resize', update);
 			if (raf) view.cancelAnimationFrame(raf);
+			if (sweepRaf) view.cancelAnimationFrame(sweepRaf);
 			chars.forEach(c => { c.style.opacity = ''; c.style.color = ''; });
 			masks.forEach(m => { if (m) { m.style.width = ''; m.style.height = ''; } });
 			targets.forEach(t => { t.parentElement?.classList.remove('isActive'); t.style.color = ''; });
 		};
-	}, [lines, effect, fadedOpacity, fadedColor, color, start, end, smoothness, reverse, maskDirection, layoutSig]);
+	}, [lines, effect, fadedOpacity, fadedColor, color, start, end, smoothness, reverse, maskDirection, layoutSig, replay]);
 
 	const renderWord = i => <span key={i} className='atbTsWord' data-w={i}>
 		{byChar ? [...words[i]].map((c, j) => <span key={j} className='atbTsChar'>{c}</span>) : words[i]}

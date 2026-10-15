@@ -692,3 +692,31 @@ $primaryColor: #4527a4;
 		}
 	}
 }
+.wp-block-atb-animated-text {
+	&.atbPaused *,
+	&.atbPaused *::before,
+	&.atbPaused *::after {
+		animation-play-state: paused !important;
+	}
+
+	&.atbTriggerClick {
+		cursor: pointer;
+	}
+
+	.atbTriggerWait.isHidden {
+		visibility: hidden;
+	}
+
+	// Wrap like the split-up animated text does, so the layout doesn't jump when it starts
+	.atbTriggerWait .content {
+		overflow-wrap: anywhere;
+	}
+
+	// Hover / click: the waiting text must stay readable even where a style starts its text hidden
+	.atbTriggerWait:not(.isHidden) .content {
+		opacity: 1 !important;
+		visibility: visible !important;
+		transform: none !important;
+		filter: none !important;
+	}
+}

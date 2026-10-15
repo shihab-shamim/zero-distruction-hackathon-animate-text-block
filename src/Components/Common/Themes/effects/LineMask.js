@@ -2,7 +2,7 @@ import React, { useEffect, useLayoutEffect, useRef } from 'react';
 import { gsap } from 'gsap';
 import { SplitText } from 'gsap/SplitText';
 import { modernFxEases } from '../../../../utils/options';
-import { num, paragraphsOf, prefersReducedMotion, usePlay } from './shared';
+import { num, paragraphsOf, prefersReducedMotion, usePlay, useScrub } from './shared';
 
 gsap.registerPlugin(SplitText);
 
@@ -12,10 +12,12 @@ const LineMask = ({ attributes, fx }) => {
 	const tl = useRef(null);
 	const played = useRef(false);
 	const play = usePlay(ref, fx);
+	const scrub = useScrub(tl);
 
 	useLayoutEffect(() => {
 		const el = ref.current;
 		if (!el || prefersReducedMotion(el)) return;
+		const loop = fx.loop && null === scrub.current;
 		const from = 'down' === fx.maskDirection ? -110 : 110;
 		const split = SplitText.create(el.querySelectorAll('.atbFxPara'), {
 			type: 'lines',
@@ -23,10 +25,11 @@ const LineMask = ({ attributes, fx }) => {
 			aria: 'auto',
 			autoSplit: true,
 			onSplit(self) {
-				const t = gsap.timeline({ paused: true, repeat: fx.loop ? -1 : 0, repeatDelay: 0.3 });
+				const t = gsap.timeline({ paused: true, repeat: loop ? -1 : 0, repeatDelay: 0.3 });
 				t.fromTo(self.lines, { yPercent: from }, { yPercent: 0, duration: num(fx.duration, 0.9), stagger: num(fx.stagger, 0.03) * 4, ease: modernFxEases[fx.ease] || 'power3.out' });
-				if (fx.loop) t.to(self.lines, { yPercent: -from, duration: num(fx.duration, 0.9) * 0.7, stagger: num(fx.stagger, 0.03) * 2, ease: 'power2.in' }, `+=${num(fx.loopDelay, 2)}`);
-				if (played.current) t.progress(fx.loop ? 0 : 1).play();
+				if (loop) t.to(self.lines, { yPercent: -from, duration: num(fx.duration, 0.9) * 0.7, stagger: num(fx.stagger, 0.03) * 2, ease: 'power2.in' }, `+=${num(fx.loopDelay, 2)}`);
+				if (null !== scrub.current) t.progress(scrub.current);
+				else if (played.current) t.progress(loop ? 0 : 1).play();
 				tl.current = t;
 				return t;
 			}
@@ -35,7 +38,7 @@ const LineMask = ({ attributes, fx }) => {
 	}, []);
 
 	useEffect(() => {
-		if (!play || !tl.current) return;
+		if (!play || !tl.current || null !== scrub.current) return;
 		played.current = true;
 		tl.current.delay(num(fx.delay, 0)).restart(true);
 	}, [play]);

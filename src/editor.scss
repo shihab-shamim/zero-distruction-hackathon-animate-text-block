@@ -27,3 +27,18 @@
 		margin-bottom: 0;
 	}
 }
+
+// Replay animation button (Animation Options panel)
+.atbReplayBtn.components-button {
+	width: 100%;
+	justify-content: center;
+	margin-bottom: 12px;
+}
+
+.atbPlaybackPanel .atbPlaybackNote {
+	display: block;
+	margin-top: 12px;
+	color: #757575;
+	font-size: 12px;
+	line-height: 1.5;
+}

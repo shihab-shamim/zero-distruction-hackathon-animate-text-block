@@ -125,6 +125,7 @@
 
 import React, { useEffect, useRef } from "react";
 import { gsap } from "gsap";
+import { staggerOf } from "../../../utils/playback";
 
 const TypeTwo = ({ attributes }) => {
     const { gsapAnimation, content, prefixText = "", suffixText = "" } = attributes;
@@ -194,7 +195,7 @@ const TypeTwo = ({ attributes }) => {
                             rotationX: 180,
                             transformOrigin: "0% 50% -50",
                             ease: "back",
-                            stagger: 0.03,
+                            stagger: staggerOf(attributes, 0.03),
                         });
                         break;
 
@@ -202,7 +203,7 @@ const TypeTwo = ({ attributes }) => {
                         gsap.from(chars, {
                             duration: animationSpeed,
                             opacity: 0,
-                            stagger: 0.05,
+                            stagger: staggerOf(attributes, 0.05),
                             ease: "power1.inOut",
                         });
                         break;
@@ -212,7 +213,7 @@ const TypeTwo = ({ attributes }) => {
                             duration: animationSpeed,
                             scale: 0,
                             opacity: 0,
-                            stagger: 0.05,
+                            stagger: staggerOf(attributes, 0.05),
                             ease: "back.out(1.7)",
                         });
                         break;
@@ -222,7 +223,7 @@ const TypeTwo = ({ attributes }) => {
                             duration: animationSpeed,
                             rotationX: 180,
                             opacity: 0,
-                            stagger: 0.05,
+                            stagger: staggerOf(attributes, 0.05),
                             transformOrigin: "50% 50% -50",
                             ease: "power2.out",
                         });
@@ -233,7 +234,7 @@ const TypeTwo = ({ attributes }) => {
                             duration: animationSpeed,
                             y: 50,
                             opacity: 0,
-                            stagger: 0.05,
+                            stagger: staggerOf(attributes, 0.05),
                             ease: "power3.out",
                         });
                         break;
@@ -242,7 +243,7 @@ const TypeTwo = ({ attributes }) => {
                         gsap.from(chars, {
                             duration: animationSpeed,
                             opacity: 0,
-                            stagger: 0.05,
+                            stagger: staggerOf(attributes, 0.05),
                             ease: "power1.inOut",
                         });
                         break;
@@ -256,7 +257,7 @@ const TypeTwo = ({ attributes }) => {
         return () => {
             timeline.kill();
         };
-    }, [content, animationSpeed, repeatDelay, animationEffect, autoRepeat]);
+    }, [content, animationSpeed, repeatDelay, animationEffect, autoRepeat, attributes.playback?.stagger]);
 
     return (
         <div className="content">

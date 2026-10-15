@@ -275,6 +275,18 @@
         "numPrefix": "",
         "numSuffix": "+"
       }
+    },
+    "playback": {
+      "type": "object",
+      "default": {
+        "trigger": "load",
+        "offset": 0,
+        "delay": 0,
+        "repeat": "once",
+        "stagger": "",
+        "pauseOffscreen": false,
+        "pauseHidden": false
+      }
     }
   },
   "supports": {
