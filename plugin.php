@@ -3,7 +3,7 @@
 /**
  * Plugin Name: Animated Text Block
  * Description: Apply animation on any text.
- * Version: 1.2.5
+ * Version: 1.2.6
  * Author: bPlugins
  * Author URI: https://bplugins.com
  * License: GPLv3
@@ -22,7 +22,7 @@ if (function_exists('atb_fs')) {
 	atb_fs()->set_basename(true, __FILE__);
 } 
 else {
-	define('ATB_VERSION', isset($_SERVER['HTTP_HOST']) && 'localhost' === $_SERVER['HTTP_HOST'] ? time() : '1.2.5');
+	define('ATB_VERSION', isset($_SERVER['HTTP_HOST']) && 'localhost' === $_SERVER['HTTP_HOST'] ? time() : '1.2.6');
 	define('ATB_DIR_URL', plugin_dir_url(__FILE__));
 	define('ATB_DIR_PATH', plugin_dir_path(__FILE__));
 	define('ATB_HAS_FREE', 'animated-text-block/plugin.php' === plugin_basename(__FILE__));

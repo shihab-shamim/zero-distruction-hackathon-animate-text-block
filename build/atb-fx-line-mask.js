@@ -1,2 +1,96 @@
-/*! For license information please see atb-fx-line-mask.js.LICENSE.txt */
-"use strict";(globalThis.webpackChunkanimated_text_block=globalThis.webpackChunkanimated_text_block||[]).push([[269],{489:(e,t,i)=>{i.r(t),i.d(t,{default:()=>o});var n=i(609),r=i(880),l=i(373),s=i(80),a=i(802);r.os.registerPlugin(l.A);const o=({attributes:e,fx:t})=>{const i=(0,n.useRef)(null),o=(0,n.useRef)(null),h=(0,n.useRef)(!1),d=(0,a.cm)(i,t),u=(0,a.hT)(o);return(0,n.useLayoutEffect)((()=>{const e=i.current;if(!e||(0,a.Oe)(e))return;const n=t.loop&&null===u.current,d="down"===t.maskDirection?-110:110,p=l.A.create(e.querySelectorAll(".atbFxPara"),{type:"lines",mask:"lines",aria:"auto",autoSplit:!0,onSplit(e){const i=r.os.timeline({paused:!0,repeat:n?-1:0,repeatDelay:.3});return i.fromTo(e.lines,{yPercent:d},{yPercent:0,duration:(0,a.bu)(t.duration,.9),stagger:4*(0,a.bu)(t.stagger,.03),ease:s.Rx[t.ease]||"power3.out"}),n&&i.to(e.lines,{yPercent:-d,duration:.7*(0,a.bu)(t.duration,.9),stagger:2*(0,a.bu)(t.stagger,.03),ease:"power2.in"},`+=${(0,a.bu)(t.loopDelay,2)}`),null!==u.current?i.progress(u.current):h.current&&i.progress(n?0:1).play(),o.current=i,i}});return()=>{o.current?.kill(),p.revert()}}),[]),(0,n.useEffect)((()=>{d&&o.current&&null===u.current&&(h.current=!0,o.current.delay((0,a.bu)(t.delay,0)).restart(!0))}),[d]),(0,n.createElement)("div",{ref:i,className:"content"},(0,a.Dq)(e.content).map(((e,t)=>(0,n.createElement)("div",{key:t,className:"atbFxPara"},e))))}},373:(e,t,i)=>{i.d(t,{A:()=>S});let n,r,l,s="function"==typeof Symbol?Symbol():"_split",a="undefined"!=typeof Intl&&"Segmenter"in Intl?new Intl.Segmenter:0,o=e=>e?"string"==typeof e?o(document.querySelectorAll(e)):"length"in e?Array.from(e).reduce(((e,t)=>("string"==typeof t?e.push(...o(t)):e.push(t),e)),[]):[e]:[],h=e=>o(e).filter((e=>e&&1===e.nodeType)),d=[],u=function(){},p={add:e=>e()},c=/\s+/g,g=new RegExp("\\p{RI}\\p{RI}|\\p{Emoji}(\\p{EMod}|\\u{FE0F}\\u{20E3}?|[\\u{E0020}-\\u{E007E}]+\\u{E007F})?(\\u{200D}\\p{Emoji}(\\p{EMod}|\\u{FE0F}\\u{20E3}?|[\\u{E0020}-\\u{E007E}]+\\u{E007F})?)*|.","gu"),f={left:0,top:0,width:0,height:0},m=(e,t)=>{for(;++t<e.length&&e[t]===f;);return e[t]||f},b=({element:e,html:t,ariaL:i,ariaH:n})=>{e.innerHTML=t,i?e.setAttribute("aria-label",i):e.removeAttribute("aria-label"),n?e.setAttribute("aria-hidden",n):e.removeAttribute("aria-hidden")},y=(e,t)=>{if(t){let i,n,r,l,s=new Set(e.join("").match(t)||d),a=e.length;if(s.size)for(;--a>-1;)for(r of(n=e[a],s))if(r.startsWith(n)&&r.length>n.length){for(i=0,l=n;r.startsWith(l+=e[a+ ++i])&&l.length<r.length;);if(i&&l.length===r.length){e[a]=r,e.splice(a+1,i);break}}}return e},w=e=>"inline"===window.getComputedStyle(e).display&&(e.style.display="inline-block"),v=(e,t,i)=>t.insertBefore("string"==typeof e?document.createTextNode(e):e,i),x=(e,t,i)=>{let n=t[e+"sClass"]||"",{tag:r="div",aria:l="auto",propIndex:s=!1}=t,a="line"===e?"block":"inline-block",o=n.indexOf("++")>-1,h=t=>{let h=document.createElement(r),d=i.length+1;return n&&(h.className=n+(o?" "+n+d:"")),s&&h.style.setProperty("--"+e,d+""),"none"!==l&&h.setAttribute("aria-hidden","true"),"span"!==r&&(h.style.position="relative",h.style.display=a),h.textContent=t,i.push(h),h};return o&&(n=n.replace("++","")),h.collection=i,h},E=(e,t,i,n,r,l,s,o,h,u)=>{var p;let g,f,m,b,x,C,S,T,A,k,N,R,_,W,B,O,F,L,P=Array.from(e.childNodes),j=0,{wordDelimiter:D,reduceWhiteSpace:I=!0,prepareText:z}=t,H=e.getBoundingClientRect(),M=H,q=!I&&"pre"===window.getComputedStyle(e).whiteSpace.substring(0,3),$=0,G=i.collection;for("object"==typeof D?(m=D.delimiter||D,f=D.replaceWith||""):f=""===D?"":D||" ",g=" "!==f;j<P.length;j++)if(b=P[j],3===b.nodeType){for(B=b.textContent||"",I?B=B.replace(c," "):q&&(B=B.replace(/\n/g,f+"\n")),z&&(B=z(B,e)),b.textContent=B,x=f||m?B.split(m||f):B.match(o)||d,F=x[x.length-1],T=g?" "===F.slice(-1):!F,F||x.pop(),M=H,S=g?" "===x[0].charAt(0):!x[0],S&&v(" ",e,b),x[0]||x.shift(),y(x,h),l&&u||(b.textContent=""),A=1;A<=x.length;A++)if(O=x[A-1],!I&&q&&"\n"===O.charAt(0)&&(null==(p=b.previousSibling)||p.remove(),v(document.createElement("br"),e,b),O=O.slice(1)),I||""!==O)if(" "===O)e.insertBefore(document.createTextNode(" "),b);else{if(g&&" "===O.charAt(0)&&v(" ",e,b),$&&1===A&&!S&&G.indexOf($.parentNode)>-1?(C=G[G.length-1],C.appendChild(document.createTextNode(n?"":O))):(C=i(n?"":O),v(C,e,b),$&&1===A&&!S&&C.insertBefore($,C.firstChild)),n)for(N=a?y([...a.segment(O)].map((e=>e.segment)),h):O.match(o)||d,L=0;L<N.length;L++)C.appendChild(" "===N[L]?document.createTextNode(" "):n(N[L]));if(l&&u){if(B=b.textContent=B.substring(O.length+1,B.length),k=C.getBoundingClientRect(),k.top>M.top&&k.left<=M.left){for(R=e.cloneNode(),_=e.childNodes[0];_&&_!==C;)W=_,_=_.nextSibling,R.appendChild(W);e.parentNode.insertBefore(R,e),r&&w(R)}M=k}(A<x.length||T)&&v(A>=x.length?" ":g&&" "===O.slice(-1)?" "+f:f,e,b)}else v(f,e,b);e.removeChild(b),$=0}else 1===b.nodeType&&(s&&s.indexOf(b)>-1?(G.indexOf(b.previousSibling)>-1&&G[G.length-1].appendChild(b),$=b):(E(b,t,i,n,r,l,s,o,h,!0),$=0),r&&w(b))};const C=class e{constructor(e,t){this.isSplit=!1,l||S.register(window.gsap),this.elements=h(e),this.chars=[],this.words=[],this.lines=[],this.masks=[],this.vars=t,this.elements.forEach((e=>{var i;!1!==t.overwrite&&(null==(i=e[s])||i._data.orig.filter((({element:t})=>t===e)).forEach(b)),e[s]=this})),this._split=()=>this.isSplit&&this.split(this.vars);let i,n=[],r=()=>{let e,t=n.length;for(;t--;){e=n[t];let i=e.element.offsetWidth;if(i!==e.width)return e.width=i,void this._split()}};this._data={orig:n,obs:"undefined"!=typeof ResizeObserver&&new ResizeObserver((()=>{clearTimeout(i),i=setTimeout(r,200)}))},u(this),this.split(t)}split(e){return(this._ctx||p).add((()=>{this.isSplit&&this.revert(),this.vars=e=e||this.vars||{};let t,{type:i="chars,words,lines",aria:n="auto",deepSlice:l=!0,smartWrap:s,onSplit:a,autoSplit:d=!1,specialChars:u,mask:p}=this.vars,c=i.indexOf("lines")>-1,b=i.indexOf("chars")>-1,y=i.indexOf("words")>-1,w=b&&!y&&!c,v=u&&("push"in u?new RegExp("(?:"+u.join("|")+")","gu"):u),C=v?new RegExp(v.source+"|"+g.source,"gu"):g,S=!!e.ignore&&h(e.ignore),{orig:T,animTime:A,obs:k}=this._data;(b||y||c)&&(this.elements.forEach(((t,i)=>{T[i]={element:t,html:t.innerHTML,ariaL:t.getAttribute("aria-label"),ariaH:t.getAttribute("aria-hidden")},"auto"===n?t.setAttribute("aria-label",(t.textContent||"").trim()):"hidden"===n&&t.setAttribute("aria-hidden","true");let r,a,h,d,u=[],p=[],g=[],A=b?x("char",e,u):null,k=x("word",e,p);if(E(t,e,k,A,w,l&&(c||w),S,C,v,!1),c){let i,n,l=o(t.childNodes),s=((e,t,i,n)=>{let r=x("line",i,n),l=window.getComputedStyle(e).textAlign||"left";return(i,n)=>{let s=r("");for(s.style.textAlign=l,e.insertBefore(s,t[i]);i<n;i++)s.appendChild(t[i]);s.normalize()}})(t,l,e,g),a=[],h=0,d=l.map((e=>1===e.nodeType?e.getBoundingClientRect():f)),u=f;for(r=0;r<l.length;r++)i=l[r],1===i.nodeType&&("BR"===i.nodeName?(r&&"BR"===l[r-1].nodeName||(a.push(i),s(h,r+1)),h=r+1,u=m(d,r)):(n=d[r],r&&n.top>u.top&&n.left<u.left+u.width-1&&(s(h,r),h=r),u=n));h<r&&s(h,r),a.forEach((e=>{var t;return null==(t=e.parentNode)?void 0:t.removeChild(e)}))}if(!y){for(r=0;r<p.length;r++)if(a=p[r],b||!a.nextSibling||3!==a.nextSibling.nodeType)if(s&&!c){for(h=document.createElement("span"),h.style.whiteSpace="nowrap";a.firstChild;)h.appendChild(a.firstChild);a.replaceWith(h)}else a.replaceWith(...a.childNodes);else d=a.nextSibling,d&&3===d.nodeType&&(d.textContent=(a.textContent||"")+(d.textContent||""),a.remove());p.length=0,t.normalize()}this.lines.push(...g),this.words.push(...p),this.chars.push(...u)})),p&&this[p]&&this.masks.push(...this[p].map((e=>{let t=e.cloneNode();return e.replaceWith(t),t.appendChild(e),e.className&&(t.className=e.className.trim().split(" ").map((e=>e+"-mask")).join(" ")),t.style.overflow="clip",t})))),this.isSplit=!0,r&&c&&d&&r.addEventListener("loadingdone",this._split),(t=a&&a(this))&&t.totalTime&&(this._data.anim=A?t.totalTime(A):t),c&&d&&this.elements.forEach(((e,t)=>{T[t].width=e.offsetWidth,k&&k.observe(e)}))})),this}kill(){let{obs:e}=this._data;e&&e.disconnect(),null==r||r.removeEventListener("loadingdone",this._split)}revert(){var e,t;if(this.isSplit){let{orig:i,anim:n}=this._data;this.kill(),i.forEach(b),this.chars.length=this.words.length=this.lines.length=i.length=this.masks.length=0,this.isSplit=!1,n&&(this._data.animTime=n.totalTime(),n.revert()),null==(t=(e=this.vars).onRevert)||t.call(e,this)}return this}static create(t,i){return new e(t,i)}static register(e){n=n||e||window.gsap,n&&(o=n.utils.toArray,u=n.core.context||u),!l&&window.innerWidth>0&&(r=document.fonts,l=!0)}};C.version="3.15.0";let S=C}}]);
+"use strict";
+(globalThis["webpackChunkanimated_text_block"] = globalThis["webpackChunkanimated_text_block"] || []).push([["atb-fx-line-mask"],{
+
+/***/ "./src/Components/Common/Themes/effects/LineMask.js":
+/*!**********************************************************!*\
+  !*** ./src/Components/Common/Themes/effects/LineMask.js ***!
+  \**********************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "react");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var gsap__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! gsap */ "./node_modules/gsap/index.js");
+/* harmony import */ var gsap_SplitText__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! gsap/SplitText */ "./node_modules/gsap/SplitText.js");
+/* harmony import */ var _utils_options__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../../../utils/options */ "./src/utils/options.js");
+/* harmony import */ var _shared__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./shared */ "./src/Components/Common/Themes/effects/shared.js");
+
+
+
+
+
+
+gsap__WEBPACK_IMPORTED_MODULE_3__.gsap.registerPlugin(gsap_SplitText__WEBPACK_IMPORTED_MODULE_4__.SplitText);
+
+// Each line slides up (or down) out of its own mask
+const LineMask = ({
+  attributes,
+  fx
+}) => {
+  const ref = (0,react__WEBPACK_IMPORTED_MODULE_0__.useRef)(null);
+  const tl = (0,react__WEBPACK_IMPORTED_MODULE_0__.useRef)(null);
+  const played = (0,react__WEBPACK_IMPORTED_MODULE_0__.useRef)(false);
+  const play = (0,_shared__WEBPACK_IMPORTED_MODULE_2__.usePlay)(ref, fx);
+  const scrub = (0,_shared__WEBPACK_IMPORTED_MODULE_2__.useScrub)(tl);
+  (0,react__WEBPACK_IMPORTED_MODULE_0__.useLayoutEffect)(() => {
+    const el = ref.current;
+    if (!el || (0,_shared__WEBPACK_IMPORTED_MODULE_2__.prefersReducedMotion)(el)) return;
+    const loop = fx.loop && null === scrub.current;
+    const from = 'down' === fx.maskDirection ? -110 : 110;
+    const split = gsap_SplitText__WEBPACK_IMPORTED_MODULE_4__.SplitText.create(el.querySelectorAll('.atbFxPara'), {
+      type: 'lines',
+      mask: 'lines',
+      aria: 'auto',
+      autoSplit: true,
+      onSplit(self) {
+        const t = gsap__WEBPACK_IMPORTED_MODULE_3__.gsap.timeline({
+          paused: true,
+          repeat: loop ? -1 : 0,
+          repeatDelay: 0.3
+        });
+        t.fromTo(self.lines, {
+          yPercent: from
+        }, {
+          yPercent: 0,
+          duration: (0,_shared__WEBPACK_IMPORTED_MODULE_2__.num)(fx.duration, 0.9),
+          stagger: (0,_shared__WEBPACK_IMPORTED_MODULE_2__.num)(fx.stagger, 0.03) * 4,
+          ease: _utils_options__WEBPACK_IMPORTED_MODULE_1__.modernFxEases[fx.ease] || 'power3.out'
+        });
+        if (loop) t.to(self.lines, {
+          yPercent: -from,
+          duration: (0,_shared__WEBPACK_IMPORTED_MODULE_2__.num)(fx.duration, 0.9) * 0.7,
+          stagger: (0,_shared__WEBPACK_IMPORTED_MODULE_2__.num)(fx.stagger, 0.03) * 2,
+          ease: 'power2.in'
+        }, `+=${(0,_shared__WEBPACK_IMPORTED_MODULE_2__.num)(fx.loopDelay, 2)}`);
+        if (null !== scrub.current) t.progress(scrub.current);else if (played.current) t.progress(loop ? 0 : 1).play();
+        tl.current = t;
+        return t;
+      }
+    });
+    return () => {
+      tl.current?.kill();
+      split.revert();
+    };
+  }, []);
+  (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(() => {
+    if (!play || !tl.current || null !== scrub.current) return;
+    played.current = true;
+    tl.current.delay((0,_shared__WEBPACK_IMPORTED_MODULE_2__.num)(fx.delay, 0)).restart(true);
+  }, [play]);
+  return (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
+    ref: ref,
+    className: "content"
+  }, (0,_shared__WEBPACK_IMPORTED_MODULE_2__.paragraphsOf)(attributes.content).map((p, i) => (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
+    key: i,
+    className: "atbFxPara"
+  }, p)));
+};
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (LineMask);
+
+/***/ })
+
+}]);
+//# sourceMappingURL=atb-fx-line-mask.js.map

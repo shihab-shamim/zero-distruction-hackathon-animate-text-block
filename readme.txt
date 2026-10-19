@@ -3,8 +3,8 @@ Contributors: bplugins, abuhayat, charlescormier, noornabi2, freemius, farazi1
 Donate link: https://www.buymeacoffee.com/abuhayat
 Tags: text block, animated text, text animation, text animation, animation text block
 Requires at least: 6.5+
-Tested up to: 6.9.3
-Stable tag: 1.2.5
+Tested up to: 7.1
+Stable tag: 1.2.6
 Requires PHP: 7.1
 License: GPLv3 or later
 License URI: http://www.gnu.org/licenses/gpl-3.0.html

@@ -1,2 +1,119 @@
-/*! For license information please see atb-fx-glitch.js.LICENSE.txt */
-"use strict";(globalThis.webpackChunkanimated_text_block=globalThis.webpackChunkanimated_text_block||[]).push([[377],{898:(e,t,i)=>{i.r(t),i.d(t,{default:()=>a});var n=i(609),r=i(880),s=i(373),l=i(802);r.os.registerPlugin(s.A);const a=({attributes:e,fx:t})=>{const i=(0,n.useRef)(null),a=(0,n.useRef)(null),o=(0,l.cm)(i,t);return(0,n.useLayoutEffect)((()=>{const e=i.current;if(!e||(0,l.Oe)(e))return;const n=s.A.create(e.querySelectorAll(".atbFxPara"),{type:"words,chars",aria:"auto"}),o=n.chars,h=Math.max(1,(0,l.bu)(t.intensity,6)),d=t.glitchColor1||"#ff2bd6",p=t.glitchColor2||"#00e5ff",c=r.os.utils.random,u=r.os.timeline({paused:!0});u.fromTo(o,{opacity:0},{opacity:1,duration:.06,stagger:{each:(0,l.bu)(t.stagger,.03),from:"random"},ease:"steps(2)"});const f=r.os.timeline({repeat:-1,repeatDelay:Math.max(.3,(0,l.bu)(t.glitchEvery,2.5))});return f.to(e,{textShadow:`${h/2}px 0 ${d}, ${-h/2}px 0 ${p}`,duration:.04}).to(o,{x:()=>c(-h,h),y:()=>c(-h/3,h/3),skewX:()=>c(2*-h,2*h),duration:.05,stagger:{each:.004,from:"random"},repeat:3,yoyo:!0,ease:"none"},"<").to(e,{textShadow:`${-h/2}px 0 ${d}, ${h/2}px 0 ${p}`,duration:.05},"<0.1").to(o,{x:0,y:0,skewX:0,duration:.05}).to(e,{textShadow:"0px 0 rgba(0,0,0,0), 0px 0 rgba(0,0,0,0)",duration:.05},"<"),u.add(f,"+=0.6"),a.current=u,()=>{u.kill(),f.kill(),r.os.set(e,{clearProps:"textShadow"}),n.revert()}}),[]),(0,n.useEffect)((()=>{o&&a.current&&a.current.delay((0,l.bu)(t.delay,0)).restart(!0)}),[o]),(0,n.createElement)("div",{ref:i,className:"content"},(0,l.Dq)(e.content).map(((e,t)=>(0,n.createElement)("div",{key:t,className:"atbFxPara"},e))))}},373:(e,t,i)=>{i.d(t,{A:()=>S});let n,r,s,l="function"==typeof Symbol?Symbol():"_split",a="undefined"!=typeof Intl&&"Segmenter"in Intl?new Intl.Segmenter:0,o=e=>e?"string"==typeof e?o(document.querySelectorAll(e)):"length"in e?Array.from(e).reduce(((e,t)=>("string"==typeof t?e.push(...o(t)):e.push(t),e)),[]):[e]:[],h=e=>o(e).filter((e=>e&&1===e.nodeType)),d=[],p=function(){},c={add:e=>e()},u=/\s+/g,f=new RegExp("\\p{RI}\\p{RI}|\\p{Emoji}(\\p{EMod}|\\u{FE0F}\\u{20E3}?|[\\u{E0020}-\\u{E007E}]+\\u{E007F})?(\\u{200D}\\p{Emoji}(\\p{EMod}|\\u{FE0F}\\u{20E3}?|[\\u{E0020}-\\u{E007E}]+\\u{E007F})?)*|.","gu"),m={left:0,top:0,width:0,height:0},g=(e,t)=>{for(;++t<e.length&&e[t]===m;);return e[t]||m},x=({element:e,html:t,ariaL:i,ariaH:n})=>{e.innerHTML=t,i?e.setAttribute("aria-label",i):e.removeAttribute("aria-label"),n?e.setAttribute("aria-hidden",n):e.removeAttribute("aria-hidden")},b=(e,t)=>{if(t){let i,n,r,s,l=new Set(e.join("").match(t)||d),a=e.length;if(l.size)for(;--a>-1;)for(r of(n=e[a],l))if(r.startsWith(n)&&r.length>n.length){for(i=0,s=n;r.startsWith(s+=e[a+ ++i])&&s.length<r.length;);if(i&&s.length===r.length){e[a]=r,e.splice(a+1,i);break}}}return e},y=e=>"inline"===window.getComputedStyle(e).display&&(e.style.display="inline-block"),w=(e,t,i)=>t.insertBefore("string"==typeof e?document.createTextNode(e):e,i),v=(e,t,i)=>{let n=t[e+"sClass"]||"",{tag:r="div",aria:s="auto",propIndex:l=!1}=t,a="line"===e?"block":"inline-block",o=n.indexOf("++")>-1,h=t=>{let h=document.createElement(r),d=i.length+1;return n&&(h.className=n+(o?" "+n+d:"")),l&&h.style.setProperty("--"+e,d+""),"none"!==s&&h.setAttribute("aria-hidden","true"),"span"!==r&&(h.style.position="relative",h.style.display=a),h.textContent=t,i.push(h),h};return o&&(n=n.replace("++","")),h.collection=i,h},E=(e,t,i,n,r,s,l,o,h,p)=>{var c;let f,m,g,x,v,C,S,T,k,A,N,_,R,W,B,O,F,$,L=Array.from(e.childNodes),j=0,{wordDelimiter:I,reduceWhiteSpace:M=!0,prepareText:z}=t,P=e.getBoundingClientRect(),D=P,H=!M&&"pre"===window.getComputedStyle(e).whiteSpace.substring(0,3),q=0,X=i.collection;for("object"==typeof I?(g=I.delimiter||I,m=I.replaceWith||""):m=""===I?"":I||" ",f=" "!==m;j<L.length;j++)if(x=L[j],3===x.nodeType){for(B=x.textContent||"",M?B=B.replace(u," "):H&&(B=B.replace(/\n/g,m+"\n")),z&&(B=z(B,e)),x.textContent=B,v=m||g?B.split(g||m):B.match(o)||d,F=v[v.length-1],T=f?" "===F.slice(-1):!F,F||v.pop(),D=P,S=f?" "===v[0].charAt(0):!v[0],S&&w(" ",e,x),v[0]||v.shift(),b(v,h),s&&p||(x.textContent=""),k=1;k<=v.length;k++)if(O=v[k-1],!M&&H&&"\n"===O.charAt(0)&&(null==(c=x.previousSibling)||c.remove(),w(document.createElement("br"),e,x),O=O.slice(1)),M||""!==O)if(" "===O)e.insertBefore(document.createTextNode(" "),x);else{if(f&&" "===O.charAt(0)&&w(" ",e,x),q&&1===k&&!S&&X.indexOf(q.parentNode)>-1?(C=X[X.length-1],C.appendChild(document.createTextNode(n?"":O))):(C=i(n?"":O),w(C,e,x),q&&1===k&&!S&&C.insertBefore(q,C.firstChild)),n)for(N=a?b([...a.segment(O)].map((e=>e.segment)),h):O.match(o)||d,$=0;$<N.length;$++)C.appendChild(" "===N[$]?document.createTextNode(" "):n(N[$]));if(s&&p){if(B=x.textContent=B.substring(O.length+1,B.length),A=C.getBoundingClientRect(),A.top>D.top&&A.left<=D.left){for(_=e.cloneNode(),R=e.childNodes[0];R&&R!==C;)W=R,R=R.nextSibling,_.appendChild(W);e.parentNode.insertBefore(_,e),r&&y(_)}D=A}(k<v.length||T)&&w(k>=v.length?" ":f&&" "===O.slice(-1)?" "+m:m,e,x)}else w(m,e,x);e.removeChild(x),q=0}else 1===x.nodeType&&(l&&l.indexOf(x)>-1?(X.indexOf(x.previousSibling)>-1&&X[X.length-1].appendChild(x),q=x):(E(x,t,i,n,r,s,l,o,h,!0),q=0),r&&y(x))};const C=class e{constructor(e,t){this.isSplit=!1,s||S.register(window.gsap),this.elements=h(e),this.chars=[],this.words=[],this.lines=[],this.masks=[],this.vars=t,this.elements.forEach((e=>{var i;!1!==t.overwrite&&(null==(i=e[l])||i._data.orig.filter((({element:t})=>t===e)).forEach(x)),e[l]=this})),this._split=()=>this.isSplit&&this.split(this.vars);let i,n=[],r=()=>{let e,t=n.length;for(;t--;){e=n[t];let i=e.element.offsetWidth;if(i!==e.width)return e.width=i,void this._split()}};this._data={orig:n,obs:"undefined"!=typeof ResizeObserver&&new ResizeObserver((()=>{clearTimeout(i),i=setTimeout(r,200)}))},p(this),this.split(t)}split(e){return(this._ctx||c).add((()=>{this.isSplit&&this.revert(),this.vars=e=e||this.vars||{};let t,{type:i="chars,words,lines",aria:n="auto",deepSlice:s=!0,smartWrap:l,onSplit:a,autoSplit:d=!1,specialChars:p,mask:c}=this.vars,u=i.indexOf("lines")>-1,x=i.indexOf("chars")>-1,b=i.indexOf("words")>-1,y=x&&!b&&!u,w=p&&("push"in p?new RegExp("(?:"+p.join("|")+")","gu"):p),C=w?new RegExp(w.source+"|"+f.source,"gu"):f,S=!!e.ignore&&h(e.ignore),{orig:T,animTime:k,obs:A}=this._data;(x||b||u)&&(this.elements.forEach(((t,i)=>{T[i]={element:t,html:t.innerHTML,ariaL:t.getAttribute("aria-label"),ariaH:t.getAttribute("aria-hidden")},"auto"===n?t.setAttribute("aria-label",(t.textContent||"").trim()):"hidden"===n&&t.setAttribute("aria-hidden","true");let r,a,h,d,p=[],c=[],f=[],k=x?v("char",e,p):null,A=v("word",e,c);if(E(t,e,A,k,y,s&&(u||y),S,C,w,!1),u){let i,n,s=o(t.childNodes),l=((e,t,i,n)=>{let r=v("line",i,n),s=window.getComputedStyle(e).textAlign||"left";return(i,n)=>{let l=r("");for(l.style.textAlign=s,e.insertBefore(l,t[i]);i<n;i++)l.appendChild(t[i]);l.normalize()}})(t,s,e,f),a=[],h=0,d=s.map((e=>1===e.nodeType?e.getBoundingClientRect():m)),p=m;for(r=0;r<s.length;r++)i=s[r],1===i.nodeType&&("BR"===i.nodeName?(r&&"BR"===s[r-1].nodeName||(a.push(i),l(h,r+1)),h=r+1,p=g(d,r)):(n=d[r],r&&n.top>p.top&&n.left<p.left+p.width-1&&(l(h,r),h=r),p=n));h<r&&l(h,r),a.forEach((e=>{var t;return null==(t=e.parentNode)?void 0:t.removeChild(e)}))}if(!b){for(r=0;r<c.length;r++)if(a=c[r],x||!a.nextSibling||3!==a.nextSibling.nodeType)if(l&&!u){for(h=document.createElement("span"),h.style.whiteSpace="nowrap";a.firstChild;)h.appendChild(a.firstChild);a.replaceWith(h)}else a.replaceWith(...a.childNodes);else d=a.nextSibling,d&&3===d.nodeType&&(d.textContent=(a.textContent||"")+(d.textContent||""),a.remove());c.length=0,t.normalize()}this.lines.push(...f),this.words.push(...c),this.chars.push(...p)})),c&&this[c]&&this.masks.push(...this[c].map((e=>{let t=e.cloneNode();return e.replaceWith(t),t.appendChild(e),e.className&&(t.className=e.className.trim().split(" ").map((e=>e+"-mask")).join(" ")),t.style.overflow="clip",t})))),this.isSplit=!0,r&&u&&d&&r.addEventListener("loadingdone",this._split),(t=a&&a(this))&&t.totalTime&&(this._data.anim=k?t.totalTime(k):t),u&&d&&this.elements.forEach(((e,t)=>{T[t].width=e.offsetWidth,A&&A.observe(e)}))})),this}kill(){let{obs:e}=this._data;e&&e.disconnect(),null==r||r.removeEventListener("loadingdone",this._split)}revert(){var e,t;if(this.isSplit){let{orig:i,anim:n}=this._data;this.kill(),i.forEach(x),this.chars.length=this.words.length=this.lines.length=i.length=this.masks.length=0,this.isSplit=!1,n&&(this._data.animTime=n.totalTime(),n.revert()),null==(t=(e=this.vars).onRevert)||t.call(e,this)}return this}static create(t,i){return new e(t,i)}static register(e){n=n||e||window.gsap,n&&(o=n.utils.toArray,p=n.core.context||p),!s&&window.innerWidth>0&&(r=document.fonts,s=!0)}};C.version="3.15.0";let S=C}}]);
+"use strict";
+(globalThis["webpackChunkanimated_text_block"] = globalThis["webpackChunkanimated_text_block"] || []).push([["atb-fx-glitch"],{
+
+/***/ "./src/Components/Common/Themes/effects/Glitch.js":
+/*!********************************************************!*\
+  !*** ./src/Components/Common/Themes/effects/Glitch.js ***!
+  \********************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "react");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var gsap__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! gsap */ "./node_modules/gsap/index.js");
+/* harmony import */ var gsap_SplitText__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! gsap/SplitText */ "./node_modules/gsap/SplitText.js");
+/* harmony import */ var _shared__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./shared */ "./src/Components/Common/Themes/effects/shared.js");
+
+
+
+
+
+gsap__WEBPACK_IMPORTED_MODULE_2__.gsap.registerPlugin(gsap_SplitText__WEBPACK_IMPORTED_MODULE_3__.SplitText);
+
+// Characters flicker in, then short RGB-split bursts repeat every few seconds
+const Glitch = ({
+  attributes,
+  fx
+}) => {
+  const ref = (0,react__WEBPACK_IMPORTED_MODULE_0__.useRef)(null);
+  const tl = (0,react__WEBPACK_IMPORTED_MODULE_0__.useRef)(null);
+  const play = (0,_shared__WEBPACK_IMPORTED_MODULE_1__.usePlay)(ref, fx);
+  (0,react__WEBPACK_IMPORTED_MODULE_0__.useLayoutEffect)(() => {
+    const el = ref.current;
+    if (!el || (0,_shared__WEBPACK_IMPORTED_MODULE_1__.prefersReducedMotion)(el)) return;
+    const split = gsap_SplitText__WEBPACK_IMPORTED_MODULE_3__.SplitText.create(el.querySelectorAll('.atbFxPara'), {
+      type: 'words,chars',
+      aria: 'auto'
+    });
+    const chars = split.chars;
+    const i = Math.max(1, (0,_shared__WEBPACK_IMPORTED_MODULE_1__.num)(fx.intensity, 6));
+    const c1 = fx.glitchColor1 || '#ff2bd6',
+      c2 = fx.glitchColor2 || '#00e5ff';
+    const r = gsap__WEBPACK_IMPORTED_MODULE_2__.gsap.utils.random;
+    const t = gsap__WEBPACK_IMPORTED_MODULE_2__.gsap.timeline({
+      paused: true
+    });
+    t.fromTo(chars, {
+      opacity: 0
+    }, {
+      opacity: 1,
+      duration: 0.06,
+      stagger: {
+        each: (0,_shared__WEBPACK_IMPORTED_MODULE_1__.num)(fx.stagger, 0.03),
+        from: 'random'
+      },
+      ease: 'steps(2)'
+    });
+    const burst = gsap__WEBPACK_IMPORTED_MODULE_2__.gsap.timeline({
+      repeat: -1,
+      repeatDelay: Math.max(0.3, (0,_shared__WEBPACK_IMPORTED_MODULE_1__.num)(fx.glitchEvery, 2.5))
+    });
+    burst.to(el, {
+      textShadow: `${i / 2}px 0 ${c1}, ${-i / 2}px 0 ${c2}`,
+      duration: 0.04
+    }).to(chars, {
+      x: () => r(-i, i),
+      y: () => r(-i / 3, i / 3),
+      skewX: () => r(-i * 2, i * 2),
+      duration: 0.05,
+      stagger: {
+        each: 0.004,
+        from: 'random'
+      },
+      repeat: 3,
+      yoyo: true,
+      ease: 'none'
+    }, '<').to(el, {
+      textShadow: `${-i / 2}px 0 ${c1}, ${i / 2}px 0 ${c2}`,
+      duration: 0.05
+    }, '<0.1').to(chars, {
+      x: 0,
+      y: 0,
+      skewX: 0,
+      duration: 0.05
+    }).to(el, {
+      textShadow: '0px 0 rgba(0,0,0,0), 0px 0 rgba(0,0,0,0)',
+      duration: 0.05
+    }, '<');
+    t.add(burst, '+=0.6');
+    tl.current = t;
+    return () => {
+      t.kill();
+      burst.kill();
+      gsap__WEBPACK_IMPORTED_MODULE_2__.gsap.set(el, {
+        clearProps: 'textShadow'
+      });
+      split.revert();
+    };
+  }, []);
+  (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(() => {
+    if (!play || !tl.current) return;
+    tl.current.delay((0,_shared__WEBPACK_IMPORTED_MODULE_1__.num)(fx.delay, 0)).restart(true);
+  }, [play]);
+  return (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
+    ref: ref,
+    className: "content"
+  }, (0,_shared__WEBPACK_IMPORTED_MODULE_1__.paragraphsOf)(attributes.content).map((p, i) => (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
+    key: i,
+    className: "atbFxPara"
+  }, p)));
+};
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (Glitch);
+
+/***/ })
+
+}]);
+//# sourceMappingURL=atb-fx-glitch.js.map
