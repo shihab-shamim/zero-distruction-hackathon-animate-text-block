@@ -1,5 +1,5 @@
 === Animated Text Block – Add Typing and Looping Text Effects ===
-Contributors: bplugins, abuhayat, charlescormier, noornabi2, freemius, farazi1
+Contributors:  bplugins, abuhayat, shihabshamim, freemius, farazi1
 Donate link: https://www.buymeacoffee.com/abuhayat
 Tags: text block, animated text, text animation, text animation, animation text block
 Requires at least: 6.5+
@@ -52,6 +52,10 @@ The #1 No-Code Animated Text Block Plugin – Trusted by 4000+ Websites Worldwid
 - **Prefix Content: Adds text before the animated content for better context and structure.
 - **Suffix Content: Adds text after the animated content to complete the message or highlight details.
 - **Multiple Animated Sentences: Allows you to display and animate multiple text lines in sequence.
+- **Highlight Style**: 20 hand-drawn SVG shapes that draw themselves around your text, with solid or gradient colours, loop and position options.
+- **Text Scroll Style**: Text lights up or unmasks line by line as you scroll, with 4 effects (vertical/horizontal highlight and mask).
+- **Modern Effects Style**: 7 effects – Blur In, Scramble, Shiny Sweep, Line Mask, Glitch, Rotating Words and Number Count-Up.
+- **Trigger & Playback**: Start on page load, scroll into view, hover, click or scroll scrub, with viewport offset, start delay, play once or every time, letter/word stagger, and pause when off-screen or when the tab is hidden.
 - **Priority Support**: Get fast and dedicated support for any issues or questions.
 - **Updates**:  Stay ahead with new features and improvements in every update.
 
@@ -146,7 +150,56 @@ You can post your questions on the [support forum here](https://wordpress.org/su
 12. Setting
 
 
+== Third-Party Libraries ==
+
+This plugin uses the following third-party libraries:
+
+* [GSAP](https://gsap.com/) 3.15 (including the SplitText and ScrambleText plugins) - Standard "No Charge" GSAP License – https://gsap.com/standard-license (bundled in the `build/` files, powers the animation styles and effects).
+* [Textillate.js](https://github.com/jschr/textillate) with [Lettering.js](https://github.com/davatron5000/Lettering.js) - MIT License (bundled at `public/js/jquery.textillate.min.js`).
+* [Animate.css](https://github.com/animate-css/animate.css) - MIT License (bundled at `public/css/animate.min.css`).
+* [Font Awesome Free](https://fontawesome.com/) 6.4.2 - Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License (bundled at `assets/css/font-awesome.min.css` and `assets/webfonts/`).
+
+= bpl-tools =
+* Source / GitHub: https://github.com/bPlugins/bpl-tools
+* License: GPL-2.0-or-later – https://www.gnu.org/licenses/gpl-2.0.html
+* Purpose: Shared utility library providing admin dashboard components and common Gutenberg editor controls.
+* External Services: The library may connect to bPlugins, WordPress.org, and Freemius services for product data and checkout functionality. See full details: https://github.com/bPlugins/bpl-tools#external-requests--why-they-are-made
+
+As the external service functionality is handled by bpl-tools as a third-party library, the following services are utilized:
+
+= bPlugins API =
+* Service URL: https://api.bplugins.com
+* Purpose: The plugin's admin dashboard fetches product comparison data and pricing information to display relevant upgrade options and feature details.
+* Data Sent: Only the plugin slug is transmitted; no personal or site data is collected.
+* Terms of Service: https://bplugins.com/terms-of-service/
+* Privacy Policy: https://bplugins.com/privacy-policy/
+
+= WordPress.org Plugins API =
+* Service URL: https://api.wordpress.org/plugins/info/1.2/
+* Purpose: The admin dashboard queries the official WordPress.org Plugins API to retrieve and display a curated list of other plugins by the same author ("Our Plugins" section).
+* Data Sent: Plugin slugs and author name; no personal or site data is collected.
+* Terms of Service: https://wordpress.org/about/tos/
+* Privacy Policy: https://wordpress.org/about/privacy/
+
+= Freemius API =
+* Service URL: https://api.freemius.com
+* Purpose: Handles license activation, premium feature verification, update checks, and opt-in telemetry for both free and pro versions.
+* Data Sent: Site URL, admin email, license keys, and version numbers.
+* Terms of Service: https://freemius.com/terms/
+* Privacy Policy: https://freemius.com/privacy/
+
+
 == Changelog ==
+
+= 1.2.6 - 25 Oct 26 =
+- **New**: Highlight style (Pro): 20 hand-drawn SVG shapes that draw themselves around your text, with solid or gradient colours, loop and position options.
+- **New**: Text Scroll style (Pro): text lights up or unmasks line by line as you scroll, with 4 effects (vertical/horizontal highlight and mask).
+- **New**: Modern Effects style (Pro): 7 effects (Blur In, Scramble, Shiny Sweep, Line Mask, Glitch, Rotating Words, Number Count-Up).
+- **New**: Trigger & Playback panel (Pro): start on page load, scroll into view, hover, click or scroll scrub. Adds viewport offset, start delay, play once or every time, letter/word stagger, and pause when off-screen or when the tab is hidden.
+- **New**: Replay animation button in the block toolbar and sidebar, plus live preview that replays the animation when a setting changes (editor only, Free and Pro).
+- **Improved**: GSAP updated to 3.15. Effect scripts load only on pages that use them.
+- **Improved**: Replay now works in the editor for all 14 animation styles. Swaying, Axis Wave and Stretch Wave now animate only their own block.
+- **Improved**: Equal 10px spacing between fields in the Animated Text Settings panel.
 
 = 1.2.5 - 30 March 26 =
 - **Fixed**: Dashboard license activation issue fixed.
@@ -231,10 +284,3 @@ You can post your questions on the [support forum here](https://wordpress.org/su
 = 1.0.0 =
 * Initial Release
 
-
-== Developer Notes ==
-Public source code GitHub link for review, study, and contribute.
-
-https://github.com/noornabi07/animated-text-block-pro
-
-For more information on how to contribute to this plugin, please visit our GitHub repository.

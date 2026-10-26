@@ -22,7 +22,7 @@ import { TextControl } from '@wordpress/components';
 import ThemeSwitcher from '../../../utils/panel/ThemeSwitcher';
 
 const Settings = ({ attributes, setAttributes, isPremium, device, onReplay }) => {
-	const { loop, animateIn, inEffect, inSequence, outEffect, outSequence, background, content, typography, color, padding, border, options, gsapAnimation = {}, animatedSize = {}, textAlignment = "center", repeat = true, alignment, prefixText = "", suffixText = "", prefixColor = "", prefixTypo = {}, suffixColor = "", suffixTypo = {}, highlight = {}, textScroll = {}, modernFx = {} } = attributes;
+	const { loop, animateIn, inEffect, inSequence, outEffect, outSequence, background, content, typography, color, padding, border, options, gsapAnimation = {}, animatedSize = {}, textAlignment = "center", repeat = true, alignment, prefixText, suffixText, prefixColor = "", prefixTypo = {}, suffixColor = "", suffixTypo = {}, highlight = {}, textScroll = {}, modernFx = {} } = attributes;
 
 
 	const [alertAnimationSpeed, setAlertAnimationSpeed] = useState(null);
@@ -331,7 +331,7 @@ const Settings = ({ attributes, setAttributes, isPremium, device, onReplay }) =>
 						{
 							("default" === theme || "type2" === theme || "type3" === theme || "type4" === theme || "type5" === theme || "type6" === theme || "type7" === theme || "type8" === theme || "type9" === theme || "type10" === theme || "type11" === theme || fxSides) && <>
 								<Label className='mt10'>{("type11" === theme || fxSides) ? __('Before Text:', 'animated-text-block') : __('Prefix Text:', 'animated-text-block')}</Label>
-								<TextControl value={"type11" === theme ? (prefixText || "Make your words") : fxSides ? (prefixText || modernFxSideDefaults[fxEffect][0]) : prefixText} placeholder={__("Type your prefix content", "animated-text-block")} onChange={val => setAttributes({ prefixText: val })} />
+								<TextControl value={"type11" === theme ? (prefixText ?? "Make your words") : fxSides ? (prefixText ?? modernFxSideDefaults[fxEffect][0]) : (prefixText ?? "")} placeholder={__("Type your prefix content", "animated-text-block")} onChange={val => setAttributes({ prefixText: val })} />
 							</>
 						}
 
@@ -938,7 +938,7 @@ const Settings = ({ attributes, setAttributes, isPremium, device, onReplay }) =>
 						{
 							("default" === theme || "type2" === theme || "type3" === theme || "type4" === theme || "type5" === theme || "type6" === theme || "type7" === theme || "type8" === theme || "type9" === theme || "type10" === theme || "type11" === theme || fxSides) && <>
 								<Label>{("type11" === theme || fxSides) ? __('After Text:', 'animated-text-block') : __('Suffix Text:', 'animated-text-block')}</Label>
-								<TextControl className='mb10'  value={"type11" === theme ? (suffixText || "instantly") : fxSides ? (suffixText || modernFxSideDefaults[fxEffect][1]) : suffixText} placeholder={__("Type your suffix content", "animated-text-block")} onChange={val => setAttributes({ suffixText: val })} />
+								<TextControl className='mb10'  value={"type11" === theme ? (suffixText ?? "instantly") : fxSides ? (suffixText ?? modernFxSideDefaults[fxEffect][1]) : (suffixText ?? "")} placeholder={__("Type your suffix content", "animated-text-block")} onChange={val => setAttributes({ suffixText: val })} />
 							</>
 						}
 

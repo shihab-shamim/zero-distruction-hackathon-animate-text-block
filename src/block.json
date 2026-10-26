@@ -22,12 +22,10 @@
 			}
 		},
 		"prefixText": {
-			"type": "string",
-			"default": ""
+			"type": "string"
 		},
 		"suffixText": {
-			"type": "string",
-			"default": ""
+			"type": "string"
 		},
 		"extraOptions": {
 			"type": "object",

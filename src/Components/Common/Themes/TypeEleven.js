@@ -44,9 +44,10 @@ const HighlightGradient = ({ id, gradient = {}, w, h }) => {
 }
 
 const TypeEleven = ({ attributes }) => {
-	const { content, prefixText = "", suffixText = "", highlight = {} } = attributes;
-	const beforeText = prefixText?.trim() ? prefixText : 'Make your words';
-	const afterText = suffixText?.trim() ? suffixText : 'instantly';
+	const { content, prefixText, suffixText, highlight = {} } = attributes;
+	// Defaults only until the user edits the field; a cleared field stays empty
+	const beforeText = prefixText ?? 'Make your words';
+	const afterText = suffixText ?? 'instantly';
 	const { shape, colorType, color, gradient, strokeWidth, markerHeight, roundedEnds, position, duration, delay, loop, loopDelay } = { ...highlightDefaults, ...highlight };
 
 	const wrapperRef = useRef(null);
@@ -154,7 +155,7 @@ const TypeEleven = ({ attributes }) => {
 
 	return (
 		<div className='typeEleven'>
-			<span className='prefix-text'>{beforeText}</span>
+			{beforeText && <span className='prefix-text'>{beforeText}</span>}
 
 			<span className='content'>
 				<span ref={wrapperRef} className={`atbHighlight ${'front' === position ? 'isFront' : 'isBehind'}`}>
@@ -189,7 +190,7 @@ const TypeEleven = ({ attributes }) => {
 				</span>
 			</span>
 
-			<span className='suffix-text'>{afterText}</span>
+			{afterText && <span className='suffix-text'>{afterText}</span>}
 		</div>
 	);
 };

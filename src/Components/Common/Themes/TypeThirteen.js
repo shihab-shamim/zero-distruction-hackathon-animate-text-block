@@ -22,7 +22,7 @@ const Placeholder = ({ effect, attributes, fx }) => {
 };
 
 const TypeThirteen = ({ attributes }) => {
-	const { prefixText = '', suffixText = '', modernFx = {} } = attributes;
+	const { prefixText, suffixText, modernFx = {} } = attributes;
 	const fx = { ...modernFxDefaults, ...modernFx };
 	const effect = loaders[fx.effect] ? fx.effect : modernFxDefaults.effect;
 	const [Effect, setEffect] = useState(() => loaded[effect] || null);
@@ -41,8 +41,9 @@ const TypeThirteen = ({ attributes }) => {
 	// Re-mount the effect (and replay it) whenever its text or settings change
 	const key = JSON.stringify([fx, attributes.content, attributes.color, attributes.typography, attributes.textAlignment]);
 	const sides = modernFxUsesSides.includes(effect);
-	const beforeText = prefixText?.trim() ? prefixText : modernFxSideDefaults[effect]?.[0];
-	const afterText = suffixText?.trim() ? suffixText : modernFxSideDefaults[effect]?.[1];
+	// Defaults only until the user edits the field; a cleared field stays empty
+	const beforeText = prefixText ?? modernFxSideDefaults[effect]?.[0];
+	const afterText = suffixText ?? modernFxSideDefaults[effect]?.[1];
 
 	return (
 		<div className={`typeThirteen atbFx-${effect}${sides ? ' hasSides' : ''}`}>

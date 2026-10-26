@@ -170,6 +170,21 @@ export const welcomeInfo = (adminUrl = '') => ({
     // Changelogs — each list item starts with <strong>Type:</strong> for badges
     changelogs: [
 
+        {
+            version: '1.2.6 - 25 Oct, 2026',
+            type: 'new',
+            list: [
+                '<strong>New:</strong> Highlight style (Pro): 20 hand-drawn SVG shapes that draw themselves around your text, with solid or gradient colours, loop and position options.',
+                '<strong>New:</strong> Text Scroll style (Pro): text lights up or unmasks line by line as you scroll, with 4 effects (vertical/horizontal highlight and mask).',
+                '<strong>New:</strong> Modern Effects style (Pro): 7 effects (Blur In, Scramble, Shiny Sweep, Line Mask, Glitch, Rotating Words, Number Count-Up).',
+                '<strong>New:</strong> Trigger & Playback panel (Pro): start on page load, scroll into view, hover, click or scroll scrub. Adds viewport offset, start delay, play once or every time, letter/word stagger, and pause when off-screen or when the tab is hidden.',
+                '<strong>New:</strong> Replay animation button in the block toolbar and sidebar, plus live preview that replays the animation when a setting changes.',
+                '<strong>Improved:</strong> GSAP updated to 3.15. Effect scripts load only on pages that use them.',
+                '<strong>Improved:</strong> Replay now works in the editor for all 14 animation styles. Swaying, Axis Wave and Stretch Wave now animate only their own block.',
+                '<strong>Improved:</strong> Equal 10px spacing between fields in the Animated Text Settings panel.'
+            ]
+        },
+
                   {
             version: '1.2.5 - 21 July, 2026',
             type: 'update',
@@ -318,6 +333,34 @@ export const demoInfo = {
             "title": "Shaky TV",
             "description": "Large playlist with extra controls.",
             "url": "https://bblockswp.com/demo/animated-text-theme-10/",
+            "icon": (<svg stroke='#000' fill='#000' strokeWidth='0' viewBox='0 0 24 24' height='1em' width='1em' xmlns='http://www.w3.org/2000/svg'><path d='M5 9V7H7V9H5Z' fill='currentColor'></path><path d='M9 9H19V7H9V9Z' fill='currentColor'></path><path d='M5 15V17H7V15H5Z' fill='currentColor'></path><path d='M19 17H9V15H19V17Z' fill='currentColor'></path><path fillRule='evenodd' clipRule='evenodd' d='M1 6C1 4.34315 2.34315 3 4 3H20C21.6569 3 23 4.34315 23 6V18C23 19.6569 21.6569 21 20 21H4C2.34315 21 1 19.6569 1 18V6ZM4 5H20C20.5523 5 21 5.44772 21 6V11H3V6C3 5.44772 3.44772 5 4 5ZM3 13V18C3 18.5523 3.44772 19 4 19H20C20.5523 19 21 18.5523 21 18V13H3Z' fill='currentColor'></path></svg>),
+            "type": "iframe"
+        },
+        {
+            "title": "Text Scroll",
+            "description": "Text lights up line by line as you scroll.",
+            "url": "https://bblockswp.com/demo/animated-text-text-scroll/",
+            "icon": (<svg stroke='#000' fill='#000' strokeWidth='0' viewBox='0 0 24 24' height='1em' width='1em' xmlns='http://www.w3.org/2000/svg'><path d='M5 9V7H7V9H5Z' fill='currentColor'></path><path d='M9 9H19V7H9V9Z' fill='currentColor'></path><path d='M5 15V17H7V15H5Z' fill='currentColor'></path><path d='M19 17H9V15H19V17Z' fill='currentColor'></path><path fillRule='evenodd' clipRule='evenodd' d='M1 6C1 4.34315 2.34315 3 4 3H20C21.6569 3 23 4.34315 23 6V18C23 19.6569 21.6569 21 20 21H4C2.34315 21 1 19.6569 1 18V6ZM4 5H20C20.5523 5 21 5.44772 21 6V11H3V6C3 5.44772 3.44772 5 4 5ZM3 13V18C3 18.5523 3.44772 19 4 19H20C20.5523 19 21 18.5523 21 18V13H3Z' fill='currentColor'></path></svg>),
+            "type": "iframe"
+        },
+        {
+            "title": "Hover Trigger",
+            "description": "Animation starts when you hover over the text.",
+            "url": "https://bblockswp.com/demo/animated-text-hover-trigger/",
+            "icon": (<svg stroke='#000' fill='#000' strokeWidth='0' viewBox='0 0 24 24' height='1em' width='1em' xmlns='http://www.w3.org/2000/svg'><path d='M5 9V7H7V9H5Z' fill='currentColor'></path><path d='M9 9H19V7H9V9Z' fill='currentColor'></path><path d='M5 15V17H7V15H5Z' fill='currentColor'></path><path d='M19 17H9V15H19V17Z' fill='currentColor'></path><path fillRule='evenodd' clipRule='evenodd' d='M1 6C1 4.34315 2.34315 3 4 3H20C21.6569 3 23 4.34315 23 6V18C23 19.6569 21.6569 21 20 21H4C2.34315 21 1 19.6569 1 18V6ZM4 5H20C20.5523 5 21 5.44772 21 6V11H3V6C3 5.44772 3.44772 5 4 5ZM3 13V18C3 18.5523 3.44772 19 4 19H20C20.5523 19 21 18.5523 21 18V13H3Z' fill='currentColor'></path></svg>),
+            "type": "iframe"
+        },
+        {
+            "title": "Highlight",
+            "description": "Hand-drawn SVG shapes draw around your text.",
+            "url": "https://bblockswp.com/demo/animated-text-highlight/",
+            "icon": (<svg stroke='#000' fill='#000' strokeWidth='0' viewBox='0 0 24 24' height='1em' width='1em' xmlns='http://www.w3.org/2000/svg'><path d='M5 9V7H7V9H5Z' fill='currentColor'></path><path d='M9 9H19V7H9V9Z' fill='currentColor'></path><path d='M5 15V17H7V15H5Z' fill='currentColor'></path><path d='M19 17H9V15H19V17Z' fill='currentColor'></path><path fillRule='evenodd' clipRule='evenodd' d='M1 6C1 4.34315 2.34315 3 4 3H20C21.6569 3 23 4.34315 23 6V18C23 19.6569 21.6569 21 20 21H4C2.34315 21 1 19.6569 1 18V6ZM4 5H20C20.5523 5 21 5.44772 21 6V11H3V6C3 5.44772 3.44772 5 4 5ZM3 13V18C3 18.5523 3.44772 19 4 19H20C20.5523 19 21 18.5523 21 18V13H3Z' fill='currentColor'></path></svg>),
+            "type": "iframe"
+        },
+        {
+            "title": "Modern Effect",
+            "description": "Blur In, Scramble, Glitch, Count-Up and more.",
+            "url": "https://bblockswp.com/demo/animated-text-modern-effects/",
             "icon": (<svg stroke='#000' fill='#000' strokeWidth='0' viewBox='0 0 24 24' height='1em' width='1em' xmlns='http://www.w3.org/2000/svg'><path d='M5 9V7H7V9H5Z' fill='currentColor'></path><path d='M9 9H19V7H9V9Z' fill='currentColor'></path><path d='M5 15V17H7V15H5Z' fill='currentColor'></path><path d='M19 17H9V15H19V17Z' fill='currentColor'></path><path fillRule='evenodd' clipRule='evenodd' d='M1 6C1 4.34315 2.34315 3 4 3H20C21.6569 3 23 4.34315 23 6V18C23 19.6569 21.6569 21 20 21H4C2.34315 21 1 19.6569 1 18V6ZM4 5H20C20.5523 5 21 5.44772 21 6V11H3V6C3 5.44772 3.44772 5 4 5ZM3 13V18C3 18.5523 3.44772 19 4 19H20C20.5523 19 21 18.5523 21 18V13H3Z' fill='currentColor'></path></svg>),
             "type": "iframe"
         }
