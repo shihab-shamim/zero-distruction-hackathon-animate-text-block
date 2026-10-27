@@ -171,6 +171,14 @@ export const welcomeInfo = (adminUrl = '') => ({
     changelogs: [
 
         {
+            version: '1.2.7 - 27 Oct, 2026',
+            type: 'fix',
+            list: [
+                '<strong>Security:</strong> Fixed missing authorization in [animated-text] shortcode that could expose content of other post types.'
+            ]
+        },
+
+        {
             version: '1.2.6 - 25 Oct, 2026',
             type: 'new',
             list: [

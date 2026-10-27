@@ -3,7 +3,7 @@
 /**
  * Plugin Name: Animated Text Block
  * Description: Apply animation on any text.
- * Version: 1.2.6
+ * Version: 1.2.7
  * Author: bPlugins
  * Author URI: https://bplugins.com
  * License: GPLv3
@@ -22,7 +22,7 @@ if (function_exists('atb_fs')) {
 	atb_fs()->set_basename(true, __FILE__);
 } 
 else {
-	define('ATB_VERSION', isset($_SERVER['HTTP_HOST']) && 'localhost' === $_SERVER['HTTP_HOST'] ? time() : '1.2.6');
+	define('ATB_VERSION', isset($_SERVER['HTTP_HOST']) && 'localhost' === $_SERVER['HTTP_HOST'] ? time() : '1.2.7');
 	define('ATB_DIR_URL', plugin_dir_url(__FILE__));
 	define('ATB_DIR_PATH', plugin_dir_path(__FILE__));
 	define('ATB_HAS_FREE', 'animated-text-block/plugin.php' === plugin_basename(__FILE__));
@@ -140,9 +140,12 @@ else {
 
 			public function atb_shortcode_handler($atts)
 			{
-				$post_id = $atts['id'];
-				$post = get_post($post_id);
-				if (!$post) {
+				$atts = shortcode_atts(['id' => 0], $atts, 'animated-text');
+				$post_id = absint($atts['id']);
+				$post = $post_id ? get_post($post_id) : null;
+
+				// Only this plugin's own posts can be rendered, never other post types
+				if (!$post || 'animated-text-block' !== $post->post_type) {
 					return '';
 				}
 				if (post_password_required($post)) {
@@ -150,6 +153,10 @@ else {
 				}
 				switch ($post->post_status) {
 					case 'publish':
+						// Visitors have no 'read' capability, so per-post read restrictions only apply to logged-in users
+						if (is_user_logged_in() && !current_user_can('read_post', $post->ID)) {
+							return '';
+						}
 						return $this->displayContent($post);
 					case 'private':
 						if (current_user_can('read_private_posts')) {
@@ -159,7 +166,7 @@ else {
 					case 'draft':
 					case 'pending':
 					case 'future':
-						if (current_user_can('edit_post', $post_id)) {
+						if (current_user_can('edit_post', $post->ID)) {
 							return $this->displayContent($post);
 						}
 						return '';
